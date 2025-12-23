@@ -1,8 +1,21 @@
+import { useState } from "react";
 import "./Sidebar.css";
+import toggleIcon from "../../assets/Group 3.png";
 
 const Sidebar = () => {
+  const [isOpen, setIsOpen] = useState(true);
+
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <div className="sidebar">
+    <div className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
+      {/* Bouton Toggle */}
+      <button className="toggle-btn" onClick={toggleSidebar}>
+        <img src={toggleIcon} alt="Toggle sidebar" />
+      </button>
+
       <div className="logo-section">
         <span style={{ fontWeight: "bold" }}>Orange</span> Messaging Pro
       </div>
@@ -12,7 +25,6 @@ const Sidebar = () => {
           <span className="icon">🏠</span> Accueil
         </li>
         
-        {/* Item parent actif */}
         <li className="active">
           <span className="icon">🏢</span> Gestion des campagnes
         </li>

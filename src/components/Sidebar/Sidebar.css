@@ -1,15 +1,67 @@
 .sidebar {
   width: 280px;
   min-height: 100vh;
-  /* Dégradé Orange officiel */
-  background: #333333;
-  color: white;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
+  background: #ff7900;
   position: relative;
-  /* AJOUTE CETTE LIGNE ICI */
-  overflow-x: hidden;
+  overflow-x: visible;
+  transition: all 0.3s ease-in-out;
+}
+
+.sidebar.closed {
+  width: 70px;
+}
+
+.sidebar.closed .logo-section,
+.sidebar.closed .menu li span:not(.icon),
+.sidebar.closed .submenu {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Bouton Toggle */
+.toggle-btn {
+  position: absolute;
+  top: 20px;
+  right: -15px;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: transform 0.3s ease;
+  padding: 0;
+}
+
+.toggle-btn:hover {
+  transform: scale(1.1);
+}
+
+.toggle-btn img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.sidebar.closed .toggle-btn img {
+  transform: rotate(180deg);
+}
+
+/* AJUSTEMENT DU BOX-SHADOW POUR LES ARRONDIS */
+/* Pour éviter que l'ombre ne soit trop large, on réduit le 4ème paramètre (spread) */
+.menu li.active::before,
+.menu li.active::after,
+.submenu::after,
+.submenu::before {
+  /* On s'assure que l'ombre est assez grande pour remplir le coin mais pas trop */
+  box-shadow: 10px 10px 0 0 white; /* Le dernier 0 empêche l'étalement inutile */
+}
+/* Empêche les effets d'arrondis de baver à l'extérieur de la sidebar */
+.menu, .logo-section {
+  overflow: hidden;
 }
 
 .logo-section {
