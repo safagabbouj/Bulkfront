@@ -5,6 +5,7 @@ import orangeLogo from "../../assets/orange lego.PNG";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
+  const [isCampaignsOpen, setIsCampaignsOpen] = useState(false);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -30,20 +31,25 @@ const Sidebar = () => {
           <span className="menu-label">Accueil</span>
         </li>
         
-        <li className="active">
+        <li
+          className={isCampaignsOpen ? "active" : ""}
+          onClick={() => setIsCampaignsOpen((v) => !v)}
+        >
           <span className="icon">🏢</span>
           <span className="menu-label">Gestion des campagnes</span>
         </li>
         
-        {/* Sous-menu qui apparaît sous l'item actif */}
-        <ul className="submenu">
-          <li className="active-sub">
-            <span className="menu-label">🟠 Stop sms</span>
-          </li>
-          <li>
-            <span className="menu-label">📋 liste des campagnes</span>
-          </li>
-        </ul>
+        {/* Sous-menu : affiché uniquement quand Gestion des campagnes est ouvert */}
+        {isCampaignsOpen && (
+          <ul className="submenu">
+            <li className="active-sub">
+              <span className="menu-label">🟠 Stop sms</span>
+            </li>
+            <li>
+              <span className="menu-label">📋 liste des campagnes</span>
+            </li>
+          </ul>
+        )}
 
         <li>
           <span className="icon">📞</span>

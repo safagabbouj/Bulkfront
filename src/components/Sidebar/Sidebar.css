@@ -132,7 +132,16 @@
   border-radius: 0 20px 0 0;
   box-shadow: 10px -10px 0 10px white; /* Crée l'arrondi inversé du bas */
 }
+/* Ajoutez ou modifiez ces lignes pour l'indicateur visuel */
+.arrow-indicator {
+  margin-left: auto;
+  font-size: 0.6rem;
+  color: #666;
+}
 
+.sidebar.closed .arrow-indicator {
+  display: none; /* Masquer la flèche quand la sidebar est réduite */
+}
 /* --- STYLE DU SOUS-MENU --- */
 /* --- LE BLOC GRIS DU SOUS-MENU --- */
 .submenu {
