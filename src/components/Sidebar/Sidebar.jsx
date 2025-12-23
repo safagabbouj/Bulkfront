@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./Sidebar.css";
 import toggleIcon from "../../assets/Group 3.png";
+import orangeLogo from "../../assets/orange lego.PNG";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -17,32 +18,44 @@ const Sidebar = () => {
       </button>
 
       <div className="logo-section">
-        <span style={{ fontWeight: "bold" }}>Orange</span> Messaging Pro
+        <img src={orangeLogo} alt="Orange Logo" className="orange-logo" />
+        <div className="logo-text">
+          <span style={{ fontWeight: "bold" }}>Orange</span> Messaging Pro
+        </div>
       </div>
 
       <ul className="menu">
         <li>
-          <span className="icon">🏠</span> Accueil
+          <span className="icon">🏠</span>
+          <span className="menu-label">Accueil</span>
         </li>
         
         <li className="active">
-          <span className="icon">🏢</span> Gestion des campagnes
+          <span className="icon">🏢</span>
+          <span className="menu-label">Gestion des campagnes</span>
         </li>
         
         {/* Sous-menu qui apparaît sous l'item actif */}
         <ul className="submenu">
-          <li className="active-sub">🟠 Stop sms</li>
-          <li>📋 liste des campagnes</li>
+          <li className="active-sub">
+            <span className="menu-label">🟠 Stop sms</span>
+          </li>
+          <li>
+            <span className="menu-label">📋 liste des campagnes</span>
+          </li>
         </ul>
 
         <li>
-          <span className="icon">📞</span> Gestion des contacts
+          <span className="icon">📞</span>
+          <span className="menu-label">Gestion des contacts</span>
         </li>
         <li>
-          <span className="icon">👥</span> Gestion des utilisateurs
+          <span className="icon">👥</span>
+          <span className="menu-label">Gestion des utilisateurs</span>
         </li>
         <li>
-          <span className="icon">📊</span> Reporting
+          <span className="icon">📊</span>
+          <span className="menu-label">Reporting</span>
         </li>
       </ul>
     </div>
