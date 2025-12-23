@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Sidebar.css";
 import toggleIcon from "../../assets/Group 3.png";
 import orangeLogo from "../../assets/orange lego.PNG";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(true);
   const [isCampaignsOpen, setIsCampaignsOpen] = useState(false);
   const [activeItem, setActiveItem] = useState("accueil");
@@ -33,6 +35,7 @@ const Sidebar = () => {
           onClick={() => {
             setActiveItem("accueil");
             setIsCampaignsOpen(false);
+            navigate("/accueil");
           }}
         >
           <span className="icon">🏠</span>
@@ -55,13 +58,19 @@ const Sidebar = () => {
           <ul className="submenu">
             <li
               className={activeSubItem === "stop-sms" ? "active-sub" : ""}
-              onClick={() => setActiveSubItem("stop-sms")}
+              onClick={() => {
+                setActiveSubItem("stop-sms");
+                navigate("/stop-sms");
+              }}
             >
               <span className="menu-label">🟠 Stop sms</span>
             </li>
             <li
               className={activeSubItem === "liste-campagnes" ? "active-sub" : ""}
-              onClick={() => setActiveSubItem("liste-campagnes")}
+              onClick={() => {
+                setActiveSubItem("liste-campagnes");
+                navigate("/liste-campagnes");
+              }}
             >
               <span className="menu-label">📋 liste des campagnes</span>
             </li>

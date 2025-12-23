@@ -1,0 +1,46 @@
+.accueil-container {
+  padding: 20px;
+}
+
+.stat-icon {
+  width: 60px;
+  height: 60px;
+  font-size: 1.5rem;
+}
+
+.card {
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+.table th {
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.table td {
+  vertical-align: middle;
+  padding: 12px;
+}
+
+.badge {
+  padding: 6px 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.btn {
+  border-radius: 8px;
+}
+
+.card-header {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.shadow-sm {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
