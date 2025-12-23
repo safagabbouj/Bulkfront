@@ -1,15 +1,35 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 import toggleIcon from "../../assets/Group 3.png";
 import orangeLogo from "../../assets/orange lego.PNG";
 
 const Sidebar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(true);
   const [isCampaignsOpen, setIsCampaignsOpen] = useState(false);
   const [activeItem, setActiveItem] = useState("accueil");
   const [activeSubItem, setActiveSubItem] = useState(null);
+
+  // Synchroniser l'état avec l'URL courante
+  useEffect(() => {
+    const path = location.pathname;
+    
+    if (path === "/" || path === "/accueil") {
+      setActiveItem("accueil");
+      setActiveSubItem(null);
+      setIsCampaignsOpen(false);
+    } else if (path === "/stop-sms") {
+      setActiveItem("campagnes");
+      setActiveSubItem("stop-sms");
+      setIsCampaignsOpen(true);
+    } else if (path === "/liste-campagnes") {
+      setActiveItem("campagnes");
+      setActiveSubItem("liste-campagnes");
+      setIsCampaignsOpen(true);
+    }
+  }, [location.pathname]);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
