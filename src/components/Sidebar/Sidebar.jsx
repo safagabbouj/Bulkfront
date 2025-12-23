@@ -6,6 +6,8 @@ import orangeLogo from "../../assets/orange lego.PNG";
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [isCampaignsOpen, setIsCampaignsOpen] = useState(false);
+  const [activeItem, setActiveItem] = useState("accueil");
+  const [activeSubItem, setActiveSubItem] = useState(null);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -26,14 +28,23 @@ const Sidebar = () => {
       </div>
 
       <ul className="menu">
-        <li>
+        <li
+          className={activeItem === "accueil" ? "active" : ""}
+          onClick={() => {
+            setActiveItem("accueil");
+            setIsCampaignsOpen(false);
+          }}
+        >
           <span className="icon">🏠</span>
           <span className="menu-label">Accueil</span>
         </li>
         
         <li
-          className={isCampaignsOpen ? "active" : ""}
-          onClick={() => setIsCampaignsOpen((v) => !v)}
+          className={activeItem === "campagnes" ? "active" : ""}
+          onClick={() => {
+            setActiveItem("campagnes");
+            setIsCampaignsOpen((v) => !v);
+          }}
         >
           <span className="icon">🏢</span>
           <span className="menu-label">Gestion des campagnes</span>
@@ -42,24 +53,48 @@ const Sidebar = () => {
         {/* Sous-menu : affiché uniquement quand Gestion des campagnes est ouvert */}
         {isCampaignsOpen && (
           <ul className="submenu">
-            <li className="active-sub">
+            <li
+              className={activeSubItem === "stop-sms" ? "active-sub" : ""}
+              onClick={() => setActiveSubItem("stop-sms")}
+            >
               <span className="menu-label">🟠 Stop sms</span>
             </li>
-            <li>
+            <li
+              className={activeSubItem === "liste-campagnes" ? "active-sub" : ""}
+              onClick={() => setActiveSubItem("liste-campagnes")}
+            >
               <span className="menu-label">📋 liste des campagnes</span>
             </li>
           </ul>
         )}
 
-        <li>
+        <li
+          className={activeItem === "contacts" ? "active" : ""}
+          onClick={() => {
+            setActiveItem("contacts");
+            setIsCampaignsOpen(false);
+          }}
+        >
           <span className="icon">📞</span>
           <span className="menu-label">Gestion des contacts</span>
         </li>
-        <li>
+        <li
+          className={activeItem === "utilisateurs" ? "active" : ""}
+          onClick={() => {
+            setActiveItem("utilisateurs");
+            setIsCampaignsOpen(false);
+          }}
+        >
           <span className="icon">👥</span>
           <span className="menu-label">Gestion des utilisateurs</span>
         </li>
-        <li>
+        <li
+          className={activeItem === "reporting" ? "active" : ""}
+          onClick={() => {
+            setActiveItem("reporting");
+            setIsCampaignsOpen(false);
+          }}
+        >
           <span className="icon">📊</span>
           <span className="menu-label">Reporting</span>
         </li>
