@@ -1,37 +1,104 @@
-.gestion-campagnes-container {
-  border: 1px solid #dee2e6;
+/* Couleurs Orange */
+.btn-orange {
+  background-color: #ff7900;
+  border-color: #ff7900;
+  color: rgb(255, 95, 8);
+}
+.btn-orange:hover {
+  background-color: #e66d00;
+  color: rgb(203, 112, 8);
+}
+.btn-outline-orange {
+  color: #ff7900;
+  border-color: #ff7900;
+}
+.btn-outline-orange:hover {
+  background-color: #ff7900;
+  color: white;
+}
+.text-orange {
+  color: #ff7900;
+}
+
+/* Positionnement des icônes dans les inputs */
+.filter-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #adb5bd;
+  pointer-events: none;
+}
+
+/* Overlay de la modale personnalisée */
+.custom-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.custom-modal-content {
+  width: 90%;
+  max-width: 700px;
+  border-radius: 12px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+/* Le bouton principal */
+/* Bouton New Campagnes */
+.btn-new-campagne {
+  background-color: #ff7900;
+  border: none;
   border-radius: 10px;
-  padding: 30px;
-  margin: 20px;
-  background-color: white;
-}
-
-.table th {
+  padding: 6px 22px 6px 8px;
   font-weight: 600;
-  color: #333;
-  border-bottom: 2px solid #dee2e6;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: all 0.25s ease;
 }
 
-.table td {
-  vertical-align: middle;
-  padding: 15px 12px;
+.btn-new-campagne:hover {
+  background-color: #e66d00;
+  color: white;
+  transform: translateY(-2px);
 }
 
-.table-hover tbody tr:hover {
-  background-color: #f8f9fa;
-}
-
-.badge {
-  padding: 6px 12px;
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-
-.btn-sm {
-  padding: 4px 8px;
-}
-
-.table-responsive {
+/* Carré blanc du + */
+.icon-box {
+  background-color: white;
+  color: #ff7900;
+  width: 36px;
+  height: 36px;
   border-radius: 8px;
-  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Bouton Détails */
+.btn-details {
+  background-color: transparent;
+  border: 1.5px solid #ff7900;
+  color: #ff7900;
+  border-radius: 10px;
+  padding: 4px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.btn-details:hover {
+  background-color: #ff7900;
+  color: white;
 }
