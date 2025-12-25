@@ -1,6 +1,6 @@
 import { useRef } from 'react';
-import cloudUploadIcon from '../../../assets/cloud-upload.PNG';
-
+// import cloudUploadIcon from '../../../assets/cloud-upload.PNG';
+import cloudUploadIcon from '../../../../assets/cloud-upload.PNG';
 const UploadBox = () => {
   const fileInputRef = useRef(null);
 

@@ -102,3 +102,23 @@
   background-color: #ff7900;
   color: white;
 }
+
+/* Bouton Supprimer */
+.btn-delete {
+  background-color: transparent;
+  border: 1.5px solid #6c757d;
+  color: #6c757d;
+  border-radius: 8px;
+  padding: 8px 10px;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+}
+
+.btn-delete:hover {
+  background-color: #6c757d;
+  color: white;
+}

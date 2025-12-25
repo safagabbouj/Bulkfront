@@ -29,6 +29,11 @@ const Sidebar = () => {
       setActiveSubItem("liste-campagnes");
       setIsCampaignsOpen(true);
     }
+     else if (path === "/ListeContact") {
+    setActiveItem("gestion-contacts");
+    setActiveSubItem(null);
+    setIsCampaignsOpen(false);
+     }
   }, [location.pathname]);
 
   const toggleSidebar = () => {
@@ -36,7 +41,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
+    <div className={`sidebar ${isOpen ? "open" : "closed"}`}>
       {/* Bouton Toggle */}
       <button className="toggle-btn" onClick={toggleSidebar}>
         <img src={toggleIcon} alt="Toggle sidebar" />
@@ -61,7 +66,7 @@ const Sidebar = () => {
           <span className="icon">🏠</span>
           <span className="menu-label">Accueil</span>
         </li>
-        
+
         <li
           className={activeItem === "campagnes" ? "active" : ""}
           onClick={() => {
@@ -72,7 +77,7 @@ const Sidebar = () => {
           <span className="icon">🏢</span>
           <span className="menu-label">Gestion des campagnes</span>
         </li>
-        
+
         {/* Sous-menu : affiché uniquement quand Gestion des campagnes est ouvert */}
         {isCampaignsOpen && (
           <ul className="submenu">
@@ -86,7 +91,9 @@ const Sidebar = () => {
               <span className="menu-label">🟠 Stop sms</span>
             </li>
             <li
-              className={activeSubItem === "liste-campagnes" ? "active-sub" : ""}
+              className={
+                activeSubItem === "liste-campagnes" ? "active-sub" : ""
+              }
               onClick={() => {
                 setActiveSubItem("liste-campagnes");
                 navigate("/liste-campagnes");
@@ -98,10 +105,12 @@ const Sidebar = () => {
         )}
 
         <li
-          className={activeItem === "contacts" ? "active" : ""}
+          className={activeItem === "gestion-contacts" ? "active" : ""}
           onClick={() => {
-            setActiveItem("contacts");
+            setActiveItem("gestion-contacts");
+            setActiveSubItem(null);
             setIsCampaignsOpen(false);
+            navigate("/ListeContact");
           }}
         >
           <span className="icon">📞</span>
