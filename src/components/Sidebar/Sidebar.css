@@ -11,12 +11,44 @@
   width: 70px;
 }
 
-.sidebar.closed .logo-section,
-.sidebar.closed .menu-label,
-.sidebar.closed .submenu {
+.sidebar.closed .menu > li > .menu-label,
+.sidebar.closed .logo-text-hide {
   opacity: 0;
   visibility: hidden;
 }
+.sidebar.closed .submenu .menu-label {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.submenu.submenu-float {
+  position: absolute;
+  left: 78px;          
+  top: 165px;           
+  width: 210px;
+  padding: 10px 0;
+  margin: 0;
+  z-index: 3000;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  border-radius: 16px;
+}
+
+.menu li {
+  position: relative;
+}
+
+.sidebar.closed .submenu.submenu-float {
+  top: 145px; 
+}
+
+.submenu.submenu-float li {
+  padding: 10px 16px !important;
+  cursor: pointer;
+}
+.submenu.submenu-float li:hover {
+  background: #fff;
+}
+
 
 /* Bouton Toggle */
 .toggle-btn {
@@ -171,4 +203,35 @@
 .submenu li.active-sub {
   color: #ff7900 !important;
   font-weight: bold;
+}
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 3500;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 4000;
+    transform: translateX(0);
+    transition: transform 0.25s ease;
+  }
+
+  .sidebar.closed {
+    transform: translateX(-100%);
+  }
+
+  .toggle-btn {
+    right: -40px;
+  }
+
+  .submenu.submenu-float {
+    left: 70px;
+    width: 200px;
+  }
 }

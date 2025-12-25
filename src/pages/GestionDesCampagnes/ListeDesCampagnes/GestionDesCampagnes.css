@@ -102,3 +102,40 @@
   background-color: #ff7900;
   color: white;
 }
+/* =========================
+   RESPONSIVE - CAMPAGNES
+========================= */
+@media (max-width: 768px) {
+  /* العنوان + زر new campagnes */
+  .btn-new-campagne {
+    padding: 6px 12px 6px 8px;
+    gap: 10px;
+  }
+
+  .icon-box {
+    width: 30px;
+    height: 30px;
+  }
+
+  /* filters يهبطوا تحت بعضهم */
+  .row.g-3.mb-4 > [class*="col-"] {
+    width: 100%;
+  }
+
+  /* table أصغر */
+  table {
+    font-size: 12px;
+  }
+
+  .btn-details {
+    padding: 4px 10px;
+    font-size: 12px;
+  }
+
+  /* modal في الهاتف */
+  .custom-modal-content {
+    width: 95%;
+    max-width: 95%;
+    border-radius: 12px;
+  }
+}

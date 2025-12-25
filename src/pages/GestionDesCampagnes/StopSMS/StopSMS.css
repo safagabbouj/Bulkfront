@@ -10,3 +10,13 @@
   border-radius: 10px;
   background-color: #fff7f0;
 }
+/* =========================
+   RESPONSIVE - STOP SMS
+========================= */
+@media (max-width: 768px) {
+  .stop-sms-container {
+    padding: 16px;
+    margin: 12px;
+  }
+}
+

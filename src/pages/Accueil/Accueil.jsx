@@ -35,7 +35,7 @@ export default function Accueil() {
             <div className="card-icon">📞</div>
             <div className="card-label">Gestion des contacts</div>
           </div>
-          <div className="action-card" onClick={() => navigate("/users")}>
+          <div className="action-card" onClick={() => navigate("/utilisateurs")}>
             <div className="card-icon">👥</div>
             <div className="card-label">Gestion des utilisateurs</div>
           </div>
@@ -43,9 +43,9 @@ export default function Accueil() {
             <div className="card-icon">⚙️</div>
             <div className="card-label">Gestion des rôles</div>
           </div>
-          <div className="action-card" onClick={() => navigate("/alerts")}>
+          <div className="action-card" onClick={() => navigate("/alertes-services")}>
             <div className="card-icon">🔔</div>
-            <div className="card-label">Gestion des alertes</div>
+            <div className="card-label">Gestion des alertes et services</div>
           </div>
           <div className="action-card" onClick={() => navigate("/reporting")}>
             <div className="card-icon">📊</div>

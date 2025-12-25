@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import MainLayout from "../../layout/MainLayout";
-import CampaignList from "./CampaignList"; // On importe les nouveaux composants
-import AddCampaignModal from "./AddCampaignModal";
+import MainLayout from "../../../layout/MainLayout";
+
+ import CampaignList from '../ListeDesCampagnes/CampaignList';
+ import AddCampaignModal from '../ListeDesCampagnes/AddCampaignModal'
+
 import "./GestionDesCampagnes.css";
 
 const GestionDesCampagnes = () => {

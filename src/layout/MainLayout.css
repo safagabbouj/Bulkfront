@@ -32,3 +32,33 @@
   color: #6c757d;
   line-height: 1;
 }
+/* =========================
+   RESPONSIVE - MAIN LAYOUT
+========================= */
+@media (max-width: 768px) {
+  /* padding متاع المحتوى */
+  .main-content {
+    padding: 12px !important;
+  }
+
+  /* top bar تولّي column */
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 12px;
+  }
+
+  /* profile box ما تتقصش */
+  .profile-box {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .profile-name {
+    font-size: 0.85rem;
+  }
+
+  .profile-role {
+    font-size: 0.7rem;
+  }
+}

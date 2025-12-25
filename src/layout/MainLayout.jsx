@@ -12,7 +12,8 @@ const MainLayout = ({ children, pageTitle, pageSubtitle }) => {
       <div className="flex-grow-1">
         <div className="bg-white shadow-sm" style={{ minHeight: "100vh" }}>
           {/* Barre du haut (Rayan Hello) */}
-          <div className="d-flex justify-content-between align-items-center p-4">
+          <div className="d-flex justify-content-between align-items-center p-4 topbar">
+
             <div>
               <h5 className="m-0">Rayan, Hello! 👋</h5>
               {pageTitle && (
@@ -43,7 +44,7 @@ const MainLayout = ({ children, pageTitle, pageSubtitle }) => {
             </div>
           
           </div>
-          <div className="p-4">{children}</div>
+          <div className="p-4 main-content">{children}</div>
         </div>
       </div>
     </div>

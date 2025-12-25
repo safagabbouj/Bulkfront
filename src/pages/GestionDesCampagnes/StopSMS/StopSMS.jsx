@@ -1,4 +1,5 @@
-import MainLayout from "../../layout/MainLayout";
+// import MainLayout from "../../.layout/MainLayout";
+import MainLayout from "../../../layout/MainLayout";
 import StopSMSHeader from "./components/StopSMSHeader";
 import UploadBox from "./components/UploadBox";
 import FileItem from "./components/FileItem";
