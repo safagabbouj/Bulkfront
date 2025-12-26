@@ -2,11 +2,19 @@ import { X, ChevronsRight, ChevronsLeft, User, Search } from "lucide-react";
 import UploadBox from "../GestionDesCampagnes/StopSMS/components/UploadBox";
 import "./AddContactModal.css";
 import { useState } from "react";
+import ConfirmationModal from "./ConfirmationModal";
 const AddContactModal = ({ onClose }) => {
 const [selectedUserIndex, setSelectedUserIndex] = useState(null);
+const [showConfirm, setShowConfirm] = useState(false); // État pour l'alerte
  // Fonction pour gérer la sélection d'un utilisateur
   const handleUserClick = (index) => {
     setSelectedUserIndex(index);
+  };
+  const handleFinalSubmit = () => {
+    // Logique finale ici (appel API, etc.)
+    console.log("Contact ajouté !");
+    setShowConfirm(false);
+    onClose();
   };
   return (
     <div className="custom-modal-overlay">
@@ -121,8 +129,20 @@ const [selectedUserIndex, setSelectedUserIndex] = useState(null);
           <button className="btn-annuler" onClick={onClose}>
             ANNULER
           </button>
-          <button className="btn-ajouter">AJOUTER</button>
+          <button 
+            className="btn-ajouter" 
+            onClick={() => setShowConfirm(true)} // Ouvre l'alerte
+          >
+            AJOUTER
+          </button>
         </div>
+        {/* Affichage conditionnel de l'alerte de confirmation */}
+      {showConfirm && (
+        <ConfirmationModal 
+          onConfirm={handleFinalSubmit} 
+          onCancel={() => setShowConfirm(false)} 
+        />
+      )}
       </div>
     </div>
   );
