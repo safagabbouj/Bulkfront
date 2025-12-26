@@ -1,4 +1,3 @@
-// import deleteIcon from '../../../assets/supprimer (3) 1 (1).svg';
 import deleteIcon from '../../../../assets/supprimer (3) 1 (1).svg'
 import csvIcon from '../../../../assets/fichier-csv 1.svg';
 
