@@ -1,19 +1,24 @@
 import { useRef } from 'react';
 import cloudUploadIcon from '../../../../assets/cloud-upload.PNG';
 
-const UploadBox = () => {
+const UploadBox = ({ hideHeader = false }) => {
   const fileInputRef = useRef(null);
 
   const handleClick = () => {
     fileInputRef.current?.click();
   };
 
+  // Debug pour vérifier la prop
+  console.log('hideHeader prop:', hideHeader);
+
   return (
     <>
-      <div className="text-center mb-4">
-        <h5 className="fw-bold mb-2" style={{ color: '#f16e00' }}>Stop SMS</h5>
-        <p className="text-muted small">Uploader une liste de numéros format CSV qui seront systématiquement éliminés de la liste des contacts lors de l'envoi d'une campagne.</p>
-      </div>
+      {!hideHeader && (
+        <div className="text-center mb-4">
+          <h5 className="fw-bold mb-2" style={{ color: '#f16e00' }}>Stop SMS</h5>
+          <p className="text-muted small">Uploader une liste de numéros format CSV qui seront systématiquement éliminés de la liste des contacts lors de l'envoi d'une campagne.</p>
+        </div>
+      )}
       
       <div className="upload-box text-center p-5 mb-4" onClick={handleClick} style={{ cursor: 'pointer', borderColor: '#d3d3d3', borderWidth: '2px', borderStyle: 'dashed' }}>
         <img 

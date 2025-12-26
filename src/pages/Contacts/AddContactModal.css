@@ -1,0 +1,155 @@
+/* Modal Overlay */
+.custom-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+/* Modal Content */
+.custom-modal-content {
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  background: white;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Modal Body - Scrollable */
+.card-body {
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Libellés */
+.label-custom {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+/* Inputs classiques */
+.custom-input {
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  padding: 10px;
+}
+
+/* Container de la double liste */
+.dual-list-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.users-column {
+  flex: 1;
+}
+
+/* Boîte de liste */
+.users-box {
+  border: 1px solid #ced4da;
+  border-radius: 10px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: white;
+}
+
+/* Recherche interne */
+.search-container {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.search-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 13px;
+  color: #666;
+}
+
+.list-items {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Ligne Utilisateur */
+.user-row {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  font-size: 13px;
+  border-bottom: 1px solid #f8f8f8;
+  cursor: pointer;
+}
+
+.user-row:hover {
+  background-color: #fff9f4;
+}
+
+.user-row.active {
+  background-color: #fff5ec; /* Couleur beige/orange clair de la capture */
+}
+
+/* Boutons de transfert */
+.users-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.btn-transfer {
+  width: 40px;
+  height: 35px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-transfer.active {
+  background-color: #ff7900;
+  border: none;
+  color: white;
+}
+
+.btn-transfer.disable {
+  background-color: white;
+  border: 1.5px solid #dee2e6;
+  color: #adb5bd;
+}
+
+/* Boutons du bas */
+.btn-annuler {
+  background: white;
+  border: 1.5px solid #ff7900;
+  color: #ff7900;
+  padding: 10px 40px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.btn-ajouter {
+  background: #ff7900;
+  border: none;
+  color: white;
+  padding: 10px 40px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 14px;
+}

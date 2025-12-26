@@ -1,9 +1,10 @@
 import React from "react";
 import { ChevronDown, Plus, Search, Calendar, Trash2 } from "lucide-react";
 import MainLayout from "../../layout/MainLayout";
-// import "../GestionDesCampagnes/GestionDesCampagnes.css";
 import "../GestionDesCampagnes/ListeDesCampagnes/GestionDesCampagnes.css";
-const ContactList = ({ onAddContact }) => {
+import { useState } from "react";
+import AddContactModal from "./AddContactModal";
+const ContactList = () => {
   const campaigns = Array(7).fill({
     name: "Test01",
     status: "Enregistré",
@@ -12,6 +13,8 @@ const ContactList = ({ onAddContact }) => {
     dateEnvoi: "04/06/2023 10:06",
     dateFin: "04/06/2023 10:06",
   });
+  const [showAddContact, setShowAddContact] = useState(false);
+
 
   return (
     <MainLayout
@@ -21,7 +24,8 @@ const ContactList = ({ onAddContact }) => {
       <div className="container-fluid p-0">
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h2 className="fw-bold m-0">LISTE DES CONTACTS</h2>
-          <button onClick={onAddContact} className="btn-new-campagne">
+          <button onClick={() => setShowAddContact(true)} className="btn-new-campagne">
+
             <span className="icon-box">
               <Plus size={18} />
             </span>
@@ -99,6 +103,10 @@ const ContactList = ({ onAddContact }) => {
           </div>
         </div>
       </div>
+      {showAddContact && (
+  <AddContactModal onClose={() => setShowAddContact(false)} />
+)}
+
     </MainLayout>
   );
 };
