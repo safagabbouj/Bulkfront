@@ -1,3 +1,4 @@
+/* --- Structure de la page Contacts --- */
 .contactsTop {
   display: flex;
   justify-content: space-between;
@@ -20,7 +21,7 @@
   margin-top: 2px;
 }
 
-/*  filters  */
+/* --- Filtres --- */
 .contactsFilters {
   display: grid;
   grid-template-columns: 1.3fr 1fr 1fr 1.2fr;
@@ -28,8 +29,7 @@
   margin-bottom: 14px;
 }
 
-.searchWrap,
-.dateWrap {
+.searchWrap, .dateWrap {
   position: relative;
 }
 
@@ -42,6 +42,7 @@
   pointer-events: none;
 }
 
+/* --- Cartes et Tableaux --- */
 .contactsCard {
   border-radius: 12px;
   border: 1px solid #e5e7eb;
@@ -60,6 +61,7 @@
   gap: 14px;
   transition: all 0.25s ease;
 }
+
 .btn-new:hover {
   background-color: #e66d00;
   transform: translateY(-2px);
@@ -87,6 +89,7 @@
   transition: all 0.25s ease;
   white-space: nowrap;
 }
+
 .btn-details:hover {
   background-color: #ff7900;
   color: white;
@@ -103,12 +106,8 @@
   justify-content: center;
   transition: all 0.2s ease;
 }
-.btn-action:hover {
-  border-color: #ff7900;
-  transform: translateY(-1px);
-}
 
-/* ===== modal base ===== */
+/* --- Modals Base --- */
 .custom-modal-overlay {
   position: fixed;
   inset: 0;
@@ -123,13 +122,13 @@
 .custom-modal-content {
   width: 100%;
   max-width: 860px;
-  max-height: 90vh; /* Limite la hauteur à 90% de l'écran pour rendre scrollable */
+  max-height: 90vh;
   border-radius: 14px;
   background: #fff;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-  overflow-y: auto; /* Active le scroll vertical quand le contenu dépasse */
-  display: flex; /* Structure flexbox pour organiser le layout */
-  flex-direction: column; /* Organisation verticale du contenu */
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .modal-title-center {
@@ -158,29 +157,54 @@
   justify-content: center;
   gap: 14px;
   padding: 18px 22px 22px;
-  margin-top: auto; /* Pousse le footer en bas du modal */
-  border-top: 1px solid #f3f4f6; /* Séparateur visuel pour le footer fixe */
+  margin-top: auto;
+  border-top: 1px solid #f3f4f6;
 }
 
+/* --- BOUTONS ANNULER / CONFIRMER / AJOUTER (Style Pilule) --- */
+.btn-confirm-cancel, 
 .btn-outline-orange {
-  color: #ff7900;
-  border-color: #ff7900;
-}
-.btn-outline-orange:hover {
-  background-color: #ff7900;
-  color: white;
-}
-.btn-orange {
-  background-color: #ff7900;
-  border-color: #ff7900;
-  color: white;
-}
-.btn-orange:hover {
-  background-color: #e66d00;
-  color: white;
+  background-color: #ffffff !important;
+  border: 2px solid #ff7900 !important;
+  color: #ff7900 !important;
+  border-radius: 10px !important;
+  padding: 10px 35px !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  text-transform: uppercase !important;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-/* upload box */
+.btn-confirm-submit, 
+.btn-orange {
+  background-color: #ff7900 !important;
+  border: 2px solid #ff7900 !important;
+  color: #ffffff !important;
+  border-radius: 10px !important;
+  padding: 10px 35px !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  text-transform: uppercase !important;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-confirm-cancel:hover, .btn-outline-orange:hover { background-color: #fff5ed !important; }
+.btn-confirm-submit:hover, .btn-orange:hover { background-color: #e66d00 !important; border-color: #e66d00 !important; }
+
+/* --- Correction Icône de Fermeture --- */
+.btn-close {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  opacity: 1 !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- UPLOAD BOX (Préservé) --- */
 .uploadBox {
   border: 1.5px dashed #ff7900;
   border-radius: 10px;
@@ -189,27 +213,15 @@
   background: #fff;
   cursor: pointer;
 }
-.uploadBoxTitle {
-  font-weight: 700;
-  font-size: 12px;
-}
-.uploadBoxSub {
-  font-size: 11px;
-  color: #6b7280;
-}
+.uploadBoxTitle { font-weight: 700; font-size: 12px; }
+.uploadBoxSub { font-size: 11px; color: #6b7280; }
 
-/* dual list  */
+/* --- DUAL LIST / SÉLECTEUR (Préservé) --- */
 .pickerGrid {
   display: grid;
   grid-template-columns: 1fr 52px 1fr;
   gap: 14px;
   margin-top: 10px;
-}
-
-.pickerColTitle {
-  font-size: 12px;
-  font-weight: 800;
-  margin-bottom: 6px;
 }
 
 .pickerCard {
@@ -219,27 +231,7 @@
   background: #fff;
 }
 
-.pickerSearch {
-  padding: 8px;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.pickerSearch .form-control {
-  border: none;
-  outline: none;
-  box-shadow: none;
-}
-
-.pickerSearch .form-control:focus {
-  border: none;
-  outline: none;
-  box-shadow: none;
-}
-
-.pickerList {
-  max-height: 220px;
-  overflow: auto;
-}
+.pickerList { max-height: 220px; overflow: auto; }
 
 .pickerItem {
   padding: 8px 10px;
@@ -250,15 +242,9 @@
   border-bottom: 1px solid #f3f4f6;
   cursor: pointer;
 }
-.pickerItem:hover {
-  background: #fff7f0;
-}
+.pickerItem:hover, .pickerItem.active { background: #fff7f0; }
 
-.pickerItem.active {
-  background: #fff7f0;
-  outline: 1px solid #ff7900;
-}
-
+/* Les flèches de direction au milieu */
 .pickerBtns {
   display: flex;
   flex-direction: column;
@@ -272,46 +258,17 @@
   border: 1px solid #e5e7eb;
   background: #fff;
   transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.pickerBtns button:hover {
-  border-color: #ff7900;
-}
+.pickerBtns button:hover { border-color: #ff7900; color: #ff7900; }
 
-.statsBox {
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 10px;
-  background: #fff;
-}
-
-.statsRow {
-  display: grid;
-  grid-template-columns: 1fr 60px;
-  gap: 12px;
-  font-size: 11px;
-  font-weight: 700;
-  border-bottom: 1px solid #f3f4f6;
-  padding: 6px 0;
-}
-.statsRow:last-child {
-  border-bottom: none;
-}
-
-/* responsive */
+/* --- Responsive --- */
 @media (max-width: 900px) {
-  .contactsFilters {
+  .contactsFilters, .form-grid, .pickerGrid {
     grid-template-columns: 1fr;
   }
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
-  .form-grid label {
-    text-align: left;
-  }
-  .pickerGrid {
-    grid-template-columns: 1fr;
-  }
-  .pickerBtns {
-    flex-direction: row;
-  }
+  .form-grid label { text-align: left; }
+  .pickerBtns { flex-direction: row; justify-content: center; }
 }
