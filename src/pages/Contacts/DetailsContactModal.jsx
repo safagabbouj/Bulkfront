@@ -24,14 +24,22 @@ export default function DetailsContactModal({ item, users, onClose }) {
         <div className="p-4">
           <div className="d-flex justify-content-between align-items-center mb-4">
             <h5 className="modal-title-center">Détails du Contact</h5>
-            <button 
-              type="button" 
-              className="btn-close" 
-              onClick={onClose}
-              aria-label="Fermer"
-            >
-              <X size={20} />
-            </button>
+            {/* REMPLACEZ VOTRE BOUTON PAR CELUI-CI */}
+<button 
+  type="button" 
+  className="btn-close-custom" // On change le nom de la classe pour éviter le conflit
+  onClick={onClose}
+  aria-label="Fermer"
+  style={{
+    background: 'none',
+    border: 'none',
+    padding: 0,
+    cursor: 'pointer',
+    color: '#333' // Ajustez la couleur selon votre besoin
+  }}
+>
+  <X size={20} />
+</button>
           </div>
 
           <div>
