@@ -14,7 +14,8 @@ const AddCampaignModal = ({ onClose, onSubmit }) => {
                     <div className="row g-3">
                         <div className="col-12">
                             <label className="form-label small fw-bold">Nom De La Campagne :</label>
-                            <input type="text" className="form-control" />
+                            <input type="date" className="form-control" />
+
                         </div>
 
                         <div className="col-12">
@@ -29,8 +30,6 @@ const AddCampaignModal = ({ onClose, onSubmit }) => {
                             <label className="form-label small fw-bold">Description :</label>
                             <textarea className="form-control" rows="3"></textarea>
                         </div>
-
-                        {/* Tu peux ajouter les autres champs ici avec la même structure col-12 */}
                         <div className="col-md-6">
                             <label className="form-label small fw-bold">Type De Message :</label>
                             <select className="form-select"><option>Sélectionner</option></select>

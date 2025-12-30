@@ -1,0 +1,218 @@
+.repPage {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* cards */
+.repCard {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.repCardTitle {
+  font-weight: 800;
+  font-size: 12px;
+  color: #111827;
+  margin: 2px 0 10px;
+}
+
+.repTable th, .repTable td {
+  font-size: 12px;
+}
+
+.repEllipsis {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btn-details {
+  background-color: transparent;
+  border: 1.5px solid #ff7900;
+  color: #ff7900;
+  border-radius: 10px;
+  padding: 4px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+.btn-details:hover {
+  background-color: #ff7900;
+  color: white;
+}
+
+.btn-action {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+.btn-action:hover {
+  border-color: #ff7900;
+  transform: translateY(-1px);
+}
+
+/*  grid donuts */
+.repGrid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* donut */
+.repDonutWrap {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 14px;
+  align-items: center;
+}
+
+.repDonut {
+  width: 230px;
+  height: 230px;
+  border-radius: 50%;
+  position: relative;
+  margin: 6px auto;
+}
+
+.repDonutCenter {
+  position: absolute;
+  inset: 22px;
+  background: #fff;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  border: 1px solid #eee;
+}
+
+.repDonutNumber {
+  font-weight: 900;
+  font-size: 28px;
+  color: #111;
+  line-height: 1;
+}
+
+.repDonutSmall {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 700;
+}
+
+.repLegend {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.repLegendRow {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.repDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  margin-top: 4px;
+}
+
+.repLegendLine1 {
+  font-size: 12px;
+  font-weight: 800;
+  color: #111;
+}
+
+.repLegendLine2 {
+  font-size: 11px;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+/* bars chart */
+.repBars {
+  height: 260px;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 10px 4px 0;
+}
+
+.repBarDay {
+  width: 18px;
+  flex: 0 0 18px;
+  text-align: center;
+}
+
+.repBarStack {
+  height: 210px;
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+}
+
+.repBar {
+  width: 7px;
+  border-radius: 6px;
+}
+.repBarA { background: #16a34a; }
+.repBarB { background: #f97316; } 
+
+.repBarLabel {
+  font-size: 8px;
+  color: #9ca3af;
+  margin-top: 4px;
+}
+
+/* line chart */
+.repLineWrap {
+  width: 100%;
+}
+
+.repLineSvg {
+  width: 100%;
+  height: 240px;
+  display: block;
+}
+
+.repLineA { stroke: #16a34a; }
+.repLineB { stroke: #f97316; }
+
+.repXAxis {
+  display: grid;
+  grid-template-columns: repeat(31, 1fr);
+  gap: 2px;
+  font-size: 8px;
+  color: #9ca3af;
+  margin-top: 6px;
+}
+.repXAxis span {
+  text-align: center;
+}
+
+/* responsive */
+@media (max-width: 992px) {
+  .repGrid2 {
+    grid-template-columns: 1fr;
+  }
+  .repDonutWrap {
+    grid-template-columns: 1fr;
+  }
+  .repDonut {
+    width: 210px;
+    height: 210px;
+  }
+}

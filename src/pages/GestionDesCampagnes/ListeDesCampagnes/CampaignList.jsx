@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChevronDown, Plus, Search, Calendar } from 'lucide-react';
+import {  Plus, Search } from 'lucide-react';
 
 const CampaignList = ({ onAddCampaign }) => {
     const campaigns = Array(7).fill({
@@ -26,8 +26,6 @@ const CampaignList = ({ onAddCampaign }) => {
 </button>
 
             </div>
-
-            {/* Filtres */}
             <div className="row g-3 mb-4">
                 <div className="col-md-2">
                     <select className="form-select">
@@ -35,12 +33,11 @@ const CampaignList = ({ onAddCampaign }) => {
                     </select>
                 </div>
                 <div className="col-md-3 position-relative">
-                    <input type="text" placeholder="Date Creation" className="form-control" />
-                    <Calendar className="filter-icon" size={18} />
+                    <input type="date" className="form-control" />
                 </div>
                 <div className="col-md-3 position-relative">
-                    <input type="text" placeholder="Date D'envoi" className="form-control" />
-                    <Calendar className="filter-icon" size={18} />
+                    <input type="date" className="form-control" />
+                    
                 </div>
                 <div className="col-md-4 position-relative">
                     <input type="text" placeholder="Rechercher" className="form-control" />

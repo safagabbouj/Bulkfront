@@ -1,0 +1,256 @@
+.asTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.asTitle {
+  font-size: 16px;
+  font-weight: 800;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.asSubtitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+.asCard {
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background: white;
+  margin-bottom: 22px;
+}
+
+/* buttons (نفس style متاع campaigns/contacts) */
+.btn-new {
+  background-color: #ff7900;
+  border: none;
+  border-radius: 10px;
+  padding: 6px 22px 6px 8px;
+  font-weight: 600;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: all 0.25s ease;
+}
+.btn-new:hover {
+  background-color: #e66d00;
+  transform: translateY(-2px);
+}
+
+.icon-box {
+  background-color: white;
+  color: #ff7900;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-details {
+  background-color: transparent;
+  border: 1.5px solid #ff7900;
+  color: #ff7900;
+  border-radius: 10px;
+  padding: 4px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+.btn-details:hover {
+  background-color: #ff7900;
+  color: white;
+}
+
+.btn-action {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+.btn-action:hover {
+  border-color: #ff7900;
+  transform: translateY(-1px);
+}
+
+/* ===== services ===== */
+.asServicesTitle {
+  font-weight: 800;
+  font-size: 14px;
+  margin: 6px 0 10px;
+}
+
+.asServicesCard {
+  background: #f3f4f6;
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.asServicesHead {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #333;
+  padding: 8px 10px 12px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.asServiceRow {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  align-items: center;
+  padding: 12px 10px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.asServiceRow:last-child {
+  border-bottom: none;
+}
+
+.asServiceName {
+  font-size: 12px;
+  color: #111827;
+}
+
+.asServiceToggle {
+  display: flex;
+  justify-content: center;
+}
+
+/* ===== modal base (نفس Contacts) ===== */
+.custom-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3500;
+  padding: 18px;
+}
+
+.custom-modal-content {
+  width: 100%;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.modal-title-center {
+  text-align: center;
+  font-weight: 800;
+  margin: 0;
+}
+
+.modal-footer-center {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  padding: 18px 22px 22px;
+}
+
+.btn-outline-orange {
+  color: #ff7900;
+  border-color: #ff7900;
+}
+.btn-outline-orange:hover {
+  background-color: #ff7900;
+  color: white;
+}
+.btn-orange {
+  background-color: #ff7900;
+  border-color: #ff7900;
+  color: white;
+}
+.btn-orange:hover {
+  background-color: #e66d00;
+  color: white;
+}
+
+/* modal layout */
+.asModalGrid {
+  display: grid;
+  gap: 14px;
+  max-width: 440px;
+  margin: 18px auto 0;
+}
+.asRow {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  align-items: center;
+  gap: 12px;
+}
+.asLabel {
+  font-size: 12px;
+  font-weight: 800;
+  color: #111827;
+}
+
+.asCounter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.asCounterInput {
+  width: 90px;
+  text-align: center;
+}
+
+/* switch  */
+.sw {
+  width: 34px;
+  height: 18px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+  background: #d1d5db;
+}
+.sw.on {
+  background: #ff7900;
+}
+.swDot {
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: all 0.2s ease;
+}
+.sw.on .swDot {
+  left: 18px;
+}
+
+/* responsive */
+@media (max-width: 768px) {
+  .asServicesHead,
+  .asServiceRow {
+    grid-template-columns: 1fr 160px;
+  }
+
+  .asRow {
+    grid-template-columns: 1fr;
+  }
+  .asLabel {
+    margin-bottom: -6px;
+  }
+}
