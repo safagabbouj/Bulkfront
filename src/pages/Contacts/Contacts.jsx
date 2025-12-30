@@ -1,10 +1,11 @@
 import React, { useMemo, useState } from "react";
 import MainLayout from "../../layout/MainLayout";
-import { Plus, Search, Trash2 } from "lucide-react";
+import { Plus, Search, Trash2, Pencil } from "lucide-react";
 
 import "./Contacts.css";
 import AddContactModal from "./AddContactModal";
 import EditContactModal from "./EditContactModal";
+import DetailsContactModal from "./DetailsContactModal";
 import ConfirmModal from "./ConfirmModal";
 
 const USERS = [
@@ -95,6 +96,7 @@ export default function Contacts() {
 
   const [showAdd, setShowAdd] = useState(false);
   const [editItem, setEditItem] = useState(null);
+  const [detailsItem, setDetailsItem] = useState(null);
   const [confirm, setConfirm] = useState({ open: false, item: null });
 
   const filtered = useMemo(() => {
@@ -228,8 +230,12 @@ export default function Contacts() {
                   <td>{it.dateCreation}</td>
                   <td>{it.lastUse}</td>
                   <td className="text-end" style={{ whiteSpace: "nowrap" }}>
-                    <button className="btn-details me-2" onClick={() => setEditItem(it)}>
+                    <button className="btn-details me-2" onClick={() => setDetailsItem(it)}>
                       Détails »
+                    </button>
+
+                    <button className="btn-action me-2" onClick={() => setEditItem(it)} title="Modifier">
+                      <Pencil size={16} />
                     </button>
 
                     <button
@@ -280,6 +286,14 @@ export default function Contacts() {
           item={editItem}
           onClose={() => setEditItem(null)}
           onSubmit={(payload) => updateList(payload)}
+        />
+      )}
+
+      {detailsItem && (
+        <DetailsContactModal
+          users={USERS}
+          item={detailsItem}
+          onClose={() => setDetailsItem(null)}
         />
       )}
 
