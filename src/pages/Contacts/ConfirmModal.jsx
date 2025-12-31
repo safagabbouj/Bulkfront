@@ -3,18 +3,24 @@ import "./Contacts.css";
 
 export default function ConfirmModal({ title, subtitle, onCancel, onConfirm }) {
   return (
-    <div className="custom-modal-overlay">
-      <div className="custom-modal-content" style={{ maxWidth: 520 }}>
-        <div className="p-4 text-center">
-          <h5 className="fw-bold mb-2">{title}</h5>
-          <div className="text-muted">{subtitle}</div>
-        </div>
-
-        <div className="d-flex justify-content-center gap-3">
-          <button className="btn-annuler px-5" onClick={onCancel}>
+    <div className="custom-modal-overlay" style={{ zIndex: 10000 }}>
+      <div className="custom-modal-content confirmation-card text-center p-5">
+        <h2 className="confirm-modal-title mb-4">{title || "Êtes Vous Sûr ?"}</h2>
+        <p className="confirm-modal-subtitle mb-5">{subtitle || "Cette Action Est Irréversible !"}</p>
+        
+        <div className="d-flex justify-content-center gap-3 mt-2">
+          <button 
+            type="button"
+            onClick={onCancel} 
+            className="btn-confirm-cancel"
+          >
             ANNULER
           </button>
-          <button className="btn-confirm-orange px-5" onClick={onConfirm}>
+          <button 
+            type="button"
+            onClick={onConfirm} 
+            className="btn-confirm-submit"
+          >
             CONFIRMER
           </button>
         </div>
