@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 import toggleIcon from "../../assets/Group 3.png";
-import orangeLogo from "../../assets/orange lego.PNG";
+import orangeLogo from "../../assets/Small_Logo_RGB 1.svg";
 import accueilIcon from "../../assets/accueil (6) 1.svg";
 import campagnesIcon from "../../assets/affaires-et-commerce 1.svg";
 import contactsIcon from "../../assets/appel 1.svg";
