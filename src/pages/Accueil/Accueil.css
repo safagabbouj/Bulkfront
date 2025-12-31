@@ -76,6 +76,12 @@
   justify-content: center;
 }
 
+.card-icon img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
 .card-label {
   text-align: center;
   font-size: 12px;

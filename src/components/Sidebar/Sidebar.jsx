@@ -9,6 +9,10 @@ import contactsIcon from "../../assets/livre-de-contact 1.svg";
 import alertesIcon from "../../assets/appel 1.svg";
 import reportingIcon from "../../assets/rapport-de-donnees 1.svg";
 import faqIcon from "../../assets/faq (1) 1.svg";
+import actifIcon from "../../assets/actif 1.svg";
+import listeCampagnesIcon from "../../assets/fichier-csv 1.svg";
+import stopSmsIcon from "../../assets/actif 2.svg";
+import usersIcon from "../../assets/gestion-des-utilisateurs 2.svg";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -169,7 +173,7 @@ const Sidebar = () => {
                   setIsCampaignsOpen(false);
                 }}
               >
-                <span className="menu-label">📋 liste des campagnes</span>
+                <span className="menu-label"><img src={listeCampagnesIcon} alt="Liste" className="submenu-icon" /> liste des campagnes</span>
               </li>
               <li
                 className={activeSubItem === "stop-sms" ? "active-sub" : ""}
@@ -180,7 +184,7 @@ const Sidebar = () => {
                   setIsCampaignsOpen(false);
                 }}
               >
-                <span className="menu-label">🟠 Stop sms</span>
+                <span className="menu-label"><img src={stopSmsIcon} alt="Stop SMS" className="submenu-icon" /> Stop sms</span>
               </li>
             </ul>
           )}
@@ -209,7 +213,7 @@ const Sidebar = () => {
               setIsCampaignsOpen(false); // ✅ close campagnes dropdown
             }}
           >
-            <span className="icon"><img src={contactsIcon} alt="Utilisateurs" /></span>
+            <span className="icon"><img src={usersIcon} alt="Utilisateurs" /></span>
             <span className="menu-label">Gestion des utilisateurs</span>
           </li>
 
@@ -228,7 +232,7 @@ const Sidebar = () => {
                   setIsUsersOpen(false);
                 }}
               >
-                <span className="menu-label">👤 Liste des utilisateurs</span>
+                <span className="menu-label"><img src={usersIcon} alt="Utilisateurs" className="submenu-icon" /> Liste des utilisateurs</span>
               </li>
 
               <li
@@ -240,7 +244,7 @@ const Sidebar = () => {
                   setIsUsersOpen(false);
                 }}
               >
-                <span className="menu-label">⚙️ Gestion des rôles</span>
+                <span className="menu-label"><img src={actifIcon} alt="Rôles" className="submenu-icon" /> Gestion des rôles</span>
               </li>
             </ul>
           )}

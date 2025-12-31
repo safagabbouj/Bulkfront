@@ -58,6 +58,20 @@
   transition: all 0.3s ease;
 }
 
+/* Styles pour les icônes des sous-menus */
+.submenu-icon {
+  width: 16px !important;
+  height: 16px !important;
+  margin-right: 8px;
+  vertical-align: middle;
+  filter: brightness(0) saturate(100%) invert(47%) sepia(89%) saturate(2180%) hue-rotate(14deg) brightness(98%) contrast(103%);
+}
+
+/* Icônes dans les sous-menus actifs */
+.submenu li.active-sub .submenu-icon {
+  filter: brightness(0) saturate(100%) invert(47%) sepia(89%) saturate(2180%) hue-rotate(14deg) brightness(98%) contrast(103%);
+}
+
 /* Icônes inactives - blanches */
 .menu li:not(.active) .icon img {
   filter: brightness(0) saturate(100%) invert(100%);
