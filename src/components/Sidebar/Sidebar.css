@@ -16,6 +16,7 @@
   opacity: 0;
   visibility: hidden;
 }
+
 .sidebar.closed .submenu .menu-label {
   opacity: 1 !important;
   visibility: visible !important;
@@ -23,8 +24,8 @@
 
 .submenu.submenu-float {
   position: absolute;
-  left: 78px;          
-  top: 165px;           
+  left: 78px;
+  top: 165px;
   width: 210px;
   padding: 10px 0;
   margin: 0;
@@ -37,14 +38,57 @@
   position: relative;
 }
 
+/* --- DESIGN DES ICONES (CORRIGÉ) --- */
+
+.icon {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px; /* Carré arrondi pour l'icône */
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+.icon img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  transition: all 0.3s ease;
+}
+
+/* Icônes inactives - blanches */
+.menu li:not(.active) .icon img {
+  filter: brightness(0) saturate(100%) invert(100%);
+}
+
+/* Icônes actives - FOND ORANGE et IMAGE BLANCHE (comme votre capture) */
+.menu li.active .icon {
+  background-color: #ff7900 !important;
+}
+
+.menu li.active .icon img {
+  filter: brightness(0) saturate(100%) invert(100%) !important; /* L'image redevient blanche sur le fond orange */
+}
+
+/* Effet hover pour les icônes inactives */
+.menu li:hover:not(.active) .icon img {
+  filter: brightness(0) saturate(100%) invert(78%) sepia(28%) saturate(436%) hue-rotate(14deg) brightness(96%) contrast(95%);
+  transform: scale(1.1);
+}
+
+/* --- FIN DESIGN ICONES --- */
+
 .sidebar.closed .submenu.submenu-float {
-  top: 145px; 
+  top: 145px;
 }
 
 .submenu.submenu-float li {
   padding: 10px 16px !important;
   cursor: pointer;
 }
+
 .submenu.submenu-float li:hover {
   background: #fff;
 }
@@ -79,13 +123,7 @@
 .sidebar.closed .toggle-btn img {
   transform: rotate(180deg);
 }
-.menu li.active::before,
-.menu li.active::after,
-.submenu::after,
-.submenu::before {
-  
-  box-shadow: 10px 10px 0 0 white; 
-}
+
 .menu, .logo-section {
   overflow: hidden;
 }
@@ -127,13 +165,20 @@
   position: relative;
 }
 
+/* --- ETAT ACTIF DU LI (FOND BLANC) --- */
 .menu li.active {
-  background-color: white;
-  color: #333;
-  border-radius: 10px 0 0 10px; 
+  background-color: white !important;
+  color: #333 !important;
+  border-radius: 20px 0 0 20px; 
   margin-left: 15px;
   font-weight: 600;
 }
+
+.menu li.active .menu-label {
+  color: #333 !important;
+}
+
+/* Coins arrondis (arcs) pour le fond blanc */
 .menu li.active::before,
 .menu li.active::after {
   content: "";
@@ -155,6 +200,8 @@
   border-radius: 0 20px 0 0;
   box-shadow: 10px -10px 0 10px white; 
 }
+
+/* --- SUBMENU --- */
 .submenu {
   background-color: #f5f5f5; 
   margin-left: 60px;
@@ -165,6 +212,7 @@
   border-bottom-right-radius: 20px; 
   border-top-right-radius: 20px; 
 }
+
 .submenu::after {
   content: "";
   position: absolute;
@@ -181,12 +229,15 @@
   color: #666 !important;
   padding: 8px 40px !important;
   font-size: 0.8rem !important;
+  background: none !important; /* Pas de fond blanc pour les sous-menus */
+  margin: 0 !important;
 }
 
 .submenu li.active-sub {
   color: #ff7900 !important;
   font-weight: bold;
 }
+
 .sidebar-overlay {
   position: fixed;
   inset: 0;
@@ -204,26 +255,22 @@
     transform: translateX(0);
     transition: transform 0.25s ease;
   }
-
   .sidebar.closed {
     transform: translateX(-100%);
   }
-
   .toggle-btn {
     right: -40px;
   }
-
   .submenu.submenu-float {
     left: 70px;
     width: 200px;
   }
 }
-/* ✅ NEW: submenu position for users (باش يجي تحت users مش تحت campagnes) */
+
 .submenu.submenu-users.submenu-float {
-  top: 285px; /* تنجّم تبدّلها + أو - حسب طول المينيو عندك */
+  top: 285px;
 }
 
 .sidebar.closed .submenu.submenu-users.submenu-float {
   top: 265px;
 }
-

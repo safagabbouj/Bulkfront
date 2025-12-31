@@ -3,6 +3,12 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 import toggleIcon from "../../assets/Group 3.png";
 import orangeLogo from "../../assets/orange lego.PNG";
+import accueilIcon from "../../assets/accueil (6) 1.svg";
+import campagnesIcon from "../../assets/affaires-et-commerce 1.svg";
+import contactsIcon from "../../assets/livre-de-contact 1.svg";
+import alertesIcon from "../../assets/appel 1.svg";
+import reportingIcon from "../../assets/rapport-de-donnees 1.svg";
+import faqIcon from "../../assets/faq (1) 1.svg";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -135,7 +141,7 @@ const Sidebar = () => {
               goTo("/accueil");
             }}
           >
-            <span className="icon">🏠</span>
+            <span className="icon"><img src={accueilIcon} alt="Accueil" /></span>
             <span className="menu-label">Accueil</span>
           </li>
 
@@ -148,7 +154,7 @@ const Sidebar = () => {
               setIsUsersOpen(false); // ✅ close users dropdown
             }}
           >
-            <span className="icon">🏢</span>
+            <span className="icon"><img src={campagnesIcon} alt="Campagnes" /></span>
             <span className="menu-label">Gestion des campagnes</span>
           </li>
 
@@ -190,7 +196,7 @@ const Sidebar = () => {
               goTo("/contacts");
             }}
           >
-            <span className="icon">📞</span>
+            <span className="icon"><img src={contactsIcon} alt="Contacts" /></span>
             <span className="menu-label">Gestion des contacts</span>
           </li>
 
@@ -203,7 +209,7 @@ const Sidebar = () => {
               setIsCampaignsOpen(false); // ✅ close campagnes dropdown
             }}
           >
-            <span className="icon">👥</span>
+            <span className="icon"><img src={contactsIcon} alt="Utilisateurs" /></span>
             <span className="menu-label">Gestion des utilisateurs</span>
           </li>
 
@@ -250,7 +256,7 @@ const Sidebar = () => {
               goTo("/alertes-services");
             }}
           >
-            <span className="icon">🔔</span>
+            <span className="icon"><img src={alertesIcon} alt="Alertes" /></span>
             <span className="menu-label">Gestion des alertes et services</span>
           </li>
 
@@ -265,7 +271,7 @@ const Sidebar = () => {
               goTo("/reporting");
             }}
           >
-            <span className="icon">📊</span>
+            <span className="icon"><img src={reportingIcon} alt="Reporting" /></span>
             <span className="menu-label">Reporting</span>
           </li>
 
@@ -280,7 +286,7 @@ const Sidebar = () => {
               goTo("/faq");
             }}
           >
-            <span className="icon">❓</span>
+            <span className="icon"><img src={faqIcon} alt="FAQ" /></span>
             <span className="menu-label">liste des FAQ</span>
           </li>
         </ul>
