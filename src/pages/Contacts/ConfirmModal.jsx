@@ -10,11 +10,11 @@ export default function ConfirmModal({ title, subtitle, onCancel, onConfirm }) {
           <div className="text-muted">{subtitle}</div>
         </div>
 
-        <div className="modal-footer-center">
-          <button onClick={onCancel} className="btn btn-outline-orange px-4">
+        <div className="d-flex justify-content-center gap-3">
+          <button className="btn-annuler px-5" onClick={onCancel}>
             ANNULER
           </button>
-          <button onClick={onConfirm} className="btn btn-orange px-4">
+          <button className="btn-confirm-orange px-5" onClick={onConfirm}>
             CONFIRMER
           </button>
         </div>

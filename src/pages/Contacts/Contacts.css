@@ -314,4 +314,39 @@
   .pickerBtns {
     flex-direction: row;
   }
+  /* Bouton ANNULER (Bordure orange, fond blanc) */
+.btn-confirm-cancel {
+  background-color: #ffffff;
+  border: 2px solid #ff7900; /* Orange vif */
+  color: #ff7900;
+  border-radius: 15px;      /* Arrondi prononcé comme sur l'image */
+  padding: 10px 35px;       /* Largeur généreuse */
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Bouton CONFIRMER (Fond orange, texte blanc) */
+.btn-confirm-submit {
+  background-color: #ff7900; /* Même Orange */
+  border: 2px solid #ff7900;
+  color: #ffffff;
+  border-radius: 15px;      /* Identique à l'autre bouton */
+  padding: 10px 35px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Effets au survol (Optionnel mais recommandé) */
+.btn-confirm-cancel:hover {
+  background-color: #fff5ed;
+}
+
+.btn-confirm-submit:hover {
+  background-color: #e66d00;
+  border-color: #e66d00;
+}
 }
