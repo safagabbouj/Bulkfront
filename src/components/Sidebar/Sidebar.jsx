@@ -6,7 +6,6 @@ import orangeLogo from "../../assets/Small_Logo_RGB 1.svg";
 import accueilIcon from "../../assets/accueil (6) 1.svg";
 import campagnesIcon from "../../assets/affaires-et-commerce 1.svg";
 import contactsIcon from "../../assets/appel 1.svg";
-import alertesIcon from "../../assets/appel 1.svg";
 import reportingIcon from "../../assets/rapport-de-donnees 1.svg";
 import faqIcon from "../../assets/faq (1) 1.svg";
 import actifIcon from "../../assets/actif 1.svg";
@@ -250,7 +249,7 @@ const Sidebar = () => {
 
           {/* Alertes */}
           <li
-            className={actifIcon === "alertes-services" ? "active" : ""}
+            className={activeItem === "alertes-services" ? "active" : ""}
             onClick={() => {
               setActiveItem("alertes-services");
               setActiveSubItem(null);

@@ -1,7 +1,13 @@
 import React, { useMemo, useState } from "react";
 import MainLayout from "../../layout/MainLayout";
 import { Plus, Search, Trash2, Pencil } from "lucide-react";
-
+// Import des nouveaux hooks
+import { 
+  useContacts, 
+  useAddContact, 
+  useUpdateContact, 
+  useDeleteContact 
+} from "../../hooks/useContacts";
 import "./Contacts.css";
 import AddContactModal from "./AddContactModal";
 import EditContactModal from "./EditContactModal";
@@ -15,89 +21,26 @@ const USERS = [
   { id: 4, name: "Test User" },
 ];
 
-const SEED = [
-  {
-    id: 1,
-    nom: "Test01",
-    owner: "Rayan",
-    nbContacts: 1,
-    dateCreation: "04/06/2023 10:06",
-    lastUse: "04/06/2023 10:06",
-    description: "List test",
-    selectedUsers: [1, 2],
-    fileName: "contacts.csv",
-    stats: {
-      nationalValid: 1,
-      internationalValid: 0,
-      invalid: 0,
-      empty: 0,
-    },
-  },
-  {
-    id: 2,
-    nom: "Test01",
-    owner: "Rayan",
-    nbContacts: 2,
-    dateCreation: "04/06/2023 10:06",
-    lastUse: "04/06/2023 10:06",
-    description: "List test",
-    selectedUsers: [2],
-    fileName: "contacts.csv",
-    stats: {
-      nationalValid: 1,
-      internationalValid: 0,
-      invalid: 0,
-      empty: 0,
-    },
-  },
-  {
-    id: 3,
-    nom: "Test01",
-    owner: "Rayan",
-    nbContacts: 1,
-    dateCreation: "04/06/2023 10:06",
-    lastUse: "04/06/2023 10:06",
-    description: "List test",
-    selectedUsers: [],
-    fileName: "contacts.csv",
-    stats: {
-      nationalValid: 1,
-      internationalValid: 0,
-      invalid: 0,
-      empty: 0,
-    },
-  },
-  {
-    id: 4,
-    nom: "Test01",
-    owner: "Rayan",
-    nbContacts: 2,
-    dateCreation: "04/06/2023 10:06",
-    lastUse: "04/06/2023 10:06",
-    description: "List test",
-    selectedUsers: [],
-    fileName: "contacts.csv",
-    stats: {
-      nationalValid: 1,
-      internationalValid: 0,
-      invalid: 0,
-      empty: 0,
-    },
-  },
-];
+
 
 export default function Contacts() {
-  const [lists, setLists] = useState(SEED);
-
+  // NOUVELLE LOGIQUE avec React Query :
+  const { data: lists = [], isLoading, error } = useContacts();
+  const addContactMutation = useAddContact();
+  const updateContactMutation = useUpdateContact();
+  const deleteContactMutation = useDeleteContact();
+  //Logique de filtre 
   const [filterOwner, setFilterOwner] = useState("");
   const [filterDateCreation, setFilterDateCreation] = useState("");
   const [filterDateEnvoi, setFilterDateEnvoi] = useState("");
   const [q, setQ] = useState("");
 
+  // États pour les modals (gardés identiques)
   const [showAdd, setShowAdd] = useState(false);
   const [editItem, setEditItem] = useState(null);
   const [detailsItem, setDetailsItem] = useState(null);
   const [confirm, setConfirm] = useState({ open: false, item: null });
+  // Logique de filtrage (gardée identique)
 
   const filtered = useMemo(() => {
   const s = q.trim().toLowerCase();
@@ -128,18 +71,52 @@ export default function Contacts() {
   });
 }, [lists, q, filterOwner, filterDateCreation, filterDateEnvoi]);
 
-
-  const addList = (payload) => {
-    setLists((prev) => [{ ...payload, id: Date.now() }, ...prev]);
+ // NOUVELLES FONCTIONS avec React Query :
+  const addList = async (payload) => {
+    try {
+      await addContactMutation.mutateAsync(payload);
+    } catch (error) {
+      console.error('Erreur lors de l\'ajout:', error);
+    }
   };
 
-  const updateList = (payload) => {
-    setLists((prev) => prev.map((x) => (x.id === payload.id ? payload : x)));
+
+   const updateList = async (payload) => {
+    try {
+      await updateContactMutation.mutateAsync(payload);
+    } catch (error) {
+      console.error('Erreur lors de la modification:', error);
+    }
   };
 
-  const deleteList = (id) => {
-    setLists((prev) => prev.filter((x) => x.id !== id));
+const deleteList = async (id) => {
+    try {
+      await deleteContactMutation.mutateAsync(id);
+    } catch (error) {
+      console.error('Erreur lors de la suppression:', error);
+    }
   };
+ // Gestion des états de chargement et d'erreur
+  if (isLoading) {
+    return (
+      <MainLayout pageTitle="Gestion des contacts" pageSubtitle="Liste Des Contacts">
+        <div className="text-center py-5">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Chargement...</span>
+          </div>
+        </div>
+      </MainLayout>
+    );
+  }
+  if (error) {
+    return (
+      <MainLayout pageTitle="Gestion des contacts" pageSubtitle="Liste Des Contacts">
+        <div className="alert alert-danger text-center">
+          Erreur lors du chargement des contacts: {error.message}
+        </div>
+      </MainLayout>
+    );
+  }
 
   return (
     <MainLayout pageTitle="Gestion des contacts" pageSubtitle="Liste Des Contacts">
@@ -154,7 +131,7 @@ export default function Contacts() {
           <span className="icon-box">
             <Plus size={18} />
           </span>
-          New Contacts
+          {addContactMutation.isPending ? 'Ajout...' : 'New Contacts'}
         </button>
       </div>
 
@@ -266,17 +243,8 @@ export default function Contacts() {
         <AddContactModal
           users={USERS}
           onClose={() => setShowAdd(false)}
-          onSubmit={(payload) => {
-            // add defaults like screenshot
-            addList({
-              ...payload,
-              owner: "Rayan",
-              nbContacts: 1,
-              dateCreation: "04/06/2023 10:06",
-              lastUse: "04/06/2023 10:06",
-              stats: { nationalValid: 1, internationalValid: 0, invalid: 0, empty: 0 },
-            });
-          }}
+          onSubmit={addList}
+          isLoading={addContactMutation.isPending}
         />
       )}
 
@@ -286,6 +254,8 @@ export default function Contacts() {
           item={editItem}
           onClose={() => setEditItem(null)}
           onSubmit={(payload) => updateList(payload)}
+          isLoading={updateContactMutation.isPending}
+
         />
       )}
 

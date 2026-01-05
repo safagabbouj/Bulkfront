@@ -2,26 +2,46 @@ import React, { useState } from "react";
 import "./Contacts.css";
 import FileDropZone from "./FileDropZone";
 import DualUserPicker from "./DualUserPicker";
-import ConfirmModal from "../Utilisateurs/ListeDesUtilisateurs/ConfirmModal";
-export default function AddContactModal({ users, onClose, onSubmit }) {
+
+export default function AddContactModal({ users, onClose, onSubmit, isLoading }) {
   const [nom, setNom] = useState("");
   const [description, setDescription] = useState("");
   const [file, setFile] = useState(null);
   const [selectedUsers, setSelectedUsers] = useState([]);
- const [showConfirm, setShowConfirm] = useState(false); // État pour l'alerte
- 
+
+  const handleSubmit = async () => {
+    await onSubmit({
+      nom: nom || "Test01",
+      description,
+      selectedUsers,
+      fileName: file?.name || "",
+    });
+    onClose();
+  };
+
   return (
     <div className="custom-modal-overlay">
       <div className="custom-modal-content">
-        <div className="p-4">        git push origin group --force
+        <div className="p-4">
           <h5 className="modal-title-center">Ajouter Un Contact</h5>
 
           <div className="mt-4 form-grid">
             <label>Nom De La Liste :</label>
-            <input className="form-control" value={nom} onChange={(e) => setNom(e.target.value)} />
+            <input 
+              className="form-control" 
+              value={nom} 
+              onChange={(e) => setNom(e.target.value)}
+              disabled={isLoading}
+            />
 
             <label>Description :</label>
-            <textarea className="form-control" rows={3} value={description} onChange={(e) => setDescription(e.target.value)} />
+            <textarea 
+              className="form-control" 
+              rows={3} 
+              value={description} 
+              onChange={(e) => setDescription(e.target.value)}
+              disabled={isLoading}
+            />
 
             <label>Importer Un Fichier :</label>
             <FileDropZone fileName={file?.name} onPick={setFile} />
@@ -32,36 +52,18 @@ export default function AddContactModal({ users, onClose, onSubmit }) {
         </div>
 
         <div className="modal-footer-center">
-          <button onClick={onClose} className="btn btn-outline-orange px-4">
+          <button onClick={onClose} className="btn btn-outline-orange px-4" disabled={isLoading}>
             ANNULER
           </button>
           <button
-            onClick={() => setShowConfirm(true)}
+            onClick={handleSubmit}
             className="btn btn-orange px-4"
+            disabled={isLoading}
           >
-            AJOUTER
+            {isLoading ? 'AJOUT...' : 'AJOUTER'}
           </button>
         </div>
       </div>
-
-      {/* ConfirmModal pour confirmer l'ajout */}
-      {showConfirm && (
-        <ConfirmModal
-          title="Confirmer l'ajout"
-          subtitle="Êtes-vous sûr de vouloir ajouter ce contact ?"
-          onCancel={() => setShowConfirm(false)}
-          onConfirm={() => {
-            onSubmit({
-              nom: nom || "Test01",
-              description,
-              selectedUsers,
-              fileName: file?.name || "",
-            });
-            setShowConfirm(false);
-            onClose();
-          }}
-        />
-      )}
     </div>
   );
 }

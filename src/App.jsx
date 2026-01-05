@@ -8,8 +8,13 @@ import AlertesServices from "./pages/AlertesServices/AlertesServices";
 import FAQ from "./pages/FAQ/FAQ";
 import ListeDesUtilisateurs from "./pages/Utilisateurs/ListeDesUtilisateurs/ListeDesUtilisateurs";
 import GestionDesRoles from "./pages/Utilisateurs/GestionDesRoles/GestionRoles";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
 function App() {
+const queryClient = new QueryClient();
+
   return (
+  <QueryClientProvider client={queryClient}>
     <Router>
       <Routes>
         <Route path="/" element={<Accueil />} />
@@ -24,6 +29,8 @@ function App() {
         <Route path="/faq" element={<FAQ />} />
       </Routes>
     </Router>
+  </QueryClientProvider>
+
   );
 }
 
