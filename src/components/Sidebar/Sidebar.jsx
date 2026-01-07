@@ -6,7 +6,6 @@ import orangeLogo from "../../assets/Small_Logo_RGB 1.svg";
 import accueilIcon from "../../assets/accueil (6) 1.svg";
 import campagnesIcon from "../../assets/affaires-et-commerce 1.svg";
 import contactsIcon from "../../assets/appel 1.svg";
-import alertesIcon from "../../assets/appel 1.svg";
 import reportingIcon from "../../assets/rapport-de-donnees 1.svg";
 import faqIcon from "../../assets/faq (1) 1.svg";
 import actifIcon from "../../assets/actif 1.svg";
@@ -50,6 +49,20 @@ const Sidebar = () => {
     navigate(path);
     if (isMobile) setIsOpen(false);
   };
+ const handleMouseLeave = (e) => {
+  if (!isOpen) { // Seulement quand la sidebar est fermée
+    // Calculer si la souris est vraiment sortie de la zone sidebar + sous-menus
+    const sidebarWidth = 70; // Largeur de la sidebar fermée
+    const submenuWidth = 210; // Largeur du sous-menu
+    const totalWidth = sidebarWidth + submenuWidth + 20; // Zone totale + marge
+    
+    // Si la souris sort complètement à droite de cette zone
+    if (e.clientX > totalWidth) {
+      setIsCampaignsOpen(false);
+      setIsUsersOpen(false);
+    }
+  }
+};
 
   useEffect(() => {
     const path = location.pathname;
@@ -120,7 +133,10 @@ const Sidebar = () => {
         <div className="sidebar-overlay" onClick={() => setIsOpen(false)} />
       )}
 
-      <div className={`sidebar ${isOpen ? "open" : "closed"}`}>
+      <div className={`sidebar ${isOpen ? "open" : "closed"}`}
+                      onMouseLeave={handleMouseLeave}
+>
+
         <button className="toggle-btn" onClick={toggleSidebar}>
           <img src={toggleIcon} alt="Toggle sidebar" />
         </button>
@@ -250,7 +266,7 @@ const Sidebar = () => {
 
           {/* Alertes */}
           <li
-            className={actifIcon === "alertes-services" ? "active" : ""}
+            className={activeItem === "alertes-services" ? "active" : ""}
             onClick={() => {
               setActiveItem("alertes-services");
               setActiveSubItem(null);
