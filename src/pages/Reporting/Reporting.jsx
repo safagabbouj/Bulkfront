@@ -3,6 +3,7 @@ import MainLayout from "../../layout/MainLayout";
 import { Trash2 } from "lucide-react";
 import "./Reporting.css";
 import DetailsReportingModal from "./DetailsReportingModal";
+import ConfirmModal from "../GestionDesCampagnes/ListeDesCampagnes/ConfirmModal";
 
 const campaignsRows = [
   {
@@ -355,32 +356,12 @@ export default function Reporting() {
       
       {/* Modal de confirmation de suppression */}
       {confirmDelete && (
-        <div className="custom-modal-overlay" style={{ zIndex: 10000 }}>
-          <div className="custom-modal-content confirmation-card text-center p-5">
-            <h2 className="confirm-modal-title mb-4">
-              Êtes Vous Sûr ?
-            </h2>
-            <p className="confirm-modal-subtitle mb-5">
-              Voulez-vous vraiment supprimer la campagne "{confirmDelete.name}" ? Cette action est irréversible !
-            </p>
-            <div className="d-flex justify-content-center gap-3 mt-2">
-              <button
-                type="button"
-                onClick={closeDeleteConfirm}
-                className="btn-confirm-cancel"
-              >
-                ANNULER
-              </button>
-              <button
-                type="button"
-                onClick={deleteCampaign}
-                className="btn-confirm-submit"
-              >
-                CONFIRMER
-              </button>
-            </div>
-          </div>
-        </div>
+        <ConfirmModal
+          title="Êtes Vous Sûr ?"
+          subtitle={`Voulez-vous vraiment supprimer la campagne "${confirmDelete.name}" ? Cette action est irréversible !`}
+          onCancel={closeDeleteConfirm}
+          onConfirm={deleteCampaign}
+        />
       )}
     </MainLayout>
   );

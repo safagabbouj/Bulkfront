@@ -1,193 +1,183 @@
-import React, { useMemo, useState } from "react";
-import { X } from "lucide-react";
-import ConfirmModal from "./ConfirmModal";
+import React, {useState} from 'react';
+import { Calendar } from 'lucide-react';
+import ConfirmModal from "../../Utilisateurs/ConfirmModal";
 
-const pad2 = (n) => String(n).padStart(2, "0");
 
-const formatFR = (yyyy_mm_dd) => {
-  if (!yyyy_mm_dd) return "";
-  const [yyyy, mm, dd] = yyyy_mm_dd.split("-");
-  return `${dd}/${mm}/${yyyy}`;
+const AddCampaignModal = ({ onClose, onSubmit }) => {
+    const [nom, setNom] = useState("");
+    const [description, setDescription] = useState("");
+    const [file, setFile] = useState(null);
+    const [selectedUsers, setSelectedUsers] = useState([]);
+    const [showConfirm, setShowConfirm] = useState(false); // État pour l'alerte
+
+    return (
+        <div className="custom-modal-overlay">
+            <div className="custom-modal-content card" style={{ maxWidth: '700px', width: '90%' }}>
+                <div className="card-header bg-white border-0 text-center py-3 px-4">
+                    <h2 className="h5 fw-bold mb-0">Ajouter Une Campagne</h2>
+                </div>
+
+                <div className="card-body px-5 py-3">
+                    <div className="row g-2">
+                        <div className="col-12">
+                            <div className="row align-items-center mb-2">
+                                <div className="col-4 text-end">
+                                    <label className="form-label mb-0 small">Nom De La Campagne :</label>
+                                </div>
+                                <div className="col-8">
+                                    <input type="text" className="form-control form-control-sm" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-12">
+                            <div className="row align-items-center mb-2">
+                                <div className="col-4 text-end">
+                                    <label className="form-label mb-0 small">Type :</label>
+                                </div>
+                                <div className="col-8">
+                                    <select className="form-select form-select-sm">
+                                        <option>Sélectionner</option>
+                                    </select>
+                                    <small className="text-warning d-block" style={{ fontSize: '0.7rem' }}>
+                                        ⚠ Vous Pouvez Sélectionner Plusieurs Types
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-12">
+                            <div className="row align-items-start mb-2">
+                                <div className="col-4 text-end">
+                                    <label className="form-label mb-0 small pt-1">Description :</label>
+                                </div>
+                                <div className="col-8">
+                                    <textarea className="form-control form-control-sm" rows="2"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-12">
+                            <div className="row align-items-center mb-2">
+                                <div className="col-4 text-end">
+                                    <label className="form-label mb-0 small">Type De Message :</label>
+                                </div>
+                                <div className="col-8">
+                                    <div className="d-flex align-items-center">
+                                        <select className="form-select form-select-sm">
+                                            <option>Sélectionner</option>
+                                        </select>
+                                        <span className="text-danger ms-2">*</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-12">
+                            <div className="row align-items-center mb-2">
+                                <div className="col-4 text-end">
+                                    <label className="form-label mb-0 small">Entête :</label>
+                                </div>
+                                <div className="col-8">
+                                    <select className="form-select form-select-sm">
+                                        <option>Sélectionner</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-12">
+                            <div className="row align-items-center mb-2">
+                                <div className="col-4 text-end">
+                                    <label className="form-label mb-0 small">Liste De Contact :</label>
+                                </div>
+                                <div className="col-8">
+                                    <select className="form-select form-select-sm">
+                                        <option>Sélectionner</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-12">
+                            <div className="row align-items-start mb-2">
+                                <div className="col-4 text-end">
+                                    <label className="form-label mb-0 small pt-1">Message :</label>
+                                </div>
+                                <div className="col-8">
+                                    <textarea className="form-control form-control-sm" rows="2"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-12">
+                            <div className="row align-items-center mb-2">
+                                <div className="col-4 text-end">
+                                    <label className="form-label mb-0 small">Date D'envoi :</label>
+                                </div>
+                                <div className="col-8">
+                                    <div className="position-relative">
+                                        <input type="text" className="form-control form-control-sm" />
+                                        <Calendar
+                                            className="position-absolute"
+                                            size={16}
+                                            style={{ right: '10px', top: '50%', transform: 'translateY(-50%)', cursor: 'pointer' }}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-12">
+                            <div className="row align-items-center mb-2">
+                                <div className="col-4 text-end">
+                                    <label className="form-label mb-0 small">Numéro De Test :</label>
+                                </div>
+                                <div className="col-8">
+                                    <input type="text" className="form-control form-control-sm" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="card-footer bg-white border-0 d-flex justify-content-center gap-3 py-3 px-4">
+                    <button
+                        onClick={onClose}
+                        className="btn btn-outline-warning px-5 text-uppercase"
+                        style={{ borderColor: '#ff9800', color: '#ff9800', fontSize: '0.9rem' }}
+                    >
+                        Annuler
+                    </button>
+                    <button
+                        onClick={() => setShowConfirm(true)}
+                        className="btn px-5 text-uppercase text-white"
+                        style={{ backgroundColor: '#ff9800', borderColor: '#ff9800', fontSize: '0.9rem' }}
+                    >
+                        Ajouter
+                    </button>
+                </div>
+            </div>
+
+            {showConfirm && (
+                <ConfirmModal
+                    title="Confirmer l'ajout"
+                    subtitle="Êtes-vous sûr de vouloir ajouter cette compaigne ?"
+                    onCancel={() => setShowConfirm(false)}
+                    onConfirm={() => {
+                        onSubmit({
+                            nom: nom || "Test01",
+                            description,
+                            selectedUsers,
+                            fileName: file?.name || "",
+                        });
+                        setShowConfirm(false);
+                        onClose();
+                    }}
+                />
+            )}
+        </div>
+);
 };
 
-export default function AddCampaignModal({ onClose, onSubmit, statuts }) {
-  const [form, setForm] = useState({
-    name: "",
-    status: "Enregistré",
-    language: "Français",
-    type: [],
-    entete: "",
-    description: "",
-    message: "",
-    dateEnvoi: "", 
-    dateFin: "", 
-  });
-
-  const [showConfirm, setShowConfirm] = useState(false);
-
-  const nowLabel = useMemo(() => {
-    const d = new Date();
-    const dd = pad2(d.getDate());
-    const mm = pad2(d.getMonth() + 1);
-    const yyyy = d.getFullYear();
-    const hh = pad2(d.getHours());
-    const min = pad2(d.getMinutes());
-    return `${dd}/${mm}/${yyyy} ${hh}:${min}`;
-  }, []);
-
-  const dateEnvoiLabel = useMemo(() => {
-    const d = formatFR(form.dateEnvoi);
-    return d ? `${d} 10:06` : nowLabel;
-  }, [form.dateEnvoi, nowLabel]);
-
-  const dateFinLabel = useMemo(() => {
-    const d = formatFR(form.dateFin);
-    return d ? `${d} 10:06` : nowLabel;
-  }, [form.dateFin, nowLabel]);
-
-  return (
-    <div className="custom-modal-overlay">
-      <div className="custom-modal-content card" style={{ maxWidth: 860 }}>
-        <div className="card-header bg-white border-0 d-flex justify-content-between align-items-center pt-4 px-4">
-          <h2 className="h5 fw-bold mb-0">Ajouter Une Campagne</h2>
-          <X className="cursor-pointer" onClick={onClose} />
-        </div>
-
-        <div className="card-body px-4 overflow-auto" style={{ maxHeight: "62vh" }}>
-          <div className="row g-3">
-            <div className="col-12">
-              <label className="form-label small fw-bold">Nom De La Campagne :</label>
-              <input
-                type="text"
-                className="form-control"
-                value={form.name}
-                onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
-              />
-            </div>
-
-            <div className="col-md-6">
-              <label className="form-label small fw-bold">Statut :</label>
-              <select
-                className="form-select"
-                value={form.status}
-                onChange={(e) => setForm((p) => ({ ...p, status: e.target.value }))}
-              >
-                {statuts.map((s) => (
-                  <option key={s} value={s}>
-                    {s}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="col-md-6">
-              <label className="form-label small fw-bold">Langue :</label>
-              <select
-                className="form-select"
-                value={form.language}
-                onChange={(e) => setForm((p) => ({ ...p, language: e.target.value }))}
-              >
-                <option>Français</option>
-                <option>Arabe</option>
-                <option>Anglais</option>
-              </select>
-            </div>
-
-            <div className="col-12">
-              <label className="form-label small fw-bold">Type :</label>
-              <select
-                className="form-select"
-                value={form.type[0] || ""}
-                onChange={(e) => setForm((p) => ({ ...p, type: e.target.value ? [e.target.value] : [] }))}
-              >
-                <option value="">Sélectionner</option>
-                <option value="SMS">SMS</option>
-                <option value="Mail">Mail</option>
-              </select>
-              <small className="text-orange d-block mt-1">
-                ⚠ Vous Pouvez Sélectionner Plusieurs Types
-              </small>
-            </div>
-
-            <div className="col-12">
-              <label className="form-label small fw-bold">Entête :</label>
-              <input
-                className="form-control"
-                value={form.entete}
-                onChange={(e) => setForm((p) => ({ ...p, entete: e.target.value }))}
-              />
-            </div>
-
-            <div className="col-12">
-              <label className="form-label small fw-bold">Description :</label>
-              <textarea
-                className="form-control"
-                rows={2}
-                value={form.description}
-                onChange={(e) => setForm((p) => ({ ...p, description: e.target.value }))}
-              />
-            </div>
-
-            <div className="col-12">
-              <label className="form-label small fw-bold">Message :</label>
-              <textarea
-                className="form-control"
-                rows={3}
-                value={form.message}
-                onChange={(e) => setForm((p) => ({ ...p, message: e.target.value }))}
-              />
-            </div>
-
-            <div className="col-md-6">
-              <label className="form-label small fw-bold">Date D'envoi :</label>
-              <input
-                type="date"
-                className="form-control"
-                value={form.dateEnvoi}
-                onChange={(e) => setForm((p) => ({ ...p, dateEnvoi: e.target.value }))}
-              />
-            </div>
-
-            <div className="col-md-6">
-              <label className="form-label small fw-bold">Date Fin :</label>
-              <input
-                type="date"
-                className="form-control"
-                value={form.dateFin}
-                onChange={(e) => setForm((p) => ({ ...p, dateFin: e.target.value }))}
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="card-footer bg-white border-0 d-flex justify-content-end gap-2 pb-4 px-4">
-          <button onClick={onClose} className="btn btn-outline-orange px-4">
-            ANNULER
-          </button>
-          <button onClick={() => setShowConfirm(true)} className="btn btn-orange px-4">
-            AJOUTER
-          </button>
-        </div>
-      </div>
-
-      {/* Confirm like Contacts */}
-      {showConfirm && (
-        <ConfirmModal
-          title="Confirmer l'ajout"
-          subtitle="Êtes-vous sûr de vouloir ajouter cette campagne ?"
-          onCancel={() => setShowConfirm(false)}
-          onConfirm={() => {
-            onSubmit({
-              ...form,
-              dateCreationLabel: nowLabel,
-              dateEnvoiLabel,
-              dateFinLabel,
-            });
-            setShowConfirm(false);
-            onClose();
-          }}
-        />
-      )}
-    </div>
-  );
-}
+export default AddCampaignModal;
