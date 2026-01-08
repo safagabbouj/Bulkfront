@@ -103,7 +103,6 @@
 }
 
 @media (max-width: 600px) {
-  /* 2 cards في السطر */
   .cardsRow {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;

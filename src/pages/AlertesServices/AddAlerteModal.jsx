@@ -1,16 +1,29 @@
+// src/pages/AlertesServices/AddAlerteModal.jsx
 import React, { useState } from "react";
 import SwitchToggle from "./SwitchToggle";
+import ConfirmModal from "./ConfirmModal"; // ✅ NEW confirm
 import "./AlertesServices.css";
 
 export default function AddAlerteModal({ onClose, onSubmit }) {
-  const [nbSms, setNbSms] = useState(1000);
+  // ✅ form فارغ (مش test)
+  const [nbSms, setNbSms] = useState(0);
   const [notifySms, setNotifySms] = useState(true);
-  const [phone, setPhone] = useState("55 443 322");
+  const [phone, setPhone] = useState("");
   const [notifyEmail, setNotifyEmail] = useState(false);
   const [email, setEmail] = useState("");
 
+  const [showConfirm, setShowConfirm] = useState(false);
+
   const dec = () => setNbSms((v) => Math.max(0, v - 1));
   const inc = () => setNbSms((v) => v + 1);
+
+  const payload = {
+    nbSms,
+    notifySms,
+    phone: notifySms ? phone : "",
+    notifyEmail,
+    email: notifyEmail ? email : "",
+  };
 
   return (
     <div className="custom-modal-overlay">
@@ -74,23 +87,26 @@ export default function AddAlerteModal({ onClose, onSubmit }) {
           <button onClick={onClose} className="btn btn-outline-orange px-4">
             ANNULER
           </button>
-          <button
-            onClick={() => {
-              onSubmit({
-                nbSms,
-                notifySms,
-                phone: notifySms ? phone : "",
-                notifyEmail,
-                email: notifyEmail ? email : "",
-              });
-              onClose();
-            }}
-            className="btn btn-orange px-4"
-          >
+
+          {/* ✅ بدل ما نعمل submit مباشرة => confirmation */}
+          <button onClick={() => setShowConfirm(true)} className="btn btn-orange px-4">
             AJOUTER
           </button>
         </div>
       </div>
+
+      {showConfirm && (
+        <ConfirmModal
+          title="Confirmer l'ajout"
+          subtitle="Êtes-vous sûr de vouloir ajouter ce seuil d'alerte ?"
+          onCancel={() => setShowConfirm(false)}
+          onConfirm={() => {
+            onSubmit(payload);
+            setShowConfirm(false);
+            onClose();
+          }}
+        />
+      )}
     </div>
   );
 }

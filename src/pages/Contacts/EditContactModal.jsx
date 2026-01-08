@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import "./Contacts.css";
 import FileDropZone from "./FileDropZone";
 import DualUserPicker from "./DualUserPicker";
+import ConfirmModal from "../Utilisateurs/ConfirmModal"; // ✅ نفس confirm متاع add
 
 export default function EditContactModal({ users, item, onClose, onSubmit }) {
   const [form, setForm] = useState({ ...item });
   const [pickedFile, setPickedFile] = useState(null);
+
+  const [showConfirm, setShowConfirm] = useState(false); // ✅ NEW
 
   const stats = form.stats || {
     nationalValid: 1,
@@ -33,7 +36,9 @@ export default function EditContactModal({ users, item, onClose, onSubmit }) {
               className="form-control"
               rows={3}
               value={form.description || ""}
-              onChange={(e) => setForm((p) => ({ ...p, description: e.target.value }))}
+              onChange={(e) =>
+                setForm((p) => ({ ...p, description: e.target.value }))
+              }
             />
 
             <label>Statistique :</label>
@@ -66,7 +71,9 @@ export default function EditContactModal({ users, item, onClose, onSubmit }) {
             <DualUserPicker
               users={users}
               selectedIds={form.selectedUsers || []}
-              onChange={(selectedUsers) => setForm((p) => ({ ...p, selectedUsers }))}
+              onChange={(selectedUsers) =>
+                setForm((p) => ({ ...p, selectedUsers }))
+              }
             />
           </div>
         </div>
@@ -75,20 +82,31 @@ export default function EditContactModal({ users, item, onClose, onSubmit }) {
           <button onClick={onClose} className="btn btn-outline-orange px-4">
             ANNULER
           </button>
+
           <button
-            onClick={() => {
-              onSubmit({
-                ...form,
-                fileName: pickedFile?.name || form.fileName,
-              });
-              onClose();
-            }}
+            onClick={() => setShowConfirm(true)}
             className="btn btn-orange px-4"
           >
             MODIFIER
           </button>
         </div>
       </div>
+
+      {showConfirm && (
+        <ConfirmModal
+          title="Confirmer la modification"
+          subtitle="Êtes-vous sûr de vouloir modifier ce contact ?"
+          onCancel={() => setShowConfirm(false)}
+          onConfirm={() => {
+            onSubmit({
+              ...form,
+              fileName: pickedFile?.name || form.fileName,
+            });
+            setShowConfirm(false);
+            onClose();
+          }}
+        />
+      )}
     </div>
   );
 }

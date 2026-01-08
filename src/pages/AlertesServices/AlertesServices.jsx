@@ -1,30 +1,18 @@
+// src/pages/AlertesServices/AlertesServices.jsx
 import React, { useState } from "react";
 import MainLayout from "../../layout/MainLayout";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2, Pencil } from "lucide-react";
 
 import "./AlertesServices.css";
 import AddAlerteModal from "./AddAlerteModal";
 import EditAlerteModal from "./EditAlerteModal";
-import ConfirmModal from "./ConfirmModal";
+import DetailsAlerteModal from "./DetailsAlerteModal"; //
+import ConfirmModal from "./ConfirmModal"; // 
 import SwitchToggle from "./SwitchToggle";
 
 const SEED_ALERTES = [
-  {
-    id: 1,
-    nbSms: 1000,
-    notifySms: true,
-    phone: "55 443 322",
-    notifyEmail: false,
-    email: "",
-  },
-  {
-    id: 2,
-    nbSms: 1000,
-    notifySms: true,
-    phone: "55 443 322",
-    notifyEmail: false,
-    email: "",
-  },
+  { id: 1, nbSms: 1000, notifySms: true, phone: "55 443 322", notifyEmail: false, email: "" },
+  { id: 2, nbSms: 1000, notifySms: true, phone: "55 443 322", notifyEmail: false, email: "" },
 ];
 
 const SEED_SERVICES = [
@@ -39,37 +27,26 @@ export default function AlertesServices() {
 
   // modals states
   const [showAdd, setShowAdd] = useState(false);
-  const [editItem, setEditItem] = useState(null); // object => opens edit modal
+  const [editItem, setEditItem] = useState(null);
+  const [detailsItem, setDetailsItem] = useState(null); // ✅ NEW details
   const [confirm, setConfirm] = useState({ open: false, id: null });
 
   // ADD
-  const handleAdd = (payload) => {
-    setAlertes((prev) => [{ ...payload, id: Date.now() }, ...prev]);
-  };
+  const handleAdd = (payload) => setAlertes((prev) => [{ ...payload, id: Date.now() }, ...prev]);
 
   // EDIT
-  const handleEdit = (updated) => {
-    setAlertes((prev) => prev.map((a) => (a.id === updated.id ? updated : a)));
-  };
+  const handleEdit = (updated) => setAlertes((prev) => prev.map((a) => (a.id === updated.id ? updated : a)));
 
-  //  DELETE
-  const handleDelete = (id) => {
-    setAlertes((prev) => prev.filter((a) => a.id !== id));
-  };
+  // DELETE
+  const handleDelete = (id) => setAlertes((prev) => prev.filter((a) => a.id !== id));
 
   // SERVICES SWITCH
   const toggleService = (id) => {
-    setServices((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, active: !s.active } : s))
-    );
+    setServices((prev) => prev.map((s) => (s.id === id ? { ...s, active: !s.active } : s)));
   };
 
   return (
-    <MainLayout
-      pageTitle="Gestion des alertes et services"
-      pageSubtitle="Liste Des Seuils D'alertes"
-    >
-      {/* Header */}
+    <MainLayout pageTitle="Gestion des alertes et services" pageSubtitle="Liste Des Seuils D'alertes">
       <div className="asTop">
         <div>
           <h2 className="asTitle">GESTION DES ALERTES ET SERVICES</h2>
@@ -109,9 +86,14 @@ export default function AlertesServices() {
                   <td>{a.email ? a.email : "Non"}</td>
 
                   <td className="text-end" style={{ whiteSpace: "nowrap" }}>
-                    {/* Détails => EDIT */}
-                    <button className="btn-details me-2" onClick={() => setEditItem(a)}>
+                    {/* ✅ Détails => DETAILS MODAL (affichage) */}
+                    <button className="btn-details me-2" onClick={() => setDetailsItem(a)}>
                       Détails »
+                    </button>
+
+                    {/* ✅ Edit icon (قلم) */}
+                    <button className="btn-action me-2" title="Modifier" onClick={() => setEditItem(a)}>
+                      <Pencil size={16} />
                     </button>
 
                     {/* delete => confirm */}
@@ -160,26 +142,18 @@ export default function AlertesServices() {
       </div>
 
       {/* ADD Modal */}
-      {showAdd && (
-        <AddAlerteModal
-          onClose={() => setShowAdd(false)}
-          onSubmit={(payload) => handleAdd(payload)}
-        />
-      )}
+      {showAdd && <AddAlerteModal onClose={() => setShowAdd(false)} onSubmit={handleAdd} />}
+
+      {/* DETAILS Modal */}
+      {detailsItem && <DetailsAlerteModal item={detailsItem} onClose={() => setDetailsItem(null)} />}
 
       {/* EDIT Modal */}
-      {editItem && (
-        <EditAlerteModal
-          item={editItem}
-          onClose={() => setEditItem(null)}
-          onSubmit={(updated) => handleEdit(updated)}
-        />
-      )}
+      {editItem && <EditAlerteModal item={editItem} onClose={() => setEditItem(null)} onSubmit={handleEdit} />}
 
       {/* Confirm delete */}
       {confirm.open && (
         <ConfirmModal
-          title="Êtres Vous Sûr ?"
+          title="Êtes Vous Sûr ?"
           subtitle="Cette Action Est Irréversible !"
           onCancel={() => setConfirm({ open: false, id: null })}
           onConfirm={() => {

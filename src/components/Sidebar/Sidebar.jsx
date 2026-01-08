@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 import toggleIcon from "../../assets/Group 3.png";
@@ -6,7 +6,6 @@ import orangeLogo from "../../assets/Small_Logo_RGB 1.svg";
 import accueilIcon from "../../assets/accueil (6) 1.svg";
 import campagnesIcon from "../../assets/affaires-et-commerce 1.svg";
 import contactsIcon from "../../assets/appel 1.svg";
-import alertesIcon from "../../assets/appel 1.svg";
 import reportingIcon from "../../assets/rapport-de-donnees 1.svg";
 import faqIcon from "../../assets/faq (1) 1.svg";
 import actifIcon from "../../assets/actif 1.svg";
@@ -45,12 +44,60 @@ const Sidebar = () => {
 
   const [activeItem, setActiveItem] = useState("accueil");
   const [activeSubItem, setActiveSubItem] = useState(null);
+//userefc pour events souris :
+const sidebarRef = useRef(null);
+  const campaignsSubmenuRef = useRef(null);
+  const usersSubmenuRef = useRef(null);
+  const timeoutRef = useRef(null); // Pour le délai
 
   const goTo = (path) => {
     navigate(path);
     if (isMobile) setIsOpen(false);
   };
-
+// Fonction pour fermer les sous-menus avec délai
+const closeSubmenus = () => {
+  setIsCampaignsOpen(false);
+  setIsUsersOpen(false);
+};
+// Fonction pour annuler la fermeture
+const cancelClose = () => {
+  if (timeoutRef.current) {
+    clearTimeout(timeoutRef.current);
+    timeoutRef.current = null;
+  }
+};
+// Gestionnaire pour la sidebar
+const handleSidebarMouseLeave = () => {
+  if (!isOpen && (isCampaignsOpen || isUsersOpen)) {
+    // Délai avant fermeture pour permettre de naviguer vers les sous-menus
+    timeoutRef.current = setTimeout(() => {
+      closeSubmenus();
+    }, 150); // 150ms de délai
+  }
+};
+// Gestionnaire pour entrer dans la sidebar
+const handleSidebarMouseEnter = () => {
+  cancelClose();
+};
+// Gestionnaires pour les sous-menus
+const handleSubmenuMouseEnter = () => {
+  cancelClose();
+};
+const handleSubmenuMouseLeave = () => {
+  if (!isOpen) {
+    timeoutRef.current = setTimeout(() => {
+      closeSubmenus();
+    }, 100); // Délai plus court pour les sous-menus
+  }
+};
+// Nettoyer le timeout au démontage
+useEffect(() => {
+  return () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+  };
+}, []);
   useEffect(() => {
     const path = location.pathname;
 
@@ -120,7 +167,13 @@ const Sidebar = () => {
         <div className="sidebar-overlay" onClick={() => setIsOpen(false)} />
       )}
 
-      <div className={`sidebar ${isOpen ? "open" : "closed"}`}>
+      <div 
+      ref={sidebarRef}
+      className={`sidebar ${isOpen ? "open" : "closed"}`}
+      onMouseLeave={handleSidebarMouseLeave}
+      onMouseEnter={handleSidebarMouseEnter}
+    >
+
         <button className="toggle-btn" onClick={toggleSidebar}>
           <img src={toggleIcon} alt="Toggle sidebar" />
         </button>
@@ -161,8 +214,13 @@ const Sidebar = () => {
             <span className="menu-label">Gestion des campagnes</span>
           </li>
 
-          {isCampaignsOpen && (
-            <ul className={`submenu ${isOpen ? "submenu-open" : "submenu-float"}`}>
+         {isCampaignsOpen && (
+        <ul 
+          ref={campaignsSubmenuRef}
+          className={`submenu ${isOpen ? "submenu-open" : "submenu-float"}`}
+          onMouseEnter={handleSubmenuMouseEnter}
+          onMouseLeave={handleSubmenuMouseLeave}
+        >
               <li
                 className={activeSubItem === "liste-campagnes" ? "active-sub" : ""}
                 onClick={() => {
@@ -216,12 +274,13 @@ const Sidebar = () => {
             <span className="menu-label">Gestion des utilisateurs</span>
           </li>
 
-          {isUsersOpen && (
-            <ul
-              className={`submenu submenu-users ${
-                isOpen ? "submenu-open" : "submenu-float"
-              }`}
-            >
+         {isUsersOpen && (
+        <ul
+          ref={usersSubmenuRef}
+          className={`submenu submenu-users ${isOpen ? "submenu-open" : "submenu-float"}`}
+          onMouseEnter={handleSubmenuMouseEnter}
+          onMouseLeave={handleSubmenuMouseLeave}
+        >
               <li
                 className={activeSubItem === "liste-utilisateurs" ? "active-sub" : ""}
                 onClick={() => {
@@ -250,7 +309,7 @@ const Sidebar = () => {
 
           {/* Alertes */}
           <li
-            className={actifIcon === "alertes-services" ? "active" : ""}
+            className={activeItem === "alertes-services" ? "active" : ""}
             onClick={() => {
               setActiveItem("alertes-services");
               setActiveSubItem(null);

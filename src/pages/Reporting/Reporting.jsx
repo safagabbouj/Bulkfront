@@ -1,11 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import MainLayout from "../../layout/MainLayout";
 import { Trash2 } from "lucide-react";
 import "./Reporting.css";
+import DetailsReportingModal from "./DetailsReportingModal";
 
 const campaignsRows = [
-  { name: "Campagne_022", type: "Campagne_type", msgType: "Campagne_type_message", action: "Détails »" },
-  { name: "Campagne_022", type: "Campagne_type", msgType: "Campagne_type_message", action: "Détails »" },
+  {
+    id: 1,
+    name: "Campagne_022",
+    type: "Campagne_type",
+    msgType: "Campagne_type_message",
+    action: "Détails »",
+    // Données supplémentaires pour le modal
+    status: "Envoyé",
+    language: "Français",
+    dateCreation: "04/06/2023 10:06",
+    dateEnvoi: "04/06/2023 10:06",
+    dateFin: "04/06/2023 10:06",
+    description: "Description de la campagne 022",
+    message: "Message de la campagne 022",
+    entete: "Orange",
+  },
+  {
+    id: 2,
+    name: "Campagne_023",
+    type: "Campagne_type",
+    msgType: "Campagne_type_message",
+    action: "Détails »",
+    // Données supplémentaires pour le modal
+    status: "En cours",
+    language: "Français",
+    dateCreation: "05/06/2023 11:10",
+    dateEnvoi: "06/06/2023 09:00",
+    dateFin: "06/06/2023 10:00",
+    description: "Description de la campagne 023",
+    message: "Message de la campagne 023",
+    entete: "Orange",
+  },
 ];
 
 const shortUrlRows = [
@@ -125,6 +156,45 @@ function LineChart({ title, seriesA, seriesB }) {
 }
 
 export default function Reporting() {
+  // État pour gérer les campagnes
+  const [campaigns, setCampaigns] = useState(campaignsRows);
+  
+  // État pour gérer l'affichage du modal de détails
+  const [detailsCampaign, setDetailsCampaign] = useState(null);
+  
+  // État pour gérer l'affichage du modal de confirmation de suppression
+  const [confirmDelete, setConfirmDelete] = useState(null);
+
+  // Fonction pour ouvrir le modal de détails
+  const openCampaignDetails = (campaign) => {
+    setDetailsCampaign(campaign);
+  };
+
+  // Fonction pour fermer le modal de détails
+  const closeCampaignDetails = () => {
+    setDetailsCampaign(null);
+  };
+  
+  // Fonction pour ouvrir le modal de confirmation de suppression
+  const openDeleteConfirm = (campaign) => {
+    setConfirmDelete(campaign);
+  };
+  
+  // Fonction pour fermer le modal de confirmation de suppression
+  const closeDeleteConfirm = () => {
+    setConfirmDelete(null);
+  };
+  
+  // Fonction pour supprimer une campagne
+  const deleteCampaign = () => {
+    if (confirmDelete) {
+      // Filtrer la liste pour supprimer la campagne sélectionnée
+      setCampaigns(prev => prev.filter(c => c.id !== confirmDelete.id));
+      // Fermer le modal de confirmation
+      setConfirmDelete(null);
+    }
+  };
+
   // dummy month data (31 days)
   const daysA = [40,120,60,180,90,210,80,160,70,140,60,190,85,220,110,150,95,170,88,200,130,160,120,190,140,210,170,180,160,200,230];
   const daysB = [20,80,40,120,60,140,50,110,45,90,35,130,55,150,70,100,65,120,60,140,80,110,85,135,95,150,120,130,115,145,160];
@@ -149,14 +219,23 @@ export default function Reporting() {
                 </tr>
               </thead>
               <tbody>
-                {campaignsRows.map((r, idx) => (
-                  <tr key={idx}>
+                {campaigns.map((r, idx) => (
+                  <tr key={r.id || idx}>
                     <td>{r.name}</td>
                     <td>{r.type}</td>
                     <td>{r.msgType}</td>
                     <td className="text-end" style={{ whiteSpace: "nowrap" }}>
-                      <button className="btn-details">{r.action}</button>
-                      <button className="btn-action ms-2" title="Supprimer">
+                      <button
+                        className="btn-details"
+                        onClick={() => openCampaignDetails(r)}
+                      >
+                        {r.action}
+                      </button>
+                      <button 
+                        className="btn-action ms-2" 
+                        title="Supprimer"
+                        onClick={() => openDeleteConfirm(r)}
+                      >
                         <Trash2 size={16} />
                       </button>
                     </td>
@@ -265,6 +344,44 @@ export default function Reporting() {
           </div>
         </div>
       </div>
+
+      {/* Modal de détails */}
+      {detailsCampaign && (
+        <DetailsReportingModal
+          campaign={detailsCampaign}
+          onClose={closeCampaignDetails}
+        />
+      )}
+      
+      {/* Modal de confirmation de suppression */}
+      {confirmDelete && (
+        <div className="custom-modal-overlay" style={{ zIndex: 10000 }}>
+          <div className="custom-modal-content confirmation-card text-center p-5">
+            <h2 className="confirm-modal-title mb-4">
+              Êtes Vous Sûr ?
+            </h2>
+            <p className="confirm-modal-subtitle mb-5">
+              Voulez-vous vraiment supprimer la campagne "{confirmDelete.name}" ? Cette action est irréversible !
+            </p>
+            <div className="d-flex justify-content-center gap-3 mt-2">
+              <button
+                type="button"
+                onClick={closeDeleteConfirm}
+                className="btn-confirm-cancel"
+              >
+                ANNULER
+              </button>
+              <button
+                type="button"
+                onClick={deleteCampaign}
+                className="btn-confirm-submit"
+              >
+                CONFIRMER
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </MainLayout>
   );
 }

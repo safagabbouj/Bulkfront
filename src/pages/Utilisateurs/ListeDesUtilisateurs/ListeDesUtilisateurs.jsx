@@ -5,9 +5,9 @@ import { Plus, Search, Pencil, Trash2 } from "lucide-react";
 import "./ListeDesUtilisateurs.css";
 import AddUserModal from "./AddUserModal";
 import EditUserModal from "./EditUserModal";
-import ConfirmModal from "./ConfirmModal";
+import DetailsUserModal from "./DetailsUserModal";
+import ConfirmModal from "../ConfirmModal"; // ✅ shared (برك)
 
-// ✅ Fake data (كيف screenshot)
 const SEED = [
   {
     id: 1,
@@ -45,16 +45,18 @@ const SEED = [
 ];
 
 export default function ListeDesUtilisateurs() {
-  // list users
   const [users, setUsers] = useState(SEED);
-
-  // search
   const [q, setQ] = useState("");
 
-  // modals
   const [showAdd, setShowAdd] = useState(false);
   const [editUser, setEditUser] = useState(null);
-  const [confirm, setConfirm] = useState({ open: false, user: null });
+  const [detailsUser, setDetailsUser] = useState(null);
+
+  const [confirm, setConfirm] = useState({
+    open: false,
+    type: null, // "add" | "edit" | "delete"
+    payload: null,
+  });
 
   const filtered = useMemo(() => {
     const s = q.trim().toLowerCase();
@@ -62,32 +64,22 @@ export default function ListeDesUtilisateurs() {
 
     return users.filter((u) => {
       return (
-        u.nom.toLowerCase().includes(s) ||
-        u.prenom.toLowerCase().includes(s) ||
-        u.email.toLowerCase().includes(s) ||
-        u.mobile.toLowerCase().includes(s)
+        (u.nom || "").toLowerCase().includes(s) ||
+        (u.prenom || "").toLowerCase().includes(s) ||
+        (u.email || "").toLowerCase().includes(s) ||
+        (u.mobile || "").toLowerCase().includes(s)
       );
     });
   }, [users, q]);
 
-  // add
-  const addUser = (payload) => {
-    setUsers((prev) => [{ ...payload, id: Date.now() }, ...prev]);
-  };
+  const addUser = (payload) => setUsers((prev) => [{ ...payload, id: Date.now() }, ...prev]);
+  const updateUser = (payload) => setUsers((prev) => prev.map((u) => (u.id === payload.id ? payload : u)));
+  const deleteUser = (id) => setUsers((prev) => prev.filter((u) => u.id !== id));
 
-  // update
-  const updateUser = (payload) => {
-    setUsers((prev) => prev.map((u) => (u.id === payload.id ? payload : u)));
-  };
-
-  // delete
-  const deleteUser = (id) => {
-    setUsers((prev) => prev.filter((u) => u.id !== id));
-  };
+  const closeConfirm = () => setConfirm({ open: false, type: null, payload: null });
 
   return (
     <MainLayout pageTitle="Gestion des utilisateurs" pageSubtitle="Liste des utilisateurs">
-      {/* toolbar */}
       <div className="usersToolbar">
         <div className="usersSearch">
           <input
@@ -107,7 +99,6 @@ export default function ListeDesUtilisateurs() {
         </button>
       </div>
 
-      {/* table */}
       <div className="card shadow-sm border-0 usersCard">
         <div className="table-responsive">
           <table className="table table-hover mb-0 align-middle">
@@ -128,18 +119,22 @@ export default function ListeDesUtilisateurs() {
                   <td>{u.prenom}</td>
                   <td>{u.dateCreation}</td>
                   <td>{u.campagnes}</td>
+
                   <td className="text-end" style={{ whiteSpace: "nowrap" }}>
-                    <button className="btn-details me-2" onClick={() => setEditUser(u)}>
+                    {/* ✅ Détails يفتح DetailsUserModal */}
+                    <button className="btn-details me-2" onClick={() => setDetailsUser(u)}>
                       Détails »
                     </button>
 
+                    {/* ✅ قلم يفتح Edit */}
                     <button className="btn-action me-2" onClick={() => setEditUser(u)} title="Modifier">
                       <Pencil size={16} />
                     </button>
 
+                    {/* ✅ Delete confirm */}
                     <button
                       className="btn-action"
-                      onClick={() => setConfirm({ open: true, user: u })}
+                      onClick={() => setConfirm({ open: true, type: "delete", payload: u })}
                       title="Supprimer"
                     >
                       <Trash2 size={16} />
@@ -160,31 +155,59 @@ export default function ListeDesUtilisateurs() {
         </div>
       </div>
 
-      {/* Modals */}
+      {/* ✅ Add */}
       {showAdd && (
         <AddUserModal
           onClose={() => setShowAdd(false)}
-          onSubmit={addUser}
+          onSubmit={(payload) => setConfirm({ open: true, type: "add", payload })}
         />
       )}
 
+      {/* ✅ Edit */}
       {editUser && (
         <EditUserModal
           user={editUser}
           onClose={() => setEditUser(null)}
-          onSubmit={updateUser}
+          onSubmit={(payload) => setConfirm({ open: true, type: "edit", payload })}
         />
       )}
 
+      {/* ✅ Details */}
+      {detailsUser && (
+        <DetailsUserModal
+          user={detailsUser}
+          onClose={() => setDetailsUser(null)}
+        />
+      )}
+
+      {/* ✅ Confirm (shared واحد برك) */}
       {confirm.open && (
         <ConfirmModal
-          title="Êtes Vous Sûr ?"
-          subtitle="Cette Action Est Irréversible !"
-          confirmText="CONFIRMER"
-          onCancel={() => setConfirm({ open: false, user: null })}
+          title={
+            confirm.type === "delete"
+              ? "Êtes Vous Sûr ?"
+              : confirm.type === "add"
+              ? "Confirmer l'ajout"
+              : "Confirmer la modification"
+          }
+          subtitle={
+            confirm.type === "delete"
+              ? "Cette Action Est Irréversible !"
+              : confirm.type === "add"
+              ? "Êtes-vous sûr de vouloir ajouter cet utilisateur ?"
+              : "Êtes-vous sûr de vouloir modifier cet utilisateur ?"
+          }
+          onCancel={closeConfirm}
           onConfirm={() => {
-            deleteUser(confirm.user.id);
-            setConfirm({ open: false, user: null });
+            if (confirm.type === "delete") deleteUser(confirm.payload.id);
+            if (confirm.type === "add") addUser(confirm.payload);
+            if (confirm.type === "edit") updateUser(confirm.payload);
+
+            closeConfirm();
+
+            // ✅ نسكّرو المودالات بعد confirm
+            if (confirm.type === "add") setShowAdd(false);
+            if (confirm.type === "edit") setEditUser(null);
           }}
         />
       )}

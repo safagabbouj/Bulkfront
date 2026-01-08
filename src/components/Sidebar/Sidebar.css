@@ -92,12 +92,6 @@
   transform: scale(1.1);
 }
 
-/* --- FIN DESIGN ICONES --- */
-
-.sidebar.closed .submenu.submenu-float {
-  top: 145px;
-}
-
 .submenu.submenu-float li {
   padding: 10px 16px !important;
   cursor: pointer;
@@ -138,9 +132,15 @@
   transform: rotate(180deg);
 }
 
-.menu, .logo-section {
+.logo-section {
   overflow: hidden;
 }
+
+.menu {
+  overflow: visible; 
+  padding: 22px 0;     
+}
+
 
 .logo-section {
   padding: 40px 20px;
@@ -281,10 +281,8 @@
   }
 }
 
-.submenu.submenu-users.submenu-float {
-  top: 285px;
-}
+
 
 .sidebar.closed .submenu.submenu-users.submenu-float {
-  top: 265px;
+  top: 325px;
 }

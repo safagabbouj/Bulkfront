@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Contacts.css";
 import FileDropZone from "./FileDropZone";
 import DualUserPicker from "./DualUserPicker";
-import ConfirmModal from "../Utilisateurs/ListeDesUtilisateurs/ConfirmModal";
+import ConfirmModal from "../Utilisateurs/ConfirmModal";
 export default function AddContactModal({ users, onClose, onSubmit }) {
   const [nom, setNom] = useState("");
   const [description, setDescription] = useState("");
