@@ -1,0 +1,48 @@
+/* src/pages/AlertesServices/ConfirmModal.css */
+
+.confirmation-card{
+  max-width: 520px;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 20px 60px rgba(0,0,0,.2);
+}
+
+.confirm-modal-title{
+  font-weight: 800;
+  font-size: 22px;
+  margin: 0;
+}
+
+.confirm-modal-subtitle{
+  color: #6b7280;
+  font-weight: 600;
+  margin: 0;
+}
+
+.btn-confirm-cancel{
+  background-color: #ffffff !important;
+  border: 2px solid #ff7900 !important;
+  color: #ff7900 !important;
+  border-radius: 10px !important;
+  padding: 10px 35px !important;
+  font-weight: 800 !important;
+  font-size: 14px !important;
+  text-transform: uppercase !important;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+.btn-confirm-cancel:hover{ background-color: #fff5ed !important; }
+
+.btn-confirm-submit{
+  background-color: #ff7900 !important;
+  border: 2px solid #ff7900 !important;
+  color: #ffffff !important;
+  border-radius: 10px !important;
+  padding: 10px 35px !important;
+  font-weight: 800 !important;
+  font-size: 14px !important;
+  text-transform: uppercase !important;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+.btn-confirm-submit:hover{ background-color: #e66d00 !important; border-color:#e66d00 !important; }
