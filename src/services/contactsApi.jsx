@@ -1,109 +1,105 @@
-// Simulation d'une API avec des données fake
-const SEED = [
-  {
-    id: 1,
-    nom: "Test01",
-    owner: "Rayan",
-    nbContacts: 1,
-    dateCreation: "04/06/2023 10:06",
-    lastUse: "04/06/2023 10:06",
-    description: "List test",
-    selectedUsers: [1, 2],
-    fileName: "contacts.csv",
-    stats: {
-      nationalValid: 1,
-      internationalValid: 0,
-      invalid: 0,
-      empty: 0,
-    },
-  },
-  {
-    id: 2,
-    nom: "Test01",
-    owner: "Rayan",
-    nbContacts: 2,
-    dateCreation: "04/06/2023 10:06",
-    lastUse: "04/06/2023 10:06",
-    description: "List test",
-    selectedUsers: [2],
-    fileName: "contacts.csv",
-    stats: {
-      nationalValid: 1,
-      internationalValid: 0,
-      invalid: 0,
-      empty: 0,
-    },
-  },
-  {
-    id: 3,
-    nom: "Test01",
-    owner: "Rayan",
-    nbContacts: 1,
-    dateCreation: "04/06/2023 10:06",
-    lastUse: "04/06/2023 10:06",
-    description: "List test",
-    selectedUsers: [],
-    fileName: "contacts.csv",
-    stats: {
-      nationalValid: 1,
-      internationalValid: 0,
-      invalid: 0,
-      empty: 0,
-    },
-  },
-  {
-    id: 4,
-    nom: "Test01",
-    owner: "Rayan",
-    nbContacts: 2,
-    dateCreation: "04/06/2023 10:06",
-    lastUse: "04/06/2023 10:06",
-    description: "List test",
-    selectedUsers: [],
-    fileName: "contacts.csv",
-    stats: {
-      nationalValid: 1,
-      internationalValid: 0,
-      invalid: 0,
-      empty: 0,
-    },
-  },
-];
+import axios from 'axios';
 
-// Simulation d'un délai réseau
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+// Configuration de base d'axios
+const API_BASE_URL = 'http://localhost:8080/api/v1'; // ✅ Ajouter /api/v1
+const API_CONTACTS_URL = `${API_BASE_URL}/contacts`;
+
+// Instance axios avec configuration
+const apiClient = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// Intercepteur pour ajouter le token JWT automatiquement
+apiClient.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// Intercepteur pour gérer les erreurs de réponse
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      // Token expiré, rediriger vers la page de connexion
+      localStorage.removeItem('authToken');
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
 
 export const contactsApi = {
   // Récupérer tous les contacts
   getContacts: async () => {
-    await delay(500); // Simulation latence réseau
-    return [...SEED];
+    try {
+      const response = await apiClient.get('/contacts');
+      return response.data; // Retourne la liste des contacts
+    } catch (error) {
+      console.error('Erreur lors de la récupération des contacts:', error);
+      throw new Error('Impossible de récupérer les contacts');
+    }
   },
 
   // Ajouter un contact
-  addContact: async (newContact) => {
-    await delay(300);
-    const contact = {
-      ...newContact,
-      id: Date.now(),
-      owner: "Rayan",
-      nbContacts: 1,
-      dateCreation: new Date().toLocaleString('fr-FR'),
-      lastUse: new Date().toLocaleString('fr-FR'),
-      stats: { nationalValid: 1, internationalValid: 0, invalid: 0, empty: 0 },
-    };
-    return contact;
+   // POST /contacts - Ajouter un contact
+  addContact: async (contactData) => {
+    try {
+      // Transformer les données du frontend vers le format attendu par le backend
+      const payload = {
+        nom: contactData.nom,
+        description: contactData.description,
+        selectedUsers: contactData.selectedUsers,
+        fileName: contactData.fileName,
+        owner: 'CurrentUser', // À récupérer depuis le contexte utilisateur
+        // Les autres champs seront générés par le backend
+      };
+       const response = await apiClient.post('/contacts', payload);
+      return response.data; // ContactDTO créé
+    } catch (error) {
+      console.error('Erreur lors de l\'ajout du contact:', error);
+      throw new Error('Impossible d\'ajouter le contact');
+    }
   },
 
   // Mettre à jour un contact
-  updateContact: async (updatedContact) => {
-    await delay(300);
-    return updatedContact;
+  updateContact: async (contactData) => {
+    try {
+      const response = await apiClient.put(`/contacts/${contactData.id}`, contactData);
+      return response.data; // Retourne le contact mis à jour
+    } catch (error) {
+      console.error('Erreur lors de la modification du contact:', error);
+      throw new Error('Impossible de modifier le contact');
+    }
   },
 
   // Supprimer un contact
-  deleteContact: async (id) => {
-    await delay(300);
-    return id;
+  deleteContact: async (contactId) => {
+    try {
+      await apiClient.delete(`/contacts/${contactId}`);
+      return contactId; // Retourne l'ID du contact supprimé
+    } catch (error) {
+      console.error('Erreur lors de la suppression du contact:', error);
+      throw new Error('Impossible de supprimer le contact');
+    }
+  },
+
+  // Récupérer un contact par ID
+  getContactById: async (contactId) => {
+    try {
+      const response = await apiClient.get(`/contacts/${contactId}`);
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la récupération du contact:', error);
+      throw new Error('Contact introuvable');
+    }
   }
 };

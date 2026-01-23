@@ -52,3 +52,12 @@ export const useDeleteContact = () => {
     },
   });
 };
+// Hook pour récupérer un contact par ID
+export const useContactById = (contactId) => {
+  return useQuery({
+    queryKey: ['contact', contactId],
+    queryFn: () => contactsApi.getContactById(contactId),
+    enabled: !!contactId, // Ne s'exécute que si contactId est fourni
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+};
