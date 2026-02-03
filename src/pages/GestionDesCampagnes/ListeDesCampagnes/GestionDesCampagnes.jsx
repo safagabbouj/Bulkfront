@@ -13,11 +13,16 @@ const GestionDesCampagnes = () => {
   // État pour afficher ou masquer le modal
   const [showModal, setShowModal] = useState(false);
 
+  // Debug: Afficher les données reçues
+  console.log('Campaigns reçues:', campaigns);
+  console.log('isLoading:', isLoading);
+  console.log('error:', error);
+
   // Fonction pour gérer l'ajout d'une campagne
   const handleAddCampaign = async (newCampaign) => {
     try {
-      await addCampaignMutation.mutateAsync(newCampaign); // Appel de la mutation pour ajouter une campagne
-      setShowModal(false); // Fermer le modal après l'ajout
+      await addCampaignMutation.mutateAsync(newCampaign);
+      setShowModal(false);
     } catch (err) {
       console.error("Erreur lors de l'ajout de la campagne :", err);
     }
@@ -49,10 +54,8 @@ const GestionDesCampagnes = () => {
   return (
     <MainLayout pageTitle="Gestion des campagnes" pageSubtitle="Liste des campagnes">
       <div className="gestion-campagnes-container">
-        {/* Liste des campagnes */}
         <CampaignList campaigns={campaigns} onAddCampaign={() => setShowModal(true)} />
 
-        {/* Modal pour ajouter une campagne */}
         {showModal && (
           <AddCampaignModal
             onClose={() => setShowModal(false)}

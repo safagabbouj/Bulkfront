@@ -27,6 +27,7 @@ const AddCampaignModal = ({ onClose, onSubmit, isLoading }) => {
       dateEnvoi,
       numeroDeTest,
     });
+    console.log("date envoie",dateEnvoi)
     setShowConfirm(false);
     onClose();
   };
@@ -99,7 +100,7 @@ const AddCampaignModal = ({ onClose, onSubmit, isLoading }) => {
             <label>Date D'Envoi :</label>
             <input
               className="form-control"
-              type="date"
+              type="datetime-local"
               value={dateEnvoi}
               onChange={(e) => setDateEnvoi(e.target.value)}
               disabled={isLoading}

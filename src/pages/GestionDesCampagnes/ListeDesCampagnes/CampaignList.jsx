@@ -13,6 +13,29 @@ const CampaignList = ({ campaigns, onAddCampaign }) => {
     setSelectedCampaign(null);
   };
 
+  // Fonction pour formater la date
+  const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString("fr-FR");
+    } catch {
+      return dateString;
+    }
+  };
+// Fonction spécifique pour formater sentDate qui vient en format string
+  const formatSentDate = (sentDateString) => {
+    if (!sentDateString) return "N/A";
+    try {
+      // sentDate vient du backend au format "2026-02-03 10:33"
+      // On peut soit l'afficher tel quel, soit le reformater
+      const [datePart, timePart] = sentDateString.split(' ');
+      const [year, month, day] = datePart.split('-');
+      return `${day}/${month}/${year} ${timePart}`;
+    } catch {
+      return sentDateString; // Retourne la valeur originale en cas d'erreur
+    }
+  };
   return (
     <div className="container-fluid p-0">
       <div className="d-flex justify-content-between align-items-center mb-4">
@@ -58,14 +81,22 @@ const CampaignList = ({ campaigns, onAddCampaign }) => {
               </tr>
             </thead>
             <tbody>
-              {campaigns.map((campaign, idx) => (
-                <tr key={idx}>
-                  <td className="align-middle">{campaign.name || "Test 01"}</td>
-                  <td className="align-middle">{campaign.status || "N/A"}</td>
+              {campaigns.map((campaign) => (
+                <tr key={campaign.id}>
+                  <td className="align-middle">{campaign.name || "N/A"}</td>
+                  <td className="align-middle">
+                    <span className={`badge ${
+                      campaign.status === 'ENVOYÉ' ? 'bg-success' : 
+                      campaign.status === 'PENDING' ? 'bg-warning' : 
+                      'bg-secondary'
+                    }`}>
+                      {campaign.status || "N/A"}
+                    </span>
+                  </td>
                   <td className="align-middle">{campaign.language || "N/A"}</td>
-                  <td className="align-middle">{campaign.createdAt}</td>
-                  <td className="align-middle">{campaign.dateEnvoi || "N/A"}</td>
-                  <td className="align-middle">{campaign.dateFin || "N/A"}</td>
+                  <td className="align-middle">{formatDate(campaign.createdAt)}</td>
+                  <td className="align-middle">{formatSentDate(campaign.sentDate)}</td>
+                  <td className="align-middle">{formatDate(campaign.updatedAt)}</td>
                   <td>
                     <button
                       className="btn-details"
