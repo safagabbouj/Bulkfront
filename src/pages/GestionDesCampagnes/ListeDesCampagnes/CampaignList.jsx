@@ -13,27 +13,26 @@ const CampaignList = ({ campaigns, onAddCampaign }) => {
     setSelectedCampaign(null);
   };
 
-  // Fonction pour formater la date
+  // Fonction universelle pour formater toutes les dates au format "dd/MM/yyyy HH:mm"
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
     try {
+      // Créer un objet Date à partir du string (gère automatiquement les formats ISO 8601)
       const date = new Date(dateString);
-      return date.toLocaleDateString("fr-FR");
+      
+      // Vérifier si la date est valide
+      if (isNaN(date.getTime())) return "N/A";
+      
+      // Formater la date au format français: dd/MM/yyyy HH:mm
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = date.getFullYear();
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      
+      return `${day}/${month}/${year} ${hours}:${minutes}`;
     } catch {
-      return dateString;
-    }
-  };
-// Fonction spécifique pour formater sentDate qui vient en format string
-  const formatSentDate = (sentDateString) => {
-    if (!sentDateString) return "N/A";
-    try {
-      // sentDate vient du backend au format "2026-02-03 10:33"
-      // On peut soit l'afficher tel quel, soit le reformater
-      const [datePart, timePart] = sentDateString.split(' ');
-      const [year, month, day] = datePart.split('-');
-      return `${day}/${month}/${year} ${timePart}`;
-    } catch {
-      return sentDateString; // Retourne la valeur originale en cas d'erreur
+      return "N/A";
     }
   };
   return (
@@ -95,7 +94,7 @@ const CampaignList = ({ campaigns, onAddCampaign }) => {
                   </td>
                   <td className="align-middle">{campaign.language || "N/A"}</td>
                   <td className="align-middle">{formatDate(campaign.createdAt)}</td>
-                  <td className="align-middle">{formatSentDate(campaign.sentDate)}</td>
+                  <td className="align-middle">{formatDate(campaign.sentDate)}</td>
                   <td className="align-middle">{formatDate(campaign.updatedAt)}</td>
                   <td>
                     <button

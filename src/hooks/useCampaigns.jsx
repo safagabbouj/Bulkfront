@@ -1,6 +1,14 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { campaignsApi } from "../services/campaignsApi";
+import { fetchAccountSubjects } from "../services/accountService";
 
+export const useAccountSubjects = () => {
+  return useQuery({
+    queryKey: ["account-subjects"],
+    queryFn: fetchAccountSubjects,
+    staleTime: 5 * 60 * 1000,
+  });
+};
 // Hook pour récupérer les campagnes
 export const useCampaigns = () => {
   return useQuery({
@@ -27,5 +35,13 @@ export const useAddCampaign = () => {
     onError: (error) => {
       console.error("Erreur lors de l'ajout de la campagne :", error);
     }
+  });
+};
+export const useContactDetailsForCampaign = (contactId) => {
+  return useQuery({
+    queryKey: ['contact-campaign-details', contactId],
+    queryFn: () => campaignsApi.getContactDetailsForCampaign(contactId),
+    enabled: !!contactId, // Ne s'exécute que si contactId est fourni
+    staleTime: 5 * 60 * 1000, // 5 minutes
   });
 };

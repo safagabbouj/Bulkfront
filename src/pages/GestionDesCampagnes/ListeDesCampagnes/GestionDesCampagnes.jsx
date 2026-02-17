@@ -22,9 +22,11 @@ const GestionDesCampagnes = () => {
   const handleAddCampaign = async (newCampaign) => {
     try {
       await addCampaignMutation.mutateAsync(newCampaign);
-      setShowModal(false);
+      setShowModal(false); // Fermer SEULEMENT si succès
     } catch (err) {
       console.error("Erreur lors de l'ajout de la campagne :", err);
+      // Propager l'erreur pour que AddCampaignModal puisse la gérer
+      throw err;
     }
   };
 

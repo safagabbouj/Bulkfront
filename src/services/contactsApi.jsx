@@ -1,48 +1,11 @@
-import axios from 'axios';
-
-// Configuration de base d'axios
-const API_BASE_URL = 'http://localhost:8080/api/v1'; // ✅ Ajouter /api/v1
-const API_CONTACTS_URL = `${API_BASE_URL}/contacts`;
-
-// Instance axios avec configuration
-const apiClient = axios.create({
-  baseURL: API_BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-// Intercepteur pour ajouter le token JWT automatiquement
-apiClient.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('authToken');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-
-// Intercepteur pour gérer les erreurs de réponse
-apiClient.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      // Token expiré, rediriger vers la page de connexion
-      localStorage.removeItem('authToken');
-      window.location.href = '/login';
-    }
-    return Promise.reject(error);
-  }
-);
+import { ApiCall } from './ApiCall';
 
 export const contactsApi = {
   // Récupérer tous les contacts
   getContacts: async () => {
     try {
-      const response = await apiClient.get('/contacts');
-      return response.data; // Retourne la liste des contacts
+      const response = await ApiCall.get('/contacts');
+      return response.data;
     } catch (error) {
       console.error('Erreur lors de la récupération des contacts:', error);
       throw new Error('Impossible de récupérer les contacts');
@@ -50,20 +13,17 @@ export const contactsApi = {
   },
 
   // Ajouter un contact
-   // POST /contacts - Ajouter un contact
   addContact: async (contactData) => {
     try {
-      // Transformer les données du frontend vers le format attendu par le backend
       const payload = {
         nom: contactData.nom,
         description: contactData.description,
         selectedUsers: contactData.selectedUsers,
         fileName: contactData.fileName,
-        owner: 'CurrentUser', // À récupérer depuis le contexte utilisateur
-        // Les autres champs seront générés par le backend
+        owner: 'CurrentUser',
       };
-       const response = await apiClient.post('/contacts', payload);
-      return response.data; // ContactDTO créé
+      const response = await ApiCall.post('/contacts', payload);
+      return response.data;
     } catch (error) {
       console.error('Erreur lors de l\'ajout du contact:', error);
       throw new Error('Impossible d\'ajouter le contact');
@@ -73,8 +33,8 @@ export const contactsApi = {
   // Mettre à jour un contact
   updateContact: async (contactData) => {
     try {
-      const response = await apiClient.put(`/contacts/${contactData.id}`, contactData);
-      return response.data; // Retourne le contact mis à jour
+      const response = await ApiCall.put(`/contacts/${contactData.id}`, contactData);
+      return response.data;
     } catch (error) {
       console.error('Erreur lors de la modification du contact:', error);
       throw new Error('Impossible de modifier le contact');
@@ -84,8 +44,8 @@ export const contactsApi = {
   // Supprimer un contact
   deleteContact: async (contactId) => {
     try {
-      await apiClient.delete(`/contacts/${contactId}`);
-      return contactId; // Retourne l'ID du contact supprimé
+      await ApiCall.delete(`/contacts/${contactId}`);
+      return contactId;
     } catch (error) {
       console.error('Erreur lors de la suppression du contact:', error);
       throw new Error('Impossible de supprimer le contact');
@@ -95,7 +55,7 @@ export const contactsApi = {
   // Récupérer un contact par ID
   getContactById: async (contactId) => {
     try {
-      const response = await apiClient.get(`/contacts/${contactId}`);
+      const response = await ApiCall.get(`/contacts/${contactId}`);
       return response.data;
     } catch (error) {
       console.error('Erreur lors de la récupération du contact:', error);
