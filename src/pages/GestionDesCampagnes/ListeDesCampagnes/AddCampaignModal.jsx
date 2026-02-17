@@ -23,9 +23,9 @@ const AddCampaignModal = ({ onClose, onSubmit, isLoading }) => {
   const [error, setError] = useState("");
   const [entete, setEntete] = useState("");
 
-  // 🔥 LIGNE MANQUANTE : Appeler le hook pour charger les détails
+  // Charger les détails du contact dès qu'un contact est sélectionné
   const { data: contactDetails, isLoading: isContactDetailsLoading } = useContactDetailsForCampaign(
-    typeDeMessage === "SMS Personnalisé" ? listeDeContact : null
+    listeDeContact // Charge pour tous les types de messages
   );
 
   // Debug (optionnel)
@@ -189,19 +189,35 @@ const AddCampaignModal = ({ onClose, onSubmit, isLoading }) => {
               </div>
             </div>
 
-            {/* 🔥 MESSAGE D'AIDE */}
-            {listeDeContact && typeDeMessage !== "SMS Personnalisé" && typeDeMessage !== "" && (
+            {/* 🔥 AFFICHAGE SIMPLIFIÉ POUR SMS SIMPLE */}
+            {typeDeMessage === "SMS Simple" && listeDeContact && (
               <div className="row mt-3">
                 <div className="col-12">
-                  <div className="alert alert-info" role="alert">
-                    <strong>💡 Info :</strong> Pour voir les détails du contact (numéros valides, colonnes du CSV), 
-                    sélectionnez <strong>"SMS Personnalisé"</strong> dans le champ "Type De Message".
-                  </div>
+                  {isContactDetailsLoading ? (
+                    <div className="text-center py-2 bg-light border rounded">
+                      <div className="spinner-border spinner-border-sm" role="status">
+                        <span className="visually-hidden">Chargement...</span>
+                      </div>
+                      <span className="ms-2 text-muted small">Chargement...</span>
+                    </div>
+                  ) : contactDetails ? (
+                    <div className="alert alert-success" role="alert">
+                      <strong>📊 Informations du contact :</strong>
+                      <ul className="mb-0 mt-2">
+                        <li><strong>Description :</strong> {contactDetails.description || "Aucune description"}</li>
+                        <li><strong>Nombre de contacts valides :</strong> {contactDetails.contactListInfo?.validFields || 0}</li>
+                      </ul>
+                    </div>
+                  ) : (
+                    <div className="alert alert-warning" role="alert">
+                      <strong>⚠️</strong> Impossible de charger les informations du contact.
+                    </div>
+                  )}
                 </div>
               </div>
             )}
 
-            {/* 🔥 DÉTAILS DU CONTACT - TOUTE LA LARGEUR */}
+            {/* 🔥 AFFICHAGE COMPLET POUR SMS PERSONNALISÉ */}
             {typeDeMessage === "SMS Personnalisé" && listeDeContact && (
               <div className="row mt-3">
                 <div className="col-12">
@@ -220,8 +236,6 @@ const AddCampaignModal = ({ onClose, onSubmit, isLoading }) => {
                     <div className="mb-3">
                       <p className="mb-1"><strong>Description :</strong> {contactDetails.description || "Aucune description"}</p>
                       <p className="mb-1"><strong>Contacts valides :</strong> {contactDetails.contactListInfo?.validFields || 0}</p>
-                      {/* <p className="mb-1"><strong>Numéros nationaux :</strong> {contactDetails.contactListInfo?.nationalNumbers || 0}</p> */}
-                      {/* <p className="mb-0"><strong>Numéros internationaux :</strong> {contactDetails.contactListInfo?.internationalNumbers || 0}</p> */}
                     </div>
 
                     {/* Tableau */}
