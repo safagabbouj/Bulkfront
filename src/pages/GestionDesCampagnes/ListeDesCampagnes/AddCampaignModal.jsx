@@ -234,8 +234,11 @@ const AddCampaignModal = ({ onClose, onSubmit, isLoading }) => {
 
                     {/* Informations */}
                     <div className="mb-3">
+                      <p className="mb-1"><strong>Nom :</strong> {contactDetails.name}</p>
                       <p className="mb-1"><strong>Description :</strong> {contactDetails.description || "Aucune description"}</p>
                       <p className="mb-1"><strong>Contacts valides :</strong> {contactDetails.contactListInfo?.validFields || 0}</p>
+                      <p className="mb-1"><strong>Numéros nationaux :</strong> {contactDetails.contactListInfo?.nationalNumbers || 0}</p>
+                      <p className="mb-1"><strong>Numéros internationaux :</strong> {contactDetails.contactListInfo?.internationalNumbers || 0}</p>
                     </div>
 
                     {/* Tableau */}
@@ -246,14 +249,23 @@ const AddCampaignModal = ({ onClose, onSubmit, isLoading }) => {
                           <table className="table table-sm table-striped table-bordered mb-0">
                             <thead>
                               <tr>
-                                <th>Numéro de téléphone</th>
+                                <th style={{ minWidth: '150px' }}>📞 Numéro</th>
+                                <th style={{ minWidth: '120px' }}>📋 Colonne 1</th>
+                                <th style={{ minWidth: '120px' }}>📋 Colonne 2</th>
+                                <th style={{ minWidth: '120px' }}>📋 Colonne 3</th>
+                                <th style={{ minWidth: '120px' }}>📋 Colonne 4</th>
+                                <th style={{ minWidth: '120px' }}>📋 Colonne 5</th>
                               </tr>
                             </thead>
                             <tbody>
                               {contactDetails.validRows.slice(0, 10).map((row, index) => (
                                 <tr key={index}>
-                                  <td>{row.phoneNumber || '-'}</td>
-                                </tr>
+<td className="fw-bold text-primary">{row.phoneNumber || '-'}</td>
+                                  <td>{row.column1 || '-'}</td>
+                                  <td>{row.column2 || '-'}</td>
+                                  <td>{row.column3 || '-'}</td>
+                                  <td>{row.column4 || '-'}</td>
+                                  <td>{row.column5 || '-'}</td>                                </tr>
                               ))}
                             </tbody>
                           </table>

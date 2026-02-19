@@ -10,13 +10,13 @@
 .sidebar.closed {
   width: 70px;
 }
-
+/* bech lism kif tsekr sidebar mtaa menu yokiidch lbara */
 .sidebar.closed .menu > li > .menu-label,
 .sidebar.closed .logo-text-hide {
   opacity: 0;
   visibility: hidden;
 }
-
+/* Même si el sidebar msekra, Itha fama Submenu mahloul (tayer 3al jnab), el ktiba elli wastou lezemha tatla3 dhouhra (opacity: 1). */
 .sidebar.closed .submenu .menu-label {
   opacity: 1 !important;
   visibility: visible !important;
@@ -100,7 +100,7 @@
 .submenu.submenu-float li:hover {
   background: #fff;
 }
-
+/* same */
 .toggle-btn {
   position: absolute;
   top: 20px;
@@ -183,7 +183,7 @@
 .menu li.active {
   background-color: white !important;
   color: #333 !important;
-  border-radius: 20px 0 0 20px; 
+  border-radius: 10px 0 0 10px; /* Arrondi à gauche */
   margin-left: 15px;
   font-weight: 600;
 }
@@ -193,6 +193,7 @@
 }
 
 /* Coins arrondis (arcs) pour le fond blanc */
+/* --- ASTUCE POUR L'EFFET COURBÉ (CONCAVE) --- */
 .menu li.active::before,
 .menu li.active::after {
   content: "";
@@ -201,87 +202,56 @@
   width: 20px;
   height: 20px;
   background-color: transparent;
+  
 }
 
 .menu li.active::before {
   top: -20px;
   border-radius: 0 0 20px 0;
-  box-shadow: 10px 10px 0 10px white; 
+  box-shadow: 10px 10px 0 10px white; /* Crée l'arrondi inversé du haut */
 }
 
 .menu li.active::after {
   bottom: -20px;
   border-radius: 0 20px 0 0;
-  box-shadow: 10px -10px 0 10px white; 
+  box-shadow: 10px -10px 0 10px white; /* Crée l'arrondi inversé du bas */
 }
 
-/* --- SUBMENU --- */
+/* --- STYLE DU SOUS-MENU --- */
+/* --- LE BLOC GRIS DU SOUS-MENU --- */
 .submenu {
-  background-color: #f5f5f5; 
+  background-color: #f5f5f5; /* Le gris clair */
   margin-left: 60px;
-  padding: 10px 0 20px 0;
+  padding: 10px 0 20px 0; /* Un peu de padding en bas */
   list-style: none;
-  position: relative; 
-  border-bottom-left-radius: 20px; 
-  border-bottom-right-radius: 20px; 
-  border-top-right-radius: 20px; 
+  position: relative; /* Indispensable pour placer la courbe */
+  border-bottom-left-radius: 20px; /* Arrondi interne du bloc gris */
+  border-bottom-right-radius: 20px; /* Arrondi bas droit */
+  border-top-right-radius: 20px; /* Arrondi haut droit */
 }
 
+/* --- LA COURBURE MAGIQUE AU-DESSOUS --- */
 .submenu::after {
   content: "";
   position: absolute;
-  bottom: -20px;
+  bottom: -20px; /* On le place juste en dessous du gris */
   right: 0;
   width: 20px;
   height: 20px;
   background-color: transparent;
+  /* L'arrondi inversé pour retrouver l'orange */
   border-radius: 0 20px 0 0; 
-  box-shadow: 10px -10px 0 10px #f5f5f5; 
 }
 
 .submenu li {
   color: #666 !important;
   padding: 8px 40px !important;
   font-size: 0.8rem !important;
-  background: none !important; /* Pas de fond blanc pour les sous-menus */
-  margin: 0 !important;
 }
-
 .submenu li.active-sub {
   color: #ff7900 !important;
   font-weight: bold;
 }
-
-.sidebar-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.35);
-  z-index: 3500;
-}
-
-@media (max-width: 768px) {
-  .sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    z-index: 4000;
-    transform: translateX(0);
-    transition: transform 0.25s ease;
-  }
-  .sidebar.closed {
-    transform: translateX(-100%);
-  }
-  .toggle-btn {
-    right: -40px;
-  }
-  .submenu.submenu-float {
-    left: 70px;
-    width: 200px;
-  }
-}
-
-
 
 .sidebar.closed .submenu.submenu-users.submenu-float {
   top: 325px;
