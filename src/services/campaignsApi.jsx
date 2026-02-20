@@ -22,7 +22,9 @@ export const campaignsApi = {
         description: campaignData.description,
         type: campaignData.type,
         messageType: campaignData.typeDeMessage,
-        messageHeader: campaignData.entete,
+        messageHeader: "reponse api loading ...",
+        sender: campaignData.entete,
+
         messageContent: campaignData.message,
         language: "FR",
         contactId: campaignData.listeDeContact || "FAKE_CONTACT_ID",

@@ -249,12 +249,12 @@ const AddCampaignModal = ({ onClose, onSubmit, isLoading }) => {
                           <table className="table table-sm table-striped table-bordered mb-0">
                             <thead>
                               <tr>
-                                <th style={{ minWidth: '150px' }}>📞 Numéro</th>
-                                <th style={{ minWidth: '120px' }}>📋 Colonne 1</th>
+                                <th style={{ minWidth: '150px' }}>📞 colonne1</th>
                                 <th style={{ minWidth: '120px' }}>📋 Colonne 2</th>
                                 <th style={{ minWidth: '120px' }}>📋 Colonne 3</th>
                                 <th style={{ minWidth: '120px' }}>📋 Colonne 4</th>
                                 <th style={{ minWidth: '120px' }}>📋 Colonne 5</th>
+                                <th style={{ minWidth: '120px' }}>📋 Colonne 6</th>
                               </tr>
                             </thead>
                             <tbody>

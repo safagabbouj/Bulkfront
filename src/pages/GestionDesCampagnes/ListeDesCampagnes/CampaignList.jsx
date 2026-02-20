@@ -1,10 +1,17 @@
 import React, { useState } from "react";
 import { Plus, Search } from "lucide-react";
 import DetailsCampaignModal from "../DetailsCampaignModal";
-
+import { useMemo } from "react";
 const CampaignList = ({ campaigns, onAddCampaign }) => {
   const [selectedCampaign, setSelectedCampaign] = useState(null);
-
+ const [statusFilter, setStatusFilter] = useState("");
+  
+  const filteredCampaigns = useMemo(() => {
+    if (!statusFilter) {
+      return campaigns; // Retourner toutes les campagnes si aucun filtre
+    }
+    return campaigns.filter(campaign => campaign.status === statusFilter);
+  }, [campaigns, statusFilter]);
   const handleDetailsClick = (campaign) => {
     setSelectedCampaign(campaign);
   };
@@ -49,9 +56,16 @@ const CampaignList = ({ campaigns, onAddCampaign }) => {
 
       <div className="row g-3 mb-4">
         <div className="col-md-2">
-          <select className="form-select">
-            <option>Statut</option>
-          </select>
+          <select 
+        className="form-select"
+        value={statusFilter}
+        onChange={(e) => setStatusFilter(e.target.value)}
+      >
+        <option value="">Tous les statuts</option>
+        <option value="ENVOYÉ">Envoyé</option>
+        <option value="PENDING">Pending</option>
+        <option value="ÉCHOUÉ">Échoué</option>
+      </select>
         </div>
         <div className="col-md-3 position-relative">
           <input type="date" className="form-control" />
@@ -80,7 +94,8 @@ const CampaignList = ({ campaigns, onAddCampaign }) => {
               </tr>
             </thead>
             <tbody>
-              {campaigns.map((campaign) => (
+              
+              {filteredCampaigns.map((campaign) => (
                 <tr key={campaign.id}>
                   <td className="align-middle">{campaign.name || "N/A"}</td>
                   <td className="align-middle">
@@ -106,7 +121,7 @@ const CampaignList = ({ campaigns, onAddCampaign }) => {
                   </td>
                 </tr>
               ))}
-              {campaigns.length === 0 && (
+              {filteredCampaigns.length === 0 && (
                 <tr>
                   <td colSpan={7} className="text-center text-muted py-4">
                     Aucune campagne trouvée.
