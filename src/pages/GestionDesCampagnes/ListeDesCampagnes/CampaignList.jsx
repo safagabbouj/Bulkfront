@@ -5,20 +5,9 @@ import { useMemo } from "react";
 const CampaignList = ({ campaigns, onAddCampaign }) => {
 const [selectedCampaign, setSelectedCampaign] = useState(null);
 const [statusFilter, setStatusFilter] = useState("");
-const [dateDebut, setDateDebut] = useState(""); // ← Date de début
-const [dateFin, setDateFin] = useState("");     // ← Date de fin
- const [dateEnvoiFilter, setDateEnvoiFilter] = useState(""); // ← Filtre date d'envoi
-  const [dateCreationFilter, setDateCreationFilter] = useState(""); // ← Filtre date création
-  // const filteredCampaigns = useMemo(() => {
+const [dateEnvoiFilter, setDateEnvoiFilter] = useState(""); 
+const [dateCreationFilter, setDateCreationFilter] = useState(""); 
 
-  //   if (!statusFilter) {
-  //     return campaigns; // Retourner toutes les campagnes si aucun filtre
-  //   }
-  //   return campaigns.filter(campaign => campaign.status === statusFilter);
-  // }, [campaigns, statusFilter]);
- // ...existing code...
-
-// Fonction helper pour comparer uniquement les dates (ignorer l'heure)
 const isSameDate = (date1, date2) => {
   if (!date1 || !date2) return false;
   const d1 = new Date(date1);
@@ -30,7 +19,6 @@ const isSameDate = (date1, date2) => {
   );
 };
 
-// Filtrer les campagnes
 const filteredCampaigns = useMemo(() => {
   let result = campaigns;
 
@@ -56,7 +44,7 @@ const filteredCampaigns = useMemo(() => {
   return result;
 }, [campaigns, statusFilter, dateEnvoiFilter, dateCreationFilter]);
 
-// ...existing code...
+
   const handleDetailsClick = (campaign) => {
     setSelectedCampaign(campaign);
   };
@@ -65,7 +53,6 @@ const filteredCampaigns = useMemo(() => {
     setSelectedCampaign(null);
   };
 
-  // Fonction universelle pour formater toutes les dates au format "dd/MM/yyyy HH:mm"
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
     try {
@@ -99,45 +86,7 @@ const filteredCampaigns = useMemo(() => {
         </button>
       </div>
 
-      {/* <div className="row g-3 mb-4">
-        <div className="col-md-2">
-          <select 
-        className="form-select"
-        value={statusFilter}
-        onChange={(e) => setStatusFilter(e.target.value)}
-      >
-        <option value="">Tous les statuts</option>
-        <option value="ENVOYÉ">Envoyé</option>
-        <option value="PENDING">Pending</option>
-        <option value="ÉCHOUÉ">Échoué</option>
-      </select>
-        </div>
-        <div className="col-md-3 position-relative">
-          <input type="date" className="form-control" />
-        </div>
-        <div className="col-md-3 position-relative">
-      <input 
-        type="date" 
-        className="form-control" 
-        value={dateDebut}
-        onChange={(e) => setDateDebut(e.target.value)}
-        placeholder="Date début"
-      />
-    </div>
-        <div className="col-md-3 position-relative">
-          <input type="date"
-           className="form-control"
-            value={dateFin}
-            onChange={(e) => setDateFin(e.target.value)}
-            placeholder="Date fin"
 
-           />
-        </div>
-        <div className="col-md-4 position-relative">
-          <input type="text" placeholder="Rechercher" className="form-control" />
-          <Search className="filter-icon" size={18} />
-        </div>
-      </div> */}
     
       <div className="row g-3 mb-4">
         <div className="col-md-2">
