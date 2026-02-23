@@ -226,7 +226,7 @@
   list-style: none;
   position: relative; /* Indispensable pour placer la courbe */
   border-bottom-left-radius: 20px; /* Arrondi interne du bloc gris */
-  border-bottom-right-radius: 20px; /* Arrondi bas droit */
+  border-bottom-right-radius: 1px; /* Arrondi bas droit by safa */
   border-top-right-radius: 20px; /* Arrondi haut droit */
 }
 
