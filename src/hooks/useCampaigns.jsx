@@ -14,7 +14,10 @@ export const useCampaigns = () => {
   return useQuery({
     queryKey: ["campaigns"],
     queryFn: campaignsApi.getCampaigns,
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 30 * 1000, // 30 secondes - données considérées fraîches pendant 30s
+    refetchInterval: 30 * 1000, // 🔄 Refetch automatique toutes les 30 secondes
+    refetchOnWindowFocus: true, // 🔄 Refetch quand on revient sur la fenêtre
+    refetchOnMount: true, // 🔄 Refetch à chaque montage du composant
     retry: 3, // Retry 3 fois en cas d'erreur
     retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
   });
@@ -30,8 +33,7 @@ export const useAddCampaign = () => {
       console.log("Nouvelle campagne ajoutée :", newCampaign);
       
       // Invalider et refetch les campagnes pour avoir les données les plus récentes
-      queryClient.invalidateQueries(["campaigns"]);
-    },
+queryClient.invalidateQueries({ queryKey: ["campaigns"], refetchType: 'active' });    },
     onError: (error) => {
       console.error("Erreur lors de l'ajout de la campagne :", error);
     }
