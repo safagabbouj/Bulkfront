@@ -42,7 +42,7 @@ const Sidebar = () => {
   // ✅ NEW: users dropdown
   const [isUsersOpen, setIsUsersOpen] = useState(false);
 
-  const [activeItem, setActiveItem] = useState("accueil");
+  const [activeItem, setActiveItem] = useState("");
   const [activeSubItem, setActiveSubItem] = useState(null);
 //userefc pour events souris :
 const sidebarRef = useRef(null);
