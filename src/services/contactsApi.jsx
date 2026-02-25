@@ -7,7 +7,6 @@ export const contactsApi = {
       const response = await ApiCall.get('/contacts');
       return response.data;
     } catch (error) {
-      console.error('Erreur lors de la récupération des contacts:', error);
       throw new Error('Impossible de récupérer les contacts');
     }
   },
@@ -25,7 +24,6 @@ export const contactsApi = {
       const response = await ApiCall.post('/contacts', payload);
       return response.data;
     } catch (error) {
-      console.error('Erreur lors de l\'ajout du contact:', error);
       throw new Error('Impossible d\'ajouter le contact');
     }
   },
@@ -36,7 +34,6 @@ export const contactsApi = {
       const response = await ApiCall.put(`/contacts/${contactData.id}`, contactData);
       return response.data;
     } catch (error) {
-      console.error('Erreur lors de la modification du contact:', error);
       throw new Error('Impossible de modifier le contact');
     }
   },
@@ -47,7 +44,6 @@ export const contactsApi = {
       await ApiCall.delete(`/contacts/${contactId}`);
       return contactId;
     } catch (error) {
-      console.error('Erreur lors de la suppression du contact:', error);
       throw new Error('Impossible de supprimer le contact');
     }
   },
@@ -58,7 +54,6 @@ export const contactsApi = {
       const response = await ApiCall.get(`/contacts/${contactId}`);
       return response.data;
     } catch (error) {
-      console.error('Erreur lors de la récupération du contact:', error);
       throw new Error('Contact introuvable');
     }
   }

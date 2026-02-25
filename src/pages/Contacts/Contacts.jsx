@@ -76,7 +76,6 @@ export default function Contacts() {
     try {
       await addContactMutation.mutateAsync(payload);
     } catch (error) {
-      console.error('Erreur lors de l\'ajout:', error);
     }
   };
 
@@ -85,7 +84,6 @@ export default function Contacts() {
     try {
       await updateContactMutation.mutateAsync(payload);
     } catch (error) {
-      console.error('Erreur lors de la modification:', error);
     }
   };
 
@@ -93,7 +91,6 @@ const deleteList = async (id) => {
     try {
       await deleteContactMutation.mutateAsync(id);
     } catch (error) {
-      console.error('Erreur lors de la suppression:', error);
     }
   };
  // Gestion des états de chargement et d'erreur

@@ -1,29 +1,25 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-// import { contactsApi } from '../services/contactsService';
 import {contactsApi} from '../services/contactsApi';
-// Hook pour récupérer les contacts
+
 export const useContacts = () => {
   return useQuery({
     queryKey: ['contacts'],
     queryFn: contactsApi.getContacts,
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 5 * 60 * 1000,
   });
 };
 
-// Hook pour ajouter un contact
 export const useAddContact = () => {
   const queryClient = useQueryClient();
   
   return useMutation({
     mutationFn: contactsApi.addContact,
     onSuccess: (newContact) => {
-      // Mise à jour optimiste du cache
       queryClient.setQueryData(['contacts'], (old) => [newContact, ...old]);
     },
   });
 };
 
-// Hook pour modifier un contact
 export const useUpdateContact = () => {
   const queryClient = useQueryClient();
   
@@ -39,7 +35,6 @@ export const useUpdateContact = () => {
   });
 };
 
-// Hook pour supprimer un contact
 export const useDeleteContact = () => {
   const queryClient = useQueryClient();
   
@@ -52,12 +47,12 @@ export const useDeleteContact = () => {
     },
   });
 };
-// Hook pour récupérer un contact par ID
+
 export const useContactById = (contactId) => {
   return useQuery({
     queryKey: ['contact', contactId],
     queryFn: () => contactsApi.getContactById(contactId),
-    enabled: !!contactId, // Ne s'exécute que si contactId est fourni
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    enabled: !!contactId,
+    staleTime: 5 * 60 * 1000,
   });
 };

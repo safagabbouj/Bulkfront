@@ -23,15 +23,9 @@ const AddCampaignModal = ({ onClose, onSubmit, isLoading }) => {
   const [error, setError] = useState("");
   const [entete, setEntete] = useState("");
 
-  // Charger les détails du contact dès qu'un contact est sélectionné
   const { data: contactDetails, isLoading: isContactDetailsLoading } = useContactDetailsForCampaign(
-    listeDeContact // Charge pour tous les types de messages
+    listeDeContact
   );
-
-  // Debug (optionnel)
-  console.log("Type de message:", typeDeMessage);
-  console.log("Contact ID:", listeDeContact);
-  console.log("Contact Details:", contactDetails);
 
   const handleSubmit = async () => {
     try {
@@ -65,12 +59,10 @@ const AddCampaignModal = ({ onClose, onSubmit, isLoading }) => {
         numeroDeTest,
       });
 
-      console.log("Campagne créée avec succès");
       setShowConfirm(false);
       onClose();
       
     } catch (err) {
-      console.error("Erreur lors de la création:", err);
       setError(err.message || "Erreur lors de la création de la campagne");
       setShowConfirm(false);
     }

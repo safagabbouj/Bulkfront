@@ -6,31 +6,19 @@ import { useCampaigns, useAddCampaign } from "../../../hooks/useCampaigns";
 import "./GestionDesCampagnes.css";
 
 const GestionDesCampagnes = () => {
-  // Utilisation des hooks React Query
   const { data: campaigns = [], isLoading, error } = useCampaigns();
   const addCampaignMutation = useAddCampaign();
-
-  // État pour afficher ou masquer le modal
   const [showModal, setShowModal] = useState(false);
 
-  // Debug: Afficher les données reçues
-  console.log('Campaigns reçues:', campaigns);
-  console.log('isLoading:', isLoading);
-  console.log('error:', error);
-
-  // Fonction pour gérer l'ajout d'une campagne
   const handleAddCampaign = async (newCampaign) => {
     try {
       await addCampaignMutation.mutateAsync(newCampaign);
-      setShowModal(false); // Fermer SEULEMENT si succès
+      setShowModal(false);
     } catch (err) {
-      console.error("Erreur lors de l'ajout de la campagne :", err);
-      // Propager l'erreur pour que AddCampaignModal puisse la gérer
       throw err;
     }
   };
 
-  // Gestion des états de chargement et d'erreur
   if (isLoading) {
     return (
       <MainLayout pageTitle="Gestion des campagnes" pageSubtitle="Liste des campagnes">

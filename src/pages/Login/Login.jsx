@@ -36,14 +36,7 @@ const Login = () => {
                 localStorage.setItem("otp_email", email);
                 navigate("/verify", { state: { email } });
             }
-        },
-
-        onError: (error) => {
-            console.error(
-                "Login failed:",
-                error?.response?.data || error.message
-            );
-        },
+        }
     });
 
     const onLogin = () => {

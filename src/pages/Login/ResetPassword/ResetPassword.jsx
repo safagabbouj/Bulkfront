@@ -26,14 +26,7 @@ const ResetPassword = () => {
         onSuccess: (response) => {
             localStorage.setItem("otpUser", JSON.stringify(response?.data));
             setIsResetPassword(true);
-        },
-
-        onError: (error) => {
-            console.error(
-                "sendResetPasswordOtp error:",
-                error?.response?.data || error.message
-            );
-        },
+        }
     });
 
     const onResetPassword = () => {
@@ -53,14 +46,7 @@ const ResetPassword = () => {
             setTimeout(() => {
                 navigate("/login");
             }, 3000);
-        },
-
-        onError: (error) => {
-            console.error(
-                "Confirm reset error:",
-                error?.response?.data || error.message
-            );
-        },
+        }
     });
 
     const onConfirmResetMutation = () => {

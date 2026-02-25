@@ -1,4 +1,3 @@
-// useAccountSubjects.js
 import { useQuery } from "@tanstack/react-query";
 import { fetchAccountSubjects } from "../services/accountService";
 

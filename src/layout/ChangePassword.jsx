@@ -11,8 +11,6 @@ const ChangePassword = () => {
             alert("Les mots de passe ne correspondent pas !");
             return;
         }
-        // Call your API here, e.g., UserService.changePassword(...)
-        console.log("New Password:", newPassword);
         setVisible(false);
     };
 

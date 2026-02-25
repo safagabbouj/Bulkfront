@@ -5,8 +5,6 @@ import csvIcon from '../../../../assets/fichier-csv 1.svg';
 
 const FileItem = () => {
   const handleDelete = () => {
-    // Logique de suppression à implémenter
-    console.log('Suppression du fichier');
   };
 
   return (

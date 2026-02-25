@@ -22,15 +22,10 @@ const VerifyLogin = () => {
     const verifyOtpMutation = useMutation({
         mutationFn: (data) => AuthenticationService.verifyCode(data),
         onSuccess: (response) => {
-            console.log("✅ [VerifyLogin] Réponse OTP:", response.data);
-            console.log("🔑 [VerifyLogin] Token reçu:", response.data?.accessToken ? 'Présent ✅' : 'ABSENT ❌');
-            
             if (response.data?.accessToken) {
                 login(response.data.accessToken);
                 
-                // Vérification immédiate
-                const storedToken = localStorage.getItem('accessToken');
-                console.log("💾 [VerifyLogin] Token stocké:", storedToken ? 'OUI ✅' : 'NON ❌');
+                localStorage.getItem('accessToken');
                 
                 localStorage.setItem("user", JSON.stringify(response.data.user));
 
@@ -39,13 +34,8 @@ const VerifyLogin = () => {
                 localStorage.removeItem("otp_email");
 
                 navigate("/accueil");
-            } else {
-                console.error("❌ [VerifyLogin] Pas de token dans la réponse!");
             }
-        },
-        onError: (error) => {
-            console.error("❌ [VerifyLogin] OTP error:", error?.response?.data || error.message);
-        },
+        }
     });
 
     const onVerifyOtp = () => {

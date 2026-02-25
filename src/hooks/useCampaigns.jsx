@@ -9,33 +9,27 @@ export const useAccountSubjects = () => {
     staleTime: 5 * 60 * 1000,
   });
 };
-// Hook pour récupérer les campagnes
+
 export const useCampaigns = () => {
   return useQuery({
     queryKey: ["campaigns"],
     queryFn: campaignsApi.getCampaigns,
-    staleTime: 30 * 1000, // 30 secondes - données considérées fraîches pendant 30s
-    refetchInterval: 30 * 1000, // 🔄 Refetch automatique toutes les 30 secondes
-    refetchOnWindowFocus: true, // 🔄 Refetch quand on revient sur la fenêtre
-    refetchOnMount: true, // 🔄 Refetch à chaque montage du composant
-    retry: 3, // Retry 3 fois en cas d'erreur
+    staleTime: 30 * 1000,
+    refetchInterval: 30 * 1000,
+    refetchOnWindowFocus: true,
+    refetchOnMount: true,
+    retry: 3,
     retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
   });
 };
 
-// Hook pour ajouter une campagne
 export const useAddCampaign = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: campaignsApi.addCampaign,
-    onSuccess: (newCampaign) => {
-      console.log("Nouvelle campagne ajoutée :", newCampaign);
-      
-      // Invalider et refetch les campagnes pour avoir les données les plus récentes
-queryClient.invalidateQueries({ queryKey: ["campaigns"], refetchType: 'active' });    },
-    onError: (error) => {
-      console.error("Erreur lors de l'ajout de la campagne :", error);
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["campaigns"], refetchType: 'active' });
     }
   });
 };
@@ -43,7 +37,7 @@ export const useContactDetailsForCampaign = (contactId) => {
   return useQuery({
     queryKey: ['contact-campaign-details', contactId],
     queryFn: () => campaignsApi.getContactDetailsForCampaign(contactId),
-    enabled: !!contactId, // Ne s'exécute que si contactId est fourni
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    enabled: !!contactId,
+    staleTime: 5 * 60 * 1000,
   });
 };
