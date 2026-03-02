@@ -27,7 +27,6 @@
   margin-bottom: 22px;
 }
 
-/* buttons (نفس style متاع campaigns/contacts) */
 .btn-new {
   background-color: #ff7900;
   border: none;
@@ -88,7 +87,6 @@
   transform: translateY(-1px);
 }
 
-/* ===== services ===== */
 .asServicesTitle {
   font-weight: 800;
   font-size: 14px;
@@ -133,7 +131,6 @@
   justify-content: center;
 }
 
-/* ===== modal base (نفس Contacts) ===== */
 .custom-modal-overlay {
   position: fixed;
   inset: 0;
@@ -183,7 +180,6 @@
   color: white;
 }
 
-/* modal layout */
 .asModalGrid {
   display: grid;
   gap: 14px;
@@ -255,9 +251,7 @@
   }
 }
 
-/* زيدهم في آخر: src/pages/AlertesServices/AlertesServices.css */
 
-/* ===== Details modal (same style as campagne/contact) ===== */
 .details-modal {
   max-width: 980px;
   border-radius: 16px;

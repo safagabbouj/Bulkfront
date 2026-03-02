@@ -1,11 +1,9 @@
-// src/pages/AlertesServices/AddAlerteModal.jsx
 import React, { useState } from "react";
 import SwitchToggle from "./SwitchToggle";
-import ConfirmModal from "./ConfirmModal"; // ✅ NEW confirm
+import ConfirmModal from "./ConfirmModal";
 import "./AlertesServices.css";
 
 export default function AddAlerteModal({ onClose, onSubmit }) {
-  // ✅ form فارغ (مش test)
   const [nbSms, setNbSms] = useState(0);
   const [notifySms, setNotifySms] = useState(true);
   const [phone, setPhone] = useState("");
@@ -88,7 +86,6 @@ export default function AddAlerteModal({ onClose, onSubmit }) {
             ANNULER
           </button>
 
-          {/* ✅ بدل ما نعمل submit مباشرة => confirmation */}
           <button onClick={() => setShowConfirm(true)} className="btn btn-orange px-4">
             AJOUTER
           </button>

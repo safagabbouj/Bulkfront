@@ -15,6 +15,7 @@ export default function AddContactModal({ users, onClose, onSubmit, isLoading })
       description,
       selectedUsers,
       fileName: file?.name || "",
+      file: file, // Ajout du fichier complet
     });
     onClose();
   };

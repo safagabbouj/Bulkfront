@@ -181,7 +181,6 @@ const AddCampaignModal = ({ onClose, onSubmit, isLoading }) => {
               </div>
             </div>
 
-            {/* 🔥 AFFICHAGE SIMPLIFIÉ POUR SMS SIMPLE */}
             {typeDeMessage === "SMS Simple" && listeDeContact && (
               <div className="row mt-3">
                 <div className="col-12">
@@ -209,7 +208,6 @@ const AddCampaignModal = ({ onClose, onSubmit, isLoading }) => {
               </div>
             )}
 
-            {/* 🔥 AFFICHAGE COMPLET POUR SMS PERSONNALISÉ */}
             {typeDeMessage === "SMS Personnalisé" && listeDeContact && (
               <div className="row mt-3">
                 <div className="col-12">

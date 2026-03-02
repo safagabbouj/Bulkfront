@@ -1,10 +1,10 @@
 import React, { useMemo, useState } from "react";
 import MainLayout from "../../layout/MainLayout";
 import { Plus, Search, Trash2, Pencil } from "lucide-react";
-// Import des nouveaux hooks
 import { 
   useContacts, 
   useAddContact, 
+  useAddContactWithCsv,
   useUpdateContact, 
   useDeleteContact 
 } from "../../hooks/useContacts";
@@ -27,6 +27,7 @@ export default function Contacts() {
   // NOUVELLE LOGIQUE avec React Query :
   const { data: lists = [], isLoading, error } = useContacts();
   const addContactMutation = useAddContact();
+  const addContactWithCsvMutation = useAddContactWithCsv();
   const updateContactMutation = useUpdateContact();
   const deleteContactMutation = useDeleteContact();
   //Logique de filtre 
@@ -74,8 +75,18 @@ export default function Contacts() {
  // NOUVELLES FONCTIONS avec React Query :
   const addList = async (payload) => {
     try {
-      await addContactMutation.mutateAsync(payload);
+      // Si un fichier est présent, utiliser l'endpoint create-with-csv
+      if (payload.file) {
+        await addContactWithCsvMutation.mutateAsync({
+          contactData: payload,
+          file: payload.file
+        });
+      } else {
+        // Sinon, utiliser l'ancien endpoint
+        await addContactMutation.mutateAsync(payload);
+      }
     } catch (error) {
+      console.error('Erreur lors de l\'ajout du contact:', error);
     }
   };
 
@@ -84,6 +95,27 @@ export default function Contacts() {
     try {
       await updateContactMutation.mutateAsync(payload);
     } catch (error) {
+    }
+  };
+   const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
+    try {
+      // Créer un objet Date à partir du string (gère automatiquement les formats ISO 8601)
+      const date = new Date(dateString);
+      
+      // Vérifier si la date est valide
+      if (isNaN(date.getTime())) return "N/A";
+      
+      // Formater la date au format français: dd/MM/yyyy HH:mm
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = date.getFullYear();
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      
+      return `${day}/${month}/${year} ${hours}:${minutes}`;
+    } catch {
+      return "N/A";
     }
   };
 
@@ -156,6 +188,8 @@ const deleteList = async (id) => {
             value={filterDateCreation}
             onChange={(e) => setFilterDateCreation(e.target.value)}
             placeholder="Date Creation"
+            
+            
           />
         </div>
 
@@ -198,11 +232,11 @@ const deleteList = async (id) => {
             <tbody>
               {filtered.map((it) => (
                 <tr key={it.id}>
-                  <td>{it.nom}</td>
+                  <td>{it.name}</td>
                   <td>{it.owner}</td>
-                  <td>{it.nbContacts}</td>
-                  <td>{it.dateCreation}</td>
-                  <td>{it.lastUse}</td>
+                  <td>{it.contactsNumber}</td>
+                  <td>{formatDate(it.creationDate)}</td>
+                  <td>{formatDate(it.lastUsedDate)}</td>
                   <td className="text-end" style={{ whiteSpace: "nowrap" }}>
                     <button className="btn-details me-2" onClick={() => setDetailsItem(it)}>
                       Détails »
@@ -241,7 +275,7 @@ const deleteList = async (id) => {
           users={USERS}
           onClose={() => setShowAdd(false)}
           onSubmit={addList}
-          isLoading={addContactMutation.isPending}
+          isLoading={addContactMutation.isPending || addContactWithCsvMutation.isPending}
         />
       )}
 

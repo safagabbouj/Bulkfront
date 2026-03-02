@@ -1,4 +1,3 @@
-/* --- Structure de la page Contacts --- */
 .contactsTop {
   display: flex;
   justify-content: space-between;
@@ -21,7 +20,6 @@
   margin-top: 2px;
 }
 
-/* --- Filtres --- */
 .contactsFilters {
   display: grid;
   grid-template-columns: 1.3fr 1fr 1fr 1.2fr;
@@ -42,7 +40,6 @@
   pointer-events: none;
 }
 
-/* --- Cartes et Tableaux --- */
 .contactsCard {
   border-radius: 12px;
   border: 1px solid #e5e7eb;
@@ -161,7 +158,6 @@
   border-top: 1px solid #f3f4f6;
 }
 
-/* --- BOUTONS ANNULER / CONFIRMER / AJOUTER (Style Pilule) --- */
 .btn-confirm-cancel, 
 .btn-outline-orange {
   background-color: #ffffff !important;
@@ -193,7 +189,6 @@
 .btn-confirm-cancel:hover, .btn-outline-orange:hover { background-color: #fff5ed !important; }
 .btn-confirm-submit:hover, .btn-orange:hover { background-color: #e66d00 !important; border-color: #e66d00 !important; }
 
-/* --- Correction Icône de Fermeture --- */
 .btn-close {
   background: none !important;
   border: none !important;
@@ -204,7 +199,6 @@
   justify-content: center;
 }
 
-/* --- UPLOAD BOX (Préservé) --- */
 .uploadBox {
   border: 1.5px dashed #ff7900;
   border-radius: 10px;
@@ -216,7 +210,6 @@
 .uploadBoxTitle { font-weight: 700; font-size: 12px; }
 .uploadBoxSub { font-size: 11px; color: #6b7280; }
 
-/* --- DUAL LIST / SÉLECTEUR (Préservé) --- */
 .pickerGrid {
   display: grid;
   grid-template-columns: 1fr 52px 1fr;
@@ -244,7 +237,6 @@
 }
 .pickerItem:hover, .pickerItem.active { background: #fff7f0; }
 
-/* Les flèches de direction au milieu */
 .pickerBtns {
   display: flex;
   flex-direction: column;
@@ -264,7 +256,6 @@
 }
 .pickerBtns button:hover { border-color: #ff7900; color: #ff7900; }
 
-/* --- Responsive --- */
 @media (max-width: 900px) {
   .contactsFilters, .form-grid, .pickerGrid {
     grid-template-columns: 1fr;

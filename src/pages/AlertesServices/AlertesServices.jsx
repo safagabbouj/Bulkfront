@@ -1,4 +1,3 @@
-// src/pages/AlertesServices/AlertesServices.jsx
 import React, { useState } from "react";
 import MainLayout from "../../layout/MainLayout";
 import { Plus, Trash2, Pencil } from "lucide-react";
@@ -91,12 +90,10 @@ export default function AlertesServices() {
                       Détails »
                     </button>
 
-                    {/* ✅ Edit icon (قلم) */}
                     <button className="btn-action me-2" title="Modifier" onClick={() => setEditItem(a)}>
                       <Pencil size={16} />
                     </button>
 
-                    {/* delete => confirm */}
                     <button
                       className="btn-action"
                       title="Supprimer"

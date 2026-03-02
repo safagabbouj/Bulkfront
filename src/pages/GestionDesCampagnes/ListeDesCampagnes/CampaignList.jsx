@@ -7,6 +7,7 @@ const [selectedCampaign, setSelectedCampaign] = useState(null);
 const [statusFilter, setStatusFilter] = useState("");
 const [dateEnvoiFilter, setDateEnvoiFilter] = useState(""); 
 const [dateCreationFilter, setDateCreationFilter] = useState(""); 
+const [q, setQ] = useState("");
 
 const isSameDate = (date1, date2) => {
   if (!date1 || !date2) return false;
@@ -22,27 +23,38 @@ const isSameDate = (date1, date2) => {
 const filteredCampaigns = useMemo(() => {
   let result = campaigns;
 
-  // 1️⃣ Filtrage par statut
   if (statusFilter) {
     result = result.filter(campaign => campaign.status === statusFilter);
   }
 
-  // 2️⃣ Filtrage par date d'envoi (sentDate)
   if (dateEnvoiFilter) {
     result = result.filter(campaign => 
       isSameDate(campaign.sentDate, dateEnvoiFilter)
     );
   }
 
-  // 3️⃣ Filtrage par date de création (createdAt)
   if (dateCreationFilter) {
     result = result.filter(campaign => 
       isSameDate(campaign.createdAt, dateCreationFilter)
     );
   }
+  if (q.trim() !== "") {
+    const searchTerm = q.toLowerCase();
+    result = result.filter(campaign => {
+      return (
+        // Recherche dans le nom
+        (campaign.name && campaign.name.toLowerCase().includes(searchTerm)) ||
+        // Recherche dans la langue (optionnel)
+        (campaign.language && campaign.language.toLowerCase().includes(searchTerm)) ||
+        // Recherche dans le statut (optionnel)
+        (campaign.status && campaign.status.toLowerCase().includes(searchTerm))
+      );
+    });
+  }
+   
 
   return result;
-}, [campaigns, statusFilter, dateEnvoiFilter, dateCreationFilter]);
+}, [campaigns, statusFilter, dateEnvoiFilter, dateCreationFilter, q]);
 
 
   const handleDetailsClick = (campaign) => {
@@ -102,7 +114,6 @@ const filteredCampaigns = useMemo(() => {
           </select>
         </div>
         
-        {/* Input pour filtrer par DATE D'ENVOI */}
         <div className="col-md-3 position-relative">
           <input 
             type="date" 
@@ -127,8 +138,15 @@ const filteredCampaigns = useMemo(() => {
         </div>
         
         <div className="col-md-4 position-relative">
-          <input type="text" placeholder="Rechercher" className="form-control" />
-          <Search className="filter-icon" size={18} />
+           <div className="rolesSearch">
+                    <input
+                      className="form-control"
+                      placeholder="Rechercher"
+                      value={q}
+                      onChange={(e) => setQ(e.target.value)}
+                    />
+                    <Search className="filter-icon" size={18} />
+                  </div>
         </div>
       </div>
     

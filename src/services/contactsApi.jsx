@@ -5,26 +5,46 @@ export const contactsApi = {
   getContacts: async () => {
     try {
       const response = await ApiCall.get('/contacts');
+      console.log('Contacts récupérés:', response.data);
+
       return response.data;
     } catch (error) {
       throw new Error('Impossible de récupérer les contacts');
     }
   },
 
-  // Ajouter un contact
-  addContact: async (contactData) => {
+
+
+  // Ajouter un contact avec fichier CSV (NEW)
+  addContactWithCsv: async (contactData, file) => {
     try {
-      const payload = {
-        nom: contactData.nom,
+      // Créer FormData pour multipart/form-data
+      const formData = new FormData();
+      
+      // Préparer l'objet de données conforme à ContactCreateRequest
+      const data = {
+        name: contactData.nom,
         description: contactData.description,
-        selectedUsers: contactData.selectedUsers,
-        fileName: contactData.fileName,
-        owner: 'CurrentUser',
+        authorizedUsers: contactData.selectedUsers || []
       };
-      const response = await ApiCall.post('/contacts', payload);
+      
+      // Ajouter les données sous forme de JSON string
+      formData.append('data', JSON.stringify(data));
+      
+      // Ajouter le fichier CSV
+      formData.append('file', file);
+      
+      // Envoyer la requête avec le bon Content-Type
+      const response = await ApiCall.post('/contacts/create-with-csv', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      
       return response.data;
     } catch (error) {
-      throw new Error('Impossible d\'ajouter le contact');
+      console.error('Erreur lors de l\'ajout du contact avec CSV:', error);
+      throw new Error('Impossible d\'ajouter le contact avec le fichier CSV');
     }
   },
 

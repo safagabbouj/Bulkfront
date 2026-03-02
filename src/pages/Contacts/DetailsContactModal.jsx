@@ -4,7 +4,6 @@ import { X } from "lucide-react";
 export default function DetailsContactModal({ item, users, onClose }) {
   if (!item) return null;
 
-  // Obtenir les noms des utilisateurs sélectionnés
   const getUserNames = (selectedUserIds) => {
     if (!selectedUserIds || selectedUserIds.length === 0) {
       return "Aucun utilisateur sélectionné";
@@ -27,7 +26,7 @@ export default function DetailsContactModal({ item, users, onClose }) {
             {/* REMPLACEZ VOTRE BOUTON PAR CELUI-CI */}
 <button 
   type="button" 
-  className="btn-close-custom" // On change le nom de la classe pour éviter le conflit
+  className="btn-close-custom" 
   onClick={onClose}
   aria-label="Fermer"
   style={{
@@ -35,7 +34,7 @@ export default function DetailsContactModal({ item, users, onClose }) {
     border: 'none',
     padding: 0,
     cursor: 'pointer',
-    color: '#333' // Ajustez la couleur selon votre besoin
+    color: '#333' 
   }}
 >
   <X size={20} />

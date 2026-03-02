@@ -20,6 +20,34 @@ export const useAddContact = () => {
   });
 };
 
+export const useAddContactWithCsv = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: ({ contactData, file }) => contactsApi.addContactWithCsv(contactData, file),
+    onSuccess: (response) => {
+      // response contient {contact: {...}, csv: {...}}
+      // On ajoute le contact retourné à la liste
+      queryClient.setQueryData(['contacts'], (old) => {
+        const contactForList = {
+          id: response.contact.id,
+          name: response.contact.name,
+          owner: response.contact.owner,
+          contactsNumber: response.csv.valid || 0,
+          creationDate: new Date(),
+        };
+        return [contactForList, ...(old || [])];
+      });
+      
+      // Optionnel : invalider et recharger pour être sûr
+      queryClient.invalidateQueries({ queryKey: ['contacts'] });
+    },
+    onError: (error) => {
+      console.error('Erreur lors de l\'ajout du contact:', error);
+    }
+  });
+};
+
 export const useUpdateContact = () => {
   const queryClient = useQueryClient();
   
