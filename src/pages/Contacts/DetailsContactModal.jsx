@@ -3,7 +3,27 @@ import { X } from "lucide-react";
 
 export default function DetailsContactModal({ item, users, onClose }) {
   if (!item) return null;
-
+ const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
+    try {
+      // Créer un objet Date à partir du string (gère automatiquement les formats ISO 8601)
+      const date = new Date(dateString);
+      
+      // Vérifier si la date est valide
+      if (isNaN(date.getTime())) return "N/A";
+      
+      // Formater la date au format français: dd/MM/yyyy HH:mm
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = date.getFullYear();
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      
+      return `${day}/${month}/${year} ${hours}:${minutes}`;
+    } catch {
+      return "N/A";
+    }
+  };
   const getUserNames = (selectedUserIds) => {
     if (!selectedUserIds || selectedUserIds.length === 0) {
       return "Aucun utilisateur sélectionné";
@@ -49,7 +69,7 @@ export default function DetailsContactModal({ item, users, onClose }) {
                     <strong>Nom :</strong>
                   </div>
                   <div className="col-sm-8">
-                    {item.nom}
+                    {item.name}
                   </div>
                 </div>
               </div>
@@ -71,7 +91,7 @@ export default function DetailsContactModal({ item, users, onClose }) {
                     <strong>Nombre de Contacts :</strong>
                   </div>
                   <div className="col-sm-8">
-                    {item.nbContacts}
+                    {item.contactsNumber}
                   </div>
                 </div>
               </div>
@@ -82,8 +102,7 @@ export default function DetailsContactModal({ item, users, onClose }) {
                     <strong>Date de Création :</strong>
                   </div>
                   <div className="col-sm-8">
-                    {item.dateCreation}
-                  </div>
+                    {formatDate(item.creationDate)}
                 </div>
               </div>
 
@@ -93,7 +112,7 @@ export default function DetailsContactModal({ item, users, onClose }) {
                     <strong>Dernière Utilisation :</strong>
                   </div>
                   <div className="col-sm-8">
-                    {item.lastUse}
+                    {formatDate(item.lastUsedDate)}
                   </div>
                 </div>
               </div>
@@ -126,7 +145,8 @@ export default function DetailsContactModal({ item, users, onClose }) {
                     <strong>Utilisateurs Sélectionnés :</strong>
                   </div>
                   <div className="col-sm-8">
-                    {getUserNames(item.selectedUsers)}
+                    {getUserNames(item.authorizedUsers)}
+
                   </div>
                 </div>
               </div>
@@ -176,5 +196,7 @@ export default function DetailsContactModal({ item, users, onClose }) {
         </div>
       </div>
     </div>
+        </div>
+
   );
 }

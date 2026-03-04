@@ -4,11 +4,18 @@ import FileDropZone from "./FileDropZone";
 import DualUserPicker from "./DualUserPicker";
 
 export default function EditContactModal({ users, item, onClose, onSubmit }) {
-  const [form, setForm] = useState({ ...item });
+  const [form, setForm] = useState({ 
+    id: item.id,
+    name: item.name,
+    description: item.description || "",
+    authorizedUsers: item.authorizedUsers || [],
+    fileName: item.fileName
+  });
   const [pickedFile, setPickedFile] = useState(null);
-
-  const stats = form.stats || {
-    nationalValid: 1,
+  
+  // Stats vient de contactListInfo
+  const stats = item.contactListInfo || {
+    nationalValid: 0,
     internationalValid: 0,
     invalid: 0,
     empty: 0,
@@ -24,8 +31,8 @@ export default function EditContactModal({ users, item, onClose, onSubmit }) {
             <label>Nom De La Liste :</label>
             <input
               className="form-control"
-              value={form.nom}
-              onChange={(e) => setForm((p) => ({ ...p, nom: e.target.value }))}
+              value={form.name}
+  onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
             />
 
             <label>Description :</label>
@@ -63,11 +70,11 @@ export default function EditContactModal({ users, item, onClose, onSubmit }) {
             />
 
             <label style={{ paddingTop: 14 }}> </label>
-            <DualUserPicker
-              users={users}
-              selectedIds={form.selectedUsers || []}
-              onChange={(selectedUsers) => setForm((p) => ({ ...p, selectedUsers }))}
-            />
+                     <DualUserPicker
+            users={users}
+            selectedIds={form.authorizedUsers}  // ⬅️ Changé de selectedUsers
+            onChange={(authorizedUsers) => setForm((p) => ({ ...p, authorizedUsers }))}
+          />
           </div>
         </div>
 
@@ -75,12 +82,16 @@ export default function EditContactModal({ users, item, onClose, onSubmit }) {
           <button onClick={onClose} className="btn btn-outline-orange px-4">
             ANNULER
           </button>
-          <button
+                    <button
             onClick={() => {
-              onSubmit({
-                ...form,
-                fileName: pickedFile?.name || form.fileName,
-              });
+              const updateData = {
+                id: form.id,
+                name: form.name,
+                description: form.description,
+                authorizedUsers: form.authorizedUsers,
+              };
+              console.log('📤 Envoi de la mise à jour:', updateData);
+              onSubmit(updateData);
               onClose();
             }}
             className="btn btn-orange px-4"

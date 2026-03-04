@@ -1,5 +1,5 @@
 import { ApiCall } from "./ApiCall";
-const API_URL="/stop-sms"
+const API_URL="/api/stop-sms"
 export const StopSmsService = {
     uploadStopSms: async (file, owner, onUploadProgress) => {
         const formData = new FormData();

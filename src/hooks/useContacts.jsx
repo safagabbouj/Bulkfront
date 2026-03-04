@@ -54,14 +54,25 @@ export const useUpdateContact = () => {
   return useMutation({
     mutationFn: contactsApi.updateContact,
     onSuccess: (updatedContact) => {
+      console.log('✅ Contact mis à jour:', updatedContact);
+      
+      // Mettre à jour le cache
       queryClient.setQueryData(['contacts'], (old) =>
         old.map((contact) => 
           contact.id === updatedContact.id ? updatedContact : contact
         )
       );
+      
+      // Invalider pour forcer un rechargement complet
+      queryClient.invalidateQueries({ queryKey: ['contacts'] });
     },
+    onError: (error) => {
+      console.error('❌ Erreur lors de la mise à jour:', error);
+      alert('Erreur lors de la modification: ' + error.message);
+    }
   });
 };
+
 
 export const useDeleteContact = () => {
   const queryClient = useQueryClient();
@@ -69,12 +80,22 @@ export const useDeleteContact = () => {
   return useMutation({
     mutationFn: contactsApi.deleteContact,
     onSuccess: (deletedId) => {
+      console.log('Contact supprimé avec succès:', deletedId);
+      // Mise à jour optimiste du cache
       queryClient.setQueryData(['contacts'], (old) =>
         old.filter((contact) => contact.id !== deletedId)
       );
+      // Invalider pour forcer un rechargement
+      queryClient.invalidateQueries({ queryKey: ['contacts'] });
     },
+    onError: (error) => {
+      console.error('Erreur lors de la suppression du contact:', error);
+      // Optionnel : afficher un message d'erreur à l'utilisateur
+      alert('Erreur lors de la suppression: ' + error.message);
+    }
   });
 };
+
 
 export const useContactById = (contactId) => {
   return useQuery({

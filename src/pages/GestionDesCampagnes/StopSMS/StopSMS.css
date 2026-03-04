@@ -11,6 +11,13 @@
   background-color: #fff7f0;
 }
 
+.uploaded-files-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
 @media (max-width: 768px) {
   .stop-sms-container {
     padding: 16px;

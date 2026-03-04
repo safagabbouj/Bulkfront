@@ -13,19 +13,14 @@ import AddContactModal from "./AddContactModal";
 import EditContactModal from "./EditContactModal";
 import DetailsContactModal from "./DetailsContactModal";
 import ConfirmModal from "./ConfirmModal";
-
-const USERS = [
-  { id: 1, name: "Rayan" },
-  { id: 2, name: "Rayan Rayan" },
-  { id: 3, name: "Rayan Ghith" },
-  { id: 4, name: "Test User" },
-];
-
+import { useUsers } from "../../hooks/useUsers";
 
 
 export default function Contacts() {
   // NOUVELLE LOGIQUE avec React Query :
+  const { data: users = [], isLoading: usersLoading } = useUsers();
   const { data: lists = [], isLoading, error } = useContacts();
+  // console.log('users from useUsers:', users);
   const addContactMutation = useAddContact();
   const addContactWithCsvMutation = useAddContactWithCsv();
   const updateContactMutation = useUpdateContact();
@@ -35,13 +30,16 @@ export default function Contacts() {
   const [filterDateCreation, setFilterDateCreation] = useState("");
   const [filterDateEnvoi, setFilterDateEnvoi] = useState("");
   const [q, setQ] = useState("");
-
-  // États pour les modals (gardés identiques)
+const formattedUsers = useMemo(() => {
+  return users.map(user => ({
+    id: user.id,
+    name: user.fullName || `${user.firstName} ${user.lastName}`.trim() || user.email
+  }));
+}, [users]);
   const [showAdd, setShowAdd] = useState(false);
   const [editItem, setEditItem] = useState(null);
   const [detailsItem, setDetailsItem] = useState(null);
   const [confirm, setConfirm] = useState({ open: false, item: null });
-  // Logique de filtrage (gardée identique)
 
   const filtered = useMemo(() => {
   const s = q.trim().toLowerCase();
@@ -125,18 +123,17 @@ const deleteList = async (id) => {
     } catch (error) {
     }
   };
- // Gestion des états de chargement et d'erreur
-  if (isLoading) {
-    return (
-      <MainLayout pageTitle="Gestion des contacts" pageSubtitle="Liste Des Contacts">
-        <div className="text-center py-5">
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Chargement...</span>
-          </div>
+if (isLoading || usersLoading) {
+  return (
+    <MainLayout pageTitle="Gestion des contacts" pageSubtitle="Liste Des Contacts">
+      <div className="text-center py-5">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Chargement...</span>
         </div>
-      </MainLayout>
-    );
-  }
+      </div>
+    </MainLayout>
+  );
+}
   if (error) {
     return (
       <MainLayout pageTitle="Gestion des contacts" pageSubtitle="Liste Des Contacts">
@@ -167,18 +164,18 @@ const deleteList = async (id) => {
       {/* filters row */}
       <div className="contactsFilters">
         <div className="col">
-          <select
-            className="form-select"
-            value={filterOwner}
-            onChange={(e) => setFilterOwner(e.target.value)}
-          >
-            <option value="">Liste Des Utilisateurs</option>
-            {USERS.map((u) => (
-              <option key={u.id} value={u.name}>
-                {u.name}
-              </option>
-            ))}
-          </select>
+             <select
+        className="form-select"
+        value={filterOwner}
+        onChange={(e) => setFilterOwner(e.target.value)}
+      >
+        <option value="">Liste Des Utilisateurs</option>
+        {formattedUsers.map((u) => (
+          <option key={u.id} value={u.name}>
+            {u.name}
+          </option>
+        ))}
+      </select>
         </div>
 
         <div className="col dateWrap">
@@ -241,7 +238,6 @@ const deleteList = async (id) => {
                     <button className="btn-details me-2" onClick={() => setDetailsItem(it)}>
                       Détails »
                     </button>
-
                     <button className="btn-action me-2" onClick={() => setEditItem(it)} title="Modifier">
                       <Pencil size={16} />
                     </button>
@@ -271,17 +267,17 @@ const deleteList = async (id) => {
 
       {/* modals */}
       {showAdd && (
-        <AddContactModal
-          users={USERS}
-          onClose={() => setShowAdd(false)}
-          onSubmit={addList}
-          isLoading={addContactMutation.isPending || addContactWithCsvMutation.isPending}
-        />
-      )}
+  <AddContactModal
+    users={formattedUsers}  // Au lieu de USERS
+    onClose={() => setShowAdd(false)}
+    onSubmit={addList}
+    isLoading={addContactMutation.isPending || addContactWithCsvMutation.isPending}
+  />
+)}
 
       {editItem && (
         <EditContactModal
-          users={USERS}
+          users={formattedUsers}
           item={editItem}
           onClose={() => setEditItem(null)}
           onSubmit={(payload) => updateList(payload)}
@@ -292,7 +288,7 @@ const deleteList = async (id) => {
 
       {detailsItem && (
         <DetailsContactModal
-          users={USERS}
+          users={formattedUsers}
           item={detailsItem}
           onClose={() => setDetailsItem(null)}
         />

@@ -1,10 +1,8 @@
 import { useRef } from "react";
 import cloudUploadIcon from '../../../../assets/cloud-upload.PNG';
-import { useStopSmsUpload } from "../../../../hooks/useStopSmsUpload";
 
-const UploadBox = () => {
+const UploadBox = ({ uploadFile, progress, loading }) => {
     const fileInputRef = useRef(null);
-    const { uploadFile } = useStopSmsUpload();
 
     const handleClick = () => {
         fileInputRef.current?.click();
