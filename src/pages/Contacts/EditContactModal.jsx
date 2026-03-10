@@ -13,13 +13,16 @@ export default function EditContactModal({ users, item, onClose, onSubmit }) {
   });
   const [pickedFile, setPickedFile] = useState(null);
   
-  // Stats vient de contactListInfo
+  // ✅ Utiliser contactListInfo du backend (maintenant rempli par le mapper)
   const stats = item.contactListInfo || {
-    nationalValid: 0,
-    internationalValid: 0,
-    invalid: 0,
-    empty: 0,
+    validFields: 0,
+    invalidFields: 0,
+    emptyFields: 0,
+    nationalNumbers: 0,
+    internationalNumbers: 0,
   };
+  
+  console.log('📊 Statistiques du contact:', stats);
 
   return (
     <div className="custom-modal-overlay">
@@ -47,19 +50,23 @@ export default function EditContactModal({ users, item, onClose, onSubmit }) {
             <div className="statsBox">
               <div className="statsRow">
                 <div>Nombre De Lignes Nationales Valides</div>
-                <div className="text-end">{stats.nationalValid}</div>
+                <div className="text-end">{stats.nationalNumbers || 0}</div>
               </div>
               <div className="statsRow">
                 <div>Nombre De Lignes Internationales Valides</div>
-                <div className="text-end">{stats.internationalValid}</div>
+                <div className="text-end">{stats.internationalNumbers || 0}</div>
               </div>
               <div className="statsRow">
                 <div>Nombre De Lignes Invalides</div>
-                <div className="text-end">{stats.invalid}</div>
+                <div className="text-end">{stats.invalidFields || 0}</div>
               </div>
               <div className="statsRow">
                 <div>Nombre De Lignes Vides</div>
-                <div className="text-end">{stats.empty}</div>
+                <div className="text-end">{stats.emptyFields || 0}</div>
+              </div>
+              <div className="statsRow">
+                <div>Total De Lignes Valides</div>
+                <div className="text-end">{stats.validFields || 0}</div>
               </div>
             </div>
 

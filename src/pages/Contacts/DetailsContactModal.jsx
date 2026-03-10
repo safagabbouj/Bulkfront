@@ -25,13 +25,25 @@ export default function DetailsContactModal({ item, users, onClose }) {
     }
   };
   const getUserNames = (selectedUserIds) => {
+    // Debug: afficher ce qui est reçu
+    console.log('📋 selectedUserIds:', selectedUserIds);
+    console.log('👥 users disponibles:', users);
+    
     if (!selectedUserIds || selectedUserIds.length === 0) {
       return "Aucun utilisateur sélectionné";
     }
     
+    // Convertir les IDs en string pour assurer la comparaison
     const names = selectedUserIds.map(id => {
-      const user = users.find(u => u.id === id);
-      return user ? user.name : `User ${id}`;
+      // Chercher l'utilisateur en comparant les IDs (string et number)
+      const user = users.find(u => String(u.id) === String(id));
+      
+      if (user) {
+        return user.name;
+      } else {
+        console.warn(`⚠️ Utilisateur non trouvé pour l'ID: ${id}`);
+        return `Utilisateur inconnu (${id})`;
+      }
     });
     
     return names.join(", ");
@@ -152,7 +164,7 @@ export default function DetailsContactModal({ item, users, onClose }) {
               </div>
 
               {/* Statistiques */}
-              {item.stats && (
+              {item.contactListInfo && (
                 <div className="detail-row mb-3">
                   <div className="row">
                     <div className="col-sm-4">
@@ -162,19 +174,23 @@ export default function DetailsContactModal({ item, users, onClose }) {
                       <div className="stats-grid">
                         <div className="stat-item mb-2">
                           <span className="stat-label">National Valide:</span>
-                          <span className="stat-number ms-2 fw-bold">{item.stats.nationalValid}</span>
+                          <span className="stat-number ms-2 fw-bold">{item.contactListInfo.nationalNumbers || 0}</span>
                         </div>
                         <div className="stat-item mb-2">
                           <span className="stat-label">International Valide:</span>
-                          <span className="stat-number ms-2 fw-bold">{item.stats.internationalValid}</span>
+                          <span className="stat-number ms-2 fw-bold">{item.contactListInfo.internationalNumbers || 0}</span>
                         </div>
                         <div className="stat-item mb-2">
                           <span className="stat-label">Invalide:</span>
-                          <span className="stat-number ms-2 fw-bold">{item.stats.invalid}</span>
+                          <span className="stat-number ms-2 fw-bold">{item.contactListInfo.invalidFields || 0}</span>
                         </div>
                         <div className="stat-item mb-2">
                           <span className="stat-label">Vide:</span>
-                          <span className="stat-number ms-2 fw-bold">{item.stats.empty}</span>
+                          <span className="stat-number ms-2 fw-bold">{item.contactListInfo.emptyFields || 0}</span>
+                        </div>
+                        <div className="stat-item mb-2">
+                          <span className="stat-label">Total Valide:</span>
+                          <span className="stat-number ms-2 fw-bold">{item.contactListInfo.validFields || 0}</span>
                         </div>
                       </div>
                     </div>

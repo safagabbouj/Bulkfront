@@ -34,7 +34,7 @@ export default function DetailsUserModal({ user, onClose }) {
                 <div className="col-sm-4">
                   <strong>Nom :</strong>
                 </div>
-                <div className="col-sm-8">{user.nom}</div>
+                <div className="col-sm-8">{user.firstName}</div>
               </div>
             </div>
 
@@ -43,7 +43,7 @@ export default function DetailsUserModal({ user, onClose }) {
                 <div className="col-sm-4">
                   <strong>Prénom :</strong>
                 </div>
-                <div className="col-sm-8">{user.prenom}</div>
+                <div className="col-sm-8">{user.lastName}</div>
               </div>
             </div>
 
@@ -56,14 +56,14 @@ export default function DetailsUserModal({ user, onClose }) {
               </div>
             </div>
 
-            <div className="detail-row mb-3">
+            {/* <div className="detail-row mb-3">
               <div className="row">
                 <div className="col-sm-4">
                   <strong>Mobile :</strong>
                 </div>
                 <div className="col-sm-8">{user.mobile}</div>
               </div>
-            </div>
+            </div> */}
 
             <div className="detail-row mb-3">
               <div className="row">
@@ -74,14 +74,14 @@ export default function DetailsUserModal({ user, onClose }) {
               </div>
             </div>
 
-            <div className="detail-row mb-3">
+            {/* <div className="detail-row mb-3">
               <div className="row">
                 <div className="col-sm-4">
                   <strong>Date de création :</strong>
                 </div>
                 <div className="col-sm-8">{user.dateCreation}</div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 

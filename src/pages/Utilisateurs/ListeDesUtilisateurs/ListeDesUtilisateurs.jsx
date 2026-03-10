@@ -7,46 +7,56 @@ import AddUserModal from "./AddUserModal";
 import EditUserModal from "./EditUserModal";
 import ConfirmModal from "./ConfirmModal";
 import DetailsUserModal from "../DetailsUserModal";
-import { useUsers, useAddUser, useUpdateUser, useDeleteUser } from "../../../hooks/useUsers";
+
+import { 
+  useUsers, 
+  useAddUser, 
+  useUpdateUser, 
+  useDeleteUser,
+  useUserById
+} from "../../../hooks/useUsers";
+
+import { useRoles } from "../../../hooks/useRoles";
 
 export default function ListeDesUtilisateurs() {
-  // Utilisation des hooks React Query
+
   const { data: users = [], isLoading, error } = useUsers();
+  const { data: roles = [] } = useRoles();
+
   const addUserMutation = useAddUser();
   const updateUserMutation = useUpdateUser();
   const deleteUserMutation = useDeleteUser();
 
-  // Recherche
   const [q, setQ] = useState("");
 
-  // Modals
   const [showAdd, setShowAdd] = useState(false);
   const [editUser, setEditUser] = useState(null);
   const [confirm, setConfirm] = useState({ open: false, user: null });
   const [viewUser, setViewUser] = useState(null);
+
+  const { data: selectedUser } = useUserById(editUser?.id);
 
   const filtered = useMemo(() => {
     const s = q.trim().toLowerCase();
     if (!s) return users;
 
     return users.filter((u) => {
+      if (!u) return false;
+
       return (
-        u.nom.toLowerCase().includes(s) ||
-        u.prenom.toLowerCase().includes(s) ||
-        u.email.toLowerCase().includes(s) ||
-        u.mobile.toLowerCase().includes(s)
+        (u.firstName || "").toLowerCase().includes(s) ||
+        (u.lastName || "").toLowerCase().includes(s) ||
+        (u.email || "").toLowerCase().includes(s) ||
+        (u.mobile || "").toLowerCase().includes(s)
       );
     });
   }, [users, q]);
 
-  // Gestion des états de chargement et d'erreur
   if (isLoading) {
     return (
       <MainLayout pageTitle="Gestion des utilisateurs" pageSubtitle="Liste des utilisateurs">
         <div className="text-center py-5">
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Chargement...</span>
-          </div>
+          <div className="spinner-border text-primary"/>
         </div>
       </MainLayout>
     );
@@ -56,7 +66,7 @@ export default function ListeDesUtilisateurs() {
     return (
       <MainLayout pageTitle="Gestion des utilisateurs" pageSubtitle="Liste des utilisateurs">
         <div className="alert alert-danger text-center">
-          Erreur lors du chargement des utilisateurs : {error.message}
+          Erreur lors du chargement : {error.message}
         </div>
       </MainLayout>
     );
@@ -64,8 +74,9 @@ export default function ListeDesUtilisateurs() {
 
   return (
     <MainLayout pageTitle="Gestion des utilisateurs" pageSubtitle="Liste des utilisateurs">
-      {/* Toolbar */}
+
       <div className="usersToolbar">
+
         <div className="usersSearch">
           <input
             className="form-control"
@@ -82,12 +93,14 @@ export default function ListeDesUtilisateurs() {
           </span>
           New utilisateur
         </button>
+
       </div>
 
-      {/* Table */}
       <div className="card shadow-sm border-0 usersCard">
         <div className="table-responsive">
+
           <table className="table table-hover mb-0 align-middle">
+
             <thead className="bg-light">
               <tr>
                 <th className="text-muted small">Nom</th>
@@ -99,55 +112,62 @@ export default function ListeDesUtilisateurs() {
             </thead>
 
             <tbody>
+
               {filtered.map((u) => (
-                <tr key={u.id}>
-                  <td>{u.nom}</td>
-                  <td>{u.prenom}</td>
-                  <td>{u.dateCreation}</td>
-                  <td>{u.campagnes}</td>
-                  <td className="text-end" style={{ whiteSpace: "nowrap" }}>
-                    <button className="btn-details me-2" onClick={() => setViewUser(u)}>
+                <tr key={u?.id || u?._id}>
+
+                  <td>{u?.firstName}</td>
+                  <td>{u?.lastName}</td>
+                  <td>{u?.creationDate}</td>
+                  <td>{u?.campagnes}</td>
+
+                  <td className="text-end">
+
+                    <button
+                      className="btn-details me-2"
+                      onClick={() => setViewUser(u)}
+                    >
                       Détails »
                     </button>
 
-                    <button className="btn-action me-2" onClick={() => setEditUser(u)} title="Modifier">
+                    <button
+                      className="btn-action me-2"
+                      onClick={() => setEditUser(u)}
+                    >
                       <Pencil size={16} />
                     </button>
 
                     <button
                       className="btn-action"
                       onClick={() => setConfirm({ open: true, user: u })}
-                      title="Supprimer"
                     >
                       <Trash2 size={16} />
                     </button>
+
                   </td>
+
                 </tr>
               ))}
 
-              {filtered.length === 0 && (
-                <tr>
-                  <td colSpan={5} className="text-center text-muted py-4">
-                    Aucun résultat
-                  </td>
-                </tr>
-              )}
             </tbody>
+
           </table>
+
         </div>
       </div>
 
-      {/* Modals */}
       {showAdd && (
         <AddUserModal
+          roles={roles}
           onClose={() => setShowAdd(false)}
           onSubmit={(payload) => addUserMutation.mutate(payload)}
         />
       )}
 
-      {editUser && (
+      {editUser && selectedUser && (
         <EditUserModal
-          user={editUser}
+          user={selectedUser}
+          roles={roles}
           onClose={() => setEditUser(null)}
           onSubmit={(payload) => updateUserMutation.mutate(payload)}
         />
@@ -172,6 +192,7 @@ export default function ListeDesUtilisateurs() {
           onClose={() => setViewUser(null)}
         />
       )}
+
     </MainLayout>
   );
 }

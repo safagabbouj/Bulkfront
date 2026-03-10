@@ -1,54 +1,105 @@
 import React, { useMemo, useState } from "react";
 import MainLayout from "../../../layout/MainLayout";
 import { Plus, Search, Pencil, Trash2 } from "lucide-react";
-
+import DetailsRoleModal  from "./DetailsRoleModel";
 import "./GestionRoles.css";
 import AddRoleModal from "./AddRoleModal";
 import EditRoleModal from "./EditRoleModal";
 import ConfirmModal from "./ConfirmModal";
 
-const ALL_PAGES = [
-  "Bulk_page_home",
-  "Bulk_page_campagnes",
-  "Bulk_page_contacts",
-  "Bulk_page_utilisateurs",
-  "Bulk_page_roles",
-  "Bulk_page_reporting",
-  "Bulk_page_faq",
-];
+import {
+  useRoles,
+  useAddRole,
+  useUpdateRole,
+  useDeleteRole
+} from "../../../hooks/useRoles";
 
-const SEED_ROLES = [
-  { id: 1, nom: "Super Administrateur", pages: ["Bulk_page_home", "Bulk_page_campagnes"] },
-  { id: 2, nom: "Collaborateur", pages: ["Bulk_page_contacts", "Bulk_page_reporting"] },
-  { id: 3, nom: "Profil Informatique", pages: ["Bulk_page_utilisateurs", "Bulk_page_roles"] },
-  { id: 4, nom: "Super Administrateur1", pages: ["Bulk_page_home"] },
+const ALL_PAGES = [
+  "page_home",
+  "page_campagnes",
+  "page_contacts",
+  "page_utilisateurs",
+  "page_roles",
+  "page_reporting",
+  "page_faq",
 ];
 
 export default function GestionRoles() {
-  const [roles, setRoles] = useState(SEED_ROLES);
-  const [q, setQ] = useState("");
 
+  const { data: roles = [], isLoading, error } = useRoles();
+
+  const addRoleMutation = useAddRole();
+  const updateRoleMutation = useUpdateRole();
+  const deleteRoleMutation = useDeleteRole();
+  const [detailsRole, setDetailsRole] = useState(null);
+  const [q, setQ] = useState("");
   const [showAdd, setShowAdd] = useState(false);
   const [editRole, setEditRole] = useState(null);
   const [confirm, setConfirm] = useState({ open: false, role: null });
 
+  // 🔵 TRANSFORM BACKEND DATA
+  const formattedRoles = useMemo(() => {
+    return roles.map((r) => ({
+      id: r.id || r._id,
+      nom: r.roleName,
+      pages: r.pages || []
+    }));
+  }, [roles]);
+
+  // 🔵 SEARCH
   const filtered = useMemo(() => {
     const s = q.trim().toLowerCase();
-    if (!s) return roles;
-    return roles.filter((r) => r.nom.toLowerCase().includes(s));
-  }, [roles, q]);
 
-  const addRole = (payload) => {
-    setRoles((prev) => [{ ...payload, id: Date.now() }, ...prev]);
+    if (!s) return formattedRoles;
+
+    return formattedRoles.filter((r) =>
+      r.nom.toLowerCase().includes(s)
+    );
+  }, [formattedRoles, q]);
+
+  const addRole = async (payload) => {
+    try {
+      await addRoleMutation.mutateAsync(payload);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const updateRole = (payload) => {
-    setRoles((prev) => prev.map((r) => (r.id === payload.id ? payload : r)));
+  const updateRole = async (payload) => {
+    try {
+      await updateRoleMutation.mutateAsync(payload);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const deleteRole = (id) => {
-    setRoles((prev) => prev.filter((r) => r.id !== id));
+  const deleteRole = async (id) => {
+    try {
+      await deleteRoleMutation.mutateAsync(id);
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  if (isLoading) {
+    return (
+      <MainLayout pageTitle="Gestion des utilisateurs" pageSubtitle="Liste des rôles">
+        <div className="text-center py-5">
+          Chargement...
+        </div>
+      </MainLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <MainLayout pageTitle="Gestion des utilisateurs" pageSubtitle="Liste des rôles">
+        <div className="alert alert-danger">
+          Erreur lors du chargement
+        </div>
+      </MainLayout>
+    );
+  }
 
   return (
     <MainLayout pageTitle="Gestion des utilisateurs" pageSubtitle="Liste des rôles">
@@ -74,6 +125,7 @@ export default function GestionRoles() {
       <div className="card shadow-sm border-0 rolesCard">
         <div className="table-responsive">
           <table className="table table-hover mb-0 align-middle">
+
             <thead className="bg-light">
               <tr>
                 <th className="text-muted small">Nom</th>
@@ -83,20 +135,28 @@ export default function GestionRoles() {
             </thead>
 
             <tbody>
+
               {filtered.map((r) => (
                 <tr key={r.id}>
+
                   <td>{r.nom}</td>
+
                   <td className="text-muted small">
                     {r.pages?.slice(0, 3).join(", ")}
                     {r.pages?.length > 3 ? " ..." : ""}
                   </td>
 
                   <td className="text-end" style={{ whiteSpace: "nowrap" }}>
-                    <button className="btn-details me-2" onClick={() => setEditRole(r)}>
+
+                    <button className="btn-details me-2" onClick={() => setDetailsRole(r)}>
                       Détails »
                     </button>
 
-                    <button className="btn-action me-2" onClick={() => setEditRole(r)} title="Modifier">
+                    <button
+                      className="btn-action me-2"
+                      onClick={() => setEditRole(r)}
+                      title="Modifier"
+                    >
                       <Pencil size={16} />
                     </button>
 
@@ -107,7 +167,9 @@ export default function GestionRoles() {
                     >
                       <Trash2 size={16} />
                     </button>
+
                   </td>
+
                 </tr>
               ))}
 
@@ -118,6 +180,7 @@ export default function GestionRoles() {
                   </td>
                 </tr>
               )}
+
             </tbody>
           </table>
         </div>
@@ -150,7 +213,14 @@ export default function GestionRoles() {
             deleteRole(confirm.role.id);
             setConfirm({ open: false, role: null });
           }}
+         
         />
+      )}
+       {detailsRole && (
+          <DetailsRoleModal
+              role={detailsRole}
+              onClose={() => setDetailsRole(null)}
+          />
       )}
     </MainLayout>
   );

@@ -24,7 +24,7 @@ const UploadBox = ({ uploadFile, progress, loading }) => {
                     Stop SMS
                 </h5>
                 <p className="text-muted small">
-                    Uploader une liste CSV de numéros à exclure.
+                    Il est impératif de consulter la dernière liste des utilisateurs qui ont exprimé leur refus de recevoir de nouveaux SMS publicitaires de votre marque, La liste est disponible en téléchargement gratuitement ici : https://www.sms-stop.tn
                 </p>
             </div>
 
@@ -44,10 +44,10 @@ const UploadBox = ({ uploadFile, progress, loading }) => {
                     style={{ width: '80px', height: '80px', marginBottom: '1rem' }}
                 />
                 <p className="fw-semibold mb-1">
-                    Select a CSV file to upload
+                    Quand vous uploader la liste STOP SMS,
                 </p>
                 <small className="text-muted">
-                    Or drag and drop it here
+                    les numéros seront systématiquement éliminés de la liste de vos contacts lors de l'envoi d'une campagne
                 </small>
 
                 <input

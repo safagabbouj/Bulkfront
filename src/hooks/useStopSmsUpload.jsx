@@ -1,59 +1,107 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { StopSmsService } from "../services/stopsmsService";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import { StopSmsService } from "../services/stopsmsService";
 
-// Hook pour uploader un fichier Stop SMS avec React Query
-export const useUploadStopSms = () => {
+const STORAGE_KEY = "stop_sms_files";
+
+const loadFromStorage = () => {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
+  }
+};
+
+const saveToStorage = (files) => {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(files));
+};
+
+const removeFromStorage = (fileName) => {
+  const files = loadFromStorage().filter((f) => f.fileName !== fileName);
+  saveToStorage(files);
+  return files;
+};
+
+/* Convert file to base64 */
+const fileToBase64 = (file) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+    });
+
+export const useStopSmsUpload = () => {
   const queryClient = useQueryClient();
   const [progress, setProgress] = useState(0);
 
-  return useMutation({
+  const { data: uploadedFiles = [] } = useQuery({
+    queryKey: ["stop-sms-files"],
+    queryFn: loadFromStorage,
+  });
+
+  const uploadMutation = useMutation({
     mutationFn: ({ file, owner }) => {
       setProgress(0);
+
       return StopSmsService.uploadStopSms(file, owner, (event) => {
         const percent = Math.round((event.loaded * 100) / event.total);
         setProgress(percent);
       });
     },
-    onSuccess: (data, variables) => {
-      // Ajouter le fichier uploadé au cache local
-      queryClient.setQueryData(['stop-sms-files'], (old = []) => [
-        ...old,
-        {
-          id: Date.now(),
-          fileName: variables.file.name,
-          uploadDate: new Date().toISOString(),
-          owner: variables.owner,
-        }
-      ]);
+
+    onSuccess: async (data, variables) => {
+      const base64 = await fileToBase64(variables.file);
+
+      const newEntry = {
+        id: Date.now(),
+        fileName: variables.file.name,
+        fileData: base64,
+        uploadDate: new Date().toISOString(),
+        owner: variables.owner,
+      };
+
+      queryClient.setQueryData(["stop-sms-files"], (old = []) => {
+        const filtered = old.filter((f) => f.fileName !== newEntry.fileName);
+        const updated = [...filtered, newEntry];
+
+        saveToStorage(updated);
+
+        return updated;
+      });
+
       setProgress(0);
     },
+
     onError: (error) => {
-      console.error("Erreur lors de l'upload du fichier Stop SMS:", error);
+      console.error("Upload error:", error);
       setProgress(0);
     },
   });
-};
-
-// Hook combiné pour faciliter l'utilisation
-export const useStopSmsUpload = () => {
-  const queryClient = useQueryClient();
-  const uploadMutation = useUploadStopSms();
-  const [progress, setProgress] = useState(0);
-  
-  // Récupérer la liste des fichiers depuis le cache React Query
-  const uploadedFiles = queryClient.getQueryData(['stop-sms-files']) || [];
 
   const uploadFile = async (file, owner) => {
-    setProgress(0);
     await uploadMutation.mutateAsync({ file, owner });
-    setProgress(0);
+  };
+
+  const deleteFile = (fileName) => {
+    const updated = removeFromStorage(fileName);
+    queryClient.setQueryData(["stop-sms-files"], updated);
+  };
+
+  const downloadFile = (file) => {
+    const link = document.createElement("a");
+    link.href = file.fileData;
+    link.download = file.fileName;
+    link.click();
   };
 
   return {
     progress,
     uploadedFiles,
     uploadFile,
+    deleteFile,
+    downloadFile,
     loading: uploadMutation.isPending,
     error: uploadMutation.error,
   };
